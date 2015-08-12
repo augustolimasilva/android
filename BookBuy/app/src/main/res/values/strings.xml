@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">BookBuy</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
+    <string name="app_name">Book Buy</string>
+    <string name="action_settings">Sobre</string>
+    <string name="title_activity_cadastrar">Cadastre-se</string>
+    <string name="title_activity_redefinir_senha">Redefinir Senha</string>
+    <string name="mensagem">   Digite seu email e nós lhe enviamos instruções para definir uma nova senha.</string>
 </resources>

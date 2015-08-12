@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.example.artur.bookbuy"
+        applicationId "com.example.asilva.bookbuy"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
