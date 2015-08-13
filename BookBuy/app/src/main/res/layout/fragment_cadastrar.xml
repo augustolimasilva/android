@@ -8,9 +8,9 @@
 
     <EditText
         android:layout_width="match_parent"
+        android:hint="Nome"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Nome"
         android:id="@+id/txtNome"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="E-mail"
+        android:hint="E-mail"
         android:id="@+id/txtEmail"
         android:layout_below="@+id/txtNome"
         android:layout_alignParentLeft="true"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="DDD"
+        android:hint="DDD"
         android:id="@+id/txtDDD"
         android:layout_below="@+id/txtEmail"
         android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Telefone"
+        android:hint="Telefone"
         android:id="@+id/txtTelefone"
         android:layout_alignBottom="@+id/txtDDD"
         android:layout_toRightOf="@+id/txtDDD"
@@ -57,24 +57,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Senha"
+        android:hint="Senha"
         android:id="@+id/txtSenha"
         android:layout_below="@+id/txtDDD"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:password="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Repetir Senha"
+        android:hint="Repetir Senha"
         android:id="@+id/txtRepetirSenha"
         android:layout_below="@+id/txtSenha"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="25dp"
-        android:inputType="textVisiblePassword" />
+        android:inputType="textVisiblePassword"
+        android:password="true" />
 
     <Button
         android:layout_width="wrap_content"
