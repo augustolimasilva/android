@@ -92,5 +92,6 @@
         android:layout_marginTop="20dp"
         android:layout_alignRight="@+id/txtEmail"
         android:layout_alignEnd="@+id/txtEmail"
-        android:textColor="#000000" />
+        android:textColor="#ffffff"
+        android:background="#2b1d0c"/>
 </RelativeLayout>
