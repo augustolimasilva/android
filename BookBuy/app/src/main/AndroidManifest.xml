@@ -56,6 +56,22 @@
             android:name=".MapaActivity"
             android:label="@string/title_activity_mapa" >
         </activity>
+        <activity
+            android:name=".MinhaContaActivity"
+            android:label="@string/title_activity_minha_conta"
+            android:parentActivityName=".MapaActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.MapaActivity" />
+        </activity>
+        <activity
+            android:name=".MinhasComprasActivity"
+            android:label="@string/title_activity_minhas_compras"
+            android:parentActivityName=".MapaActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.MapaActivity" />
+        </activity>
     </application>
 
 </manifest>

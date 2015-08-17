@@ -24,6 +24,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:hint="E-mail"
         android:id="@+id/txtEmail"
+        android:inputType="textEmailAddress"
         android:layout_below="@+id/txtNome"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -38,7 +39,8 @@
         android:layout_below="@+id/txtEmail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:phoneNumber="true" />
 
     <EditText
         android:layout_width="match_parent"
@@ -51,7 +53,8 @@
         android:layout_toEndOf="@+id/txtDDD"
         android:layout_marginLeft="35dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:phoneNumber="true" />
 
     <EditText
         android:layout_width="match_parent"
