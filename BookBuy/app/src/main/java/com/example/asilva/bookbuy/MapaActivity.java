@@ -43,10 +43,10 @@ public class MapaActivity extends FragmentActivity implements
     Location l;
     protected GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    LatLng latLng;
+    LatLng latLng, lclAtual;
     private AccountHeader.Result headerNavigationLeft;
     private Drawer.Result navigationDrawerLeft;
-    Marker marker, mMarkerLocalAtual;
+    Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,10 @@ public class MapaActivity extends FragmentActivity implements
         setContentView(R.layout.activity_mapa);
         //setUpMapIfNeeded();
         callConnection();
-
         //NAVIGATION DRAWER
+
+        SupportMapFragment fragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_maps));
+        mMap = fragment.getMap();
 
         headerNavigationLeft = new AccountHeader()
                 .withActivity(this)
@@ -140,7 +142,7 @@ public class MapaActivity extends FragmentActivity implements
     private void initLocationRequest(){
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(2000);
+        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -168,7 +170,7 @@ public class MapaActivity extends FragmentActivity implements
             mLong = l.getLongitude();
 
             latLng = new LatLng(mLat, mLong);
-            atualizarMapa();
+            //atualizarMapa();
         }
 
         startLocationUpdate();
@@ -200,9 +202,9 @@ public class MapaActivity extends FragmentActivity implements
             }
         }
     } */
-
+/*
     private void atualizarMapa(){
-        mMap.clear();
+       // mMap.clear();
         if(latLng != null){
             CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).tilt(0).build();
             CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -210,18 +212,25 @@ public class MapaActivity extends FragmentActivity implements
 
             customAddMarker(latLng, "Marcador 1");
         }
-    }
+    } */
 
     @Override
     public void onLocationChanged(Location location) {
-       // mMarkerLocalAtual.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        lclAtual = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.clear();
-        if(latLng != null){
+        if(latLng != null && latLng == lclAtual){
             CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).tilt(0).build();
             CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
             mMap.moveCamera(update);
 
             customAddMarker(latLng, "Marcador 1");
-        }
+        }else
+            if(latLng != null && latLng != lclAtual){
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(lclAtual).zoom(13).tilt(0).build();
+                CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
+                mMap.moveCamera(update);
+
+                customAddMarker(lclAtual, "Marcador 1");
+            }
     }
 }
