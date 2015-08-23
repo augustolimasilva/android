@@ -10,11 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView txtCadastrar;
     TextView txtRecuperarSenha;
     Button bttEntrar;
+    private static final String FACEBOOK_PERMISSION_PUBLIC_PROFILE = "public_profile";
+    private final CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Intent itMapa = new Intent(this, MapaActivity.class);
                     startActivity(itMapa);
                     break;
+
             }
+    }
+
+    public void onLoginFacebook(View view){
+        FacebookSdk.sdkInitialize(this);
+
+        LoginManager loginManager = LoginManager.getInstance();
+        loginManager.logInWithReadPermissions(this, Arrays.asList(FACEBOOK_PERMISSION_PUBLIC_PROFILE));
+        loginManager.registerCallback(callbackManager, new FacebookHandler());
+    }
+
+    public class FacebookHandler implements FacebookCallback<LoginResult>{
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException e) {
+
+        }
     }
 
     @Override

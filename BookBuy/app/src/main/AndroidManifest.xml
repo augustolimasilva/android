@@ -64,6 +64,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asilva.bookbuy.MapaActivity" />
         </activity>
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".MinhasComprasActivity"
             android:label="@string/title_activity_minhas_compras"
@@ -72,6 +79,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asilva.bookbuy.MapaActivity" />
         </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_key"/>
     </application>
 
 </manifest>

@@ -118,12 +118,13 @@
         android:layout_marginLeft="110dp"
         android:onClick="onClick" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="ENTRAR COM FACEBOOK"
-        android:id="@+id/textView5"
+        android:id="@+id/btnEntrar"
+        android:onClick="onLoginFacebook"
         android:layout_marginTop="20dp"
         android:textColor="#1a237e"
         android:textStyle="bold"
