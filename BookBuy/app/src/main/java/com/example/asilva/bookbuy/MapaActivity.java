@@ -37,22 +37,28 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 public class MapaActivity extends FragmentActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    private static final long INTERVAL = 1000;
+    private static final long FASTESET_INTERVAL = 5000;
+    private static final int  PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
+    private static final long DEFAULT_ZOOM = 10;
+
+    private static final LocationRequest LOCATION_REQUEST = new LocationRequest().setInterval(INTERVAL)
+            .setFastestInterval(FASTESET_INTERVAL)
+            .setPriority(PRIORITY);
+
     private GoogleMap mMap;
-    double mLat;
-    double mLong;
-    Location l;
     protected GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    LatLng latLng, lclAtual;
     private AccountHeader.Result headerNavigationLeft;
     private Drawer.Result navigationDrawerLeft;
     Marker marker;
+    private MarkerOptions markerOption;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
-        //setUpMapIfNeeded();
         callConnection();
         //NAVIGATION DRAWER
 
@@ -110,25 +116,26 @@ public class MapaActivity extends FragmentActivity implements
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
-        if(mGoogleApiClient !=null && mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdate();
         }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
-        if(mGoogleApiClient != null){
+        if (mGoogleApiClient != null) {
             stopLocationUpdate();
         }
     }
 
-    private synchronized void callConnection(){
+    private synchronized void callConnection() {
         Log.i("LOG", "callConnection()");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addOnConnectionFailedListener(this)
@@ -139,7 +146,7 @@ public class MapaActivity extends FragmentActivity implements
     }
 
 
-    private void initLocationRequest(){
+    private void initLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(5000);
         mLocationRequest.setFastestInterval(1000);
@@ -147,90 +154,60 @@ public class MapaActivity extends FragmentActivity implements
     }
 
 
-    private void startLocationUpdate(){
+    private void startLocationUpdate() {
         initLocationRequest();
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, MapaActivity.this);
     }
 
 
-    private void stopLocationUpdate(){
+    private void stopLocationUpdate() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, MapaActivity.this);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i("LOG", "onConnected(" + bundle + ")");
 
-        l = LocationServices
-                .FusedLocationApi
-                .getLastLocation(mGoogleApiClient);
+        final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if(l != null){
-            mLat = l.getLatitude();
-            mLong = l.getLongitude();
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM), new GoogleMap.CancelableCallback() {
 
-            latLng = new LatLng(mLat, mLong);
-            //atualizarMapa();
+            @Override
+            public void onFinish() {
+                marker = mMap.addMarker(loadMarkerOption().position(latLng));
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
+    }
+
+    private MarkerOptions loadMarkerOption() {
+
+        if (markerOption == null) {
+            markerOption = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
         }
 
-        startLocationUpdate();
+        return markerOption;
     }
 
-    public void customAddMarker(LatLng latLng, String title){
-        MarkerOptions options = new MarkerOptions();
-        options.position(latLng).title(title).draggable(false);
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
-
-        marker = mMap.addMarker(options);
-    }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("LOG", "onConnectionSuspended(" + i + ")");
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("LOG", "onConnectionFailed(" + connectionResult + ")");
     }
-/*
-    private void setUpMapIfNeeded() {
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_maps))
-                    .getMap();
-            if (mMap != null) {
-                atualizarMapa();
-            }
-        }
-    } */
-/*
-    private void atualizarMapa(){
-       // mMap.clear();
-        if(latLng != null){
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).tilt(0).build();
-            CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
-            mMap.moveCamera(update);
-
-            customAddMarker(latLng, "Marcador 1");
-        }
-    } */
 
     @Override
     public void onLocationChanged(Location location) {
-        lclAtual = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.clear();
-        if(latLng != null && latLng == lclAtual){
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).tilt(0).build();
-            CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
-            mMap.moveCamera(update);
-
-            customAddMarker(latLng, "Marcador 1");
-        }else
-            if(latLng != null && latLng != lclAtual){
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(lclAtual).zoom(13).tilt(0).build();
-                CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
-                mMap.moveCamera(update);
-
-                customAddMarker(lclAtual, "Marcador 1");
-            }
+        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 }
