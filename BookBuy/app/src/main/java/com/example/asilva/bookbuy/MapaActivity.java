@@ -67,10 +67,10 @@ public class MapaActivity extends FragmentActivity implements
 
         headerNavigationLeft = new AccountHeader()
                 .withActivity(this)
-                .withCompactStyle(false)
+                .withCompactStyle(true)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(true)
-                .withHeaderBackground(R.drawable.ic_perfil)
+                .withHeaderBackground(R.drawable.fb9622)
                 .addProfiles(
                         new ProfileDrawerItem().withName("Person One").withEmail("person1@gmail.com").withIcon(getResources().getDrawable(R.drawable.ic_perfil))
                 )
