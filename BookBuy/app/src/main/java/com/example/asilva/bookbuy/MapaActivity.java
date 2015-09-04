@@ -39,7 +39,7 @@ public class MapaActivity extends FragmentActivity implements
 
     private static final long INTERVAL = 1000;
     private static final long FASTESET_INTERVAL = 5000;
-    private static final int  PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
+    private static final int PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final long DEFAULT_ZOOM = 10;
 
     private static final LocationRequest LOCATION_REQUEST = new LocationRequest().setInterval(INTERVAL)
@@ -122,16 +122,16 @@ public class MapaActivity extends FragmentActivity implements
         super.onResume();
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            startLocationUpdate();
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
         }
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
 
-        if (mGoogleApiClient != null) {
-            stopLocationUpdate();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
@@ -142,32 +142,15 @@ public class MapaActivity extends FragmentActivity implements
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
+
         mGoogleApiClient.connect();
-    }
-
-
-    private void initLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-
-    private void startLocationUpdate() {
-        initLocationRequest();
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, MapaActivity.this);
-    }
-
-
-    private void stopLocationUpdate() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, MapaActivity.this);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
 
         final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
         final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM), new GoogleMap.CancelableCallback() {
@@ -195,7 +178,6 @@ public class MapaActivity extends FragmentActivity implements
         return markerOption;
     }
 
-
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("LOG", "onConnectionSuspended(" + i + ")");
@@ -208,6 +190,9 @@ public class MapaActivity extends FragmentActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+
+        if (marker != null) {
+            marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
     }
 }
