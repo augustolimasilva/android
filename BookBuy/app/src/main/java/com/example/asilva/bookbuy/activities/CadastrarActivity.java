@@ -1,9 +1,10 @@
-package com.example.asilva.bookbuy;
+package com.example.asilva.bookbuy.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
+
+import com.example.asilva.bookbuy.R;
 
 public class CadastrarActivity extends AppCompatActivity {
 

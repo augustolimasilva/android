@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.asilva.bookbuy.CadastrarActivityFragment">
+    tools:context="com.example.asilva.bookbuy.fragments.CadastrarActivityFragment">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/txtInputUsuario"

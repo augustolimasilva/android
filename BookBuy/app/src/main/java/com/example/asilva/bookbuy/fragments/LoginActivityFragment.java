@@ -1,4 +1,4 @@
-package com.example.asilva.bookbuy;
+package com.example.asilva.bookbuy.fragments;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -6,17 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.asilva.bookbuy.R;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CadastrarActivityFragment extends Fragment {
+public class LoginActivityFragment extends Fragment {
 
-    public CadastrarActivityFragment() {
+    public LoginActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cadastrar, container, false);
+         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 }

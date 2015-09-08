@@ -1,4 +1,4 @@
-package com.example.asilva.bookbuy;
+package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.location.Location;
@@ -8,9 +8,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.Toast;
 
+import com.example.asilva.bookbuy.R;
 import com.mikepenz.materialdrawer.Drawer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,7 +31,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 
 public class MapaActivity extends FragmentActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {

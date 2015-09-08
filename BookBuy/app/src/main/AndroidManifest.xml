@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme_white"
             android:screenOrientation="locked" >
@@ -30,21 +30,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CadastrarActivity"
+            android:name=".activities.CadastrarActivity"
             android:label="@string/title_activity_cadastrar"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asilva.bookbuy.LoginActivity" />
+                android:value=".activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".RedefinirSenhaActivity"
+            android:name=".activities.RedefinirSenhaActivity"
             android:label="@string/title_activity_redefinir_senha"
             android:theme="@style/AppTheme_white"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asilva.bookbuy.LoginActivity" />
+                android:value=".activities.LoginActivity" />
         </activity>
 
         <meta-data
@@ -55,16 +55,16 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapaActivity"
+            android:name=".activities.MapaActivity"
             android:label="@string/title_activity_mapa" >
         </activity>
         <activity
-            android:name=".MinhaContaActivity"
+            android:name=".activities.MinhaContaActivity"
             android:label="@string/title_activity_minha_conta"
-            android:parentActivityName=".MapaActivity" >
+            android:parentActivityName=".activities.MapaActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asilva.bookbuy.MapaActivity" />
+                android:value=".activities.MapaActivity" />
         </activity>
 
         <activity
@@ -74,12 +74,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".MinhasComprasActivity"
+            android:name=".activities.MinhasComprasActivity"
             android:label="@string/title_activity_minhas_compras"
-            android:parentActivityName=".MapaActivity" >
+            android:parentActivityName=".activities.MapaActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.asilva.bookbuy.MapaActivity" />
+                android:value=".activities.MapaActivity" />
         </activity>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
