@@ -10,9 +10,11 @@ import java.util.List;
 public class Cliente extends Usuario{
 
     private int id;
+    private String usuario;
     private String nome;
     private String email;
     private String telefone;
+    private String senha;
     private ImageView fotoPerfil;
     private List<Pedido> pedidos;
     private List<Reserva> reservas;
@@ -80,4 +82,21 @@ public class Cliente extends Usuario{
     }
 
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public String getSenha() {
+        return senha;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }
