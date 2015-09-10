@@ -31,6 +31,12 @@ public class DAOCliente {
         return true;
     }
 
+    public boolean atualizarCliente (Cliente cliente){
+
+
+        return true;
+    }
+
     class ClienteTask extends AsyncTask<Cliente, Void, Boolean> {
 
         @Override
@@ -69,6 +75,4 @@ public class DAOCliente {
             }
         }
     }
-
-
 }
