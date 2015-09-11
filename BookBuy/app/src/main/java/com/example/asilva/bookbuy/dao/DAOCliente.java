@@ -23,7 +23,6 @@ public class DAOCliente {
     private static final String ATUALIZAR = "atualizarCliente";
     private static final String BUSCAR_TODOS = "buscarTodosClientes";
     private static final String BUSCAR_POR_ID = "buscarClientePorId";
-    Cliente cliente;
 
     public boolean inserirCliente(Cliente cliente) {
         ClienteTask clienteTask = new ClienteTask();
@@ -44,7 +43,7 @@ public class DAOCliente {
 
             SoapObject cli = new SoapObject(NAMESPACE, "cliente");
 
-            //Cliente cliente = new Cliente();
+            Cliente cliente = params[0];
 
             cli.addProperty("id", cliente.getId());
             cli.addProperty("login", cliente.getUsuario());

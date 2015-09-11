@@ -27,6 +27,7 @@ public class CadastrarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Cliente c = new Cliente();
+
                 c.setId(2);
                 c.setUsuario("teste");
                 c.setNome("teste");
