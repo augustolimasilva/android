@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
-    TextView txtCadastrar, txtEmail, txtSenha, txtRecuperarSenha;
+    TextView txtCadastrar, txtUsuario, txtSenha, txtRecuperarSenha;
     Button bttEntrar;
     private static final String FACEBOOK_PERMISSION_PUBLIC_PROFILE = "public_profile";
     private final CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -37,7 +37,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtEmail = (TextView)findViewById(R.id.txtEmail);
+        txtUsuario = (TextView)findViewById(R.id.txtUsuario);
         txtSenha = (TextView)findViewById(R.id.txtSenha);
         txtCadastrar = (TextView) findViewById(R.id.txtCadastrar);
         txtCadastrar.setOnClickListener(this);
@@ -70,7 +70,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 case R.id.bttEntrar:
 
                     DAOCliente daoCliente = new DAOCliente();
-                    cliente = daoCliente.pesquisarClientePorLogin(txtEmail.getText().toString());
+                    cliente = daoCliente.pesquisarClientePorLogin(txtUsuario.getText().toString());
 
                     if(cliente == null){
                         Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT);
