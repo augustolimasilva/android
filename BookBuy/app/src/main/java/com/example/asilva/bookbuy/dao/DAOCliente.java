@@ -23,11 +23,19 @@ public class DAOCliente {
     private static final String ATUALIZAR = "atualizarCliente";
     private static final String BUSCAR_TODOS = "buscarTodosClientes";
     private static final String BUSCAR_POR_ID = "buscarClientePorId";
+    private static final String BUSCAR_POR_LOGIN = "buscarClientePorLogin";
+    Cliente cli;
 
     public boolean inserirCliente(Cliente cliente) {
         ClienteTask clienteTask = new ClienteTask();
         clienteTask.execute(cliente);
         return true;
+    }
+
+    public Cliente pesquisarClientePorLogin(String login) {
+        PesquisarClienteTask pesquisarClienteTask = new PesquisarClienteTask();
+        pesquisarClienteTask.execute(login);
+        return cli;
     }
 
     public boolean atualizarCliente (Cliente cliente){
@@ -72,6 +80,44 @@ public class DAOCliente {
                 e.printStackTrace();
                 return false;
             }
+        }
+    }
+
+    class PesquisarClienteTask extends AsyncTask<String, Void, Cliente>{
+
+        @Override
+        protected Cliente doInBackground(String... params) {
+            Cliente cli = null;
+
+            SoapObject buscarCliente = new SoapObject(NAMESPACE, BUSCAR_POR_LOGIN);
+            buscarCliente.addProperty("login", params[0]);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+            envelope.setOutputSoapObject(buscarCliente);
+
+            envelope.implicitTypes = true;
+
+            HttpTransportSE http = new HttpTransportSE(URL);
+
+            try {
+                http.call("urn:" + BUSCAR_POR_LOGIN, envelope);
+
+                SoapObject resposta = (SoapObject) envelope.getResponse();
+
+                cli = new Cliente();
+
+                cli.setId(Integer.parseInt(resposta.getProperty("id").toString()));
+                cli.setNome(resposta.getProperty("nome").toString());
+                cli.setEmail(resposta.getProperty("email").toString());
+                cli.setLogin(resposta.getProperty("login").toString());
+                cli.setSenha(resposta.getProperty("senha").toString());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            return cli;
         }
     }
 

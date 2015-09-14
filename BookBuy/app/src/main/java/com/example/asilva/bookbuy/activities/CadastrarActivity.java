@@ -1,5 +1,7 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +18,7 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
-public class CadastrarActivity extends AppCompatActivity {
+public class CadastrarActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button bttCadastrar;
 
@@ -37,12 +39,10 @@ public class CadastrarActivity extends AppCompatActivity {
     @Password(min = 6, scheme = Password.Scheme.NUMERIC, message = "Senha Inválida")
     EditText txtSenha;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar);
-
 
         txtUsuario = (EditText)findViewById(R.id.txtUsuario);
         txtNome = (EditText)findViewById(R.id.txtNome);
@@ -50,10 +50,14 @@ public class CadastrarActivity extends AppCompatActivity {
         txtTelefone = (EditText)findViewById(R.id.txtTelefone);
         txtSenha = (EditText)findViewById(R.id.txtSenha);
         bttCadastrar = (Button)findViewById(R.id.bttCadastrar);
+        bttCadastrar.setOnClickListener(this);
+    }
 
-        bttCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bttCadastrar:
+
                 Cliente c = new Cliente();
 
                 c.setUsuario(txtUsuario.getText().toString());
@@ -62,19 +66,26 @@ public class CadastrarActivity extends AppCompatActivity {
                 c.setTelefone(txtTelefone.getText().toString());
                 c.setSenha(txtSenha.getText().toString());
 
-                //c.setId(2);
-                //c.setUsuario("teste");
-                //c.setNome("teste");
-                //c.setEmail("teste");
-                //c.setTelefone("teste");
-                //c.setSenha("teste");
-
                 DAOCliente clienteDAO = new DAOCliente();
                 boolean resultado = clienteDAO.inserirCliente(c);
 
+                if(resultado == true){
+                    SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("usuario", c.getUsuario());
+                    editor.putString("nome", c.getNome());
+                    editor.putString("email", c.getEmail());
+                    editor.putString("telefone", c.getTelefone());
+                    editor.putBoolean("estalogado", true);
+
+                    editor.commit();
+
+                    Intent it = new Intent(this, MapaActivity.class);
+                    startActivity(it);
+                }
+
                 Log.d("Resultado", resultado + "" + c.getEmail());
-            }
-        });
+        }
     }
 
 

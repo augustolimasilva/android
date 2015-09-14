@@ -1,6 +1,7 @@
 package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -63,6 +64,10 @@ public class MapaActivity extends FragmentActivity implements
         SupportMapFragment fragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_maps));
         mMap = fragment.getMap();
 
+        SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+        String nome = prefs.getString("nome", "BookBuy");
+        String email = prefs.getString("email", "bookbuy@email.com");
+
         headerNavigationLeft = new AccountHeader()
                 .withActivity(this)
                 .withCompactStyle(true)
@@ -70,7 +75,7 @@ public class MapaActivity extends FragmentActivity implements
                 .withThreeSmallProfileImages(true)
                 .withHeaderBackground(R.drawable.fb9622)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Person One").withEmail("person1@gmail.com").withIcon(getResources().getDrawable(R.drawable.ic_perfil))
+                        new ProfileDrawerItem().withName(nome).withEmail(email).withIcon(getResources().getDrawable(R.drawable.ic_perfil))
                 )
                 .build();
 
@@ -102,6 +107,13 @@ public class MapaActivity extends FragmentActivity implements
                                 sharing.putExtra(Intent.EXTRA_TEXT, "Book Buy - Faça já sua reserva em um de nossos parceiros.");
                                 startActivity(Intent.createChooser(sharing, "Convide os amigos"));
                                 break;
+                            case 3:
+                                SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
+                                prefs.clear();
+                                prefs.commit();
+
+                                Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
+                                startActivity(itent);
                         }
                     }
                 })
@@ -111,6 +123,7 @@ public class MapaActivity extends FragmentActivity implements
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Perfil").withIcon(R.drawable.ic_minha_conta));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Minhas compras").withIcon(R.drawable.ic_minhas_compras));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Compartilhar").withIcon(R.drawable.ic_compartilhar));
+        navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Sair").withIcon(R.drawable.ic_action_sair));
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
     }
