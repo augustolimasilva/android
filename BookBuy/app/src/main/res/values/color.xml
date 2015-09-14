@@ -10,5 +10,6 @@
     <color name="white">#ffffff</color>
     <color name="white_transparent">#80ffffff</color>
     <color name="orange">#ea9533</color>
+    <color name="background_layout">#C6C1B6</color>
 
 </resources>

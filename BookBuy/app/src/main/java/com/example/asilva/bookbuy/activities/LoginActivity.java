@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +21,20 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.sql.ResultSet;
 import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
+
+    @NotEmpty
+    @Email
+    EditText editTextMail;
 
     TextView txtCadastrar, txtUsuario, txtSenha, txtRecuperarSenha;
     Button bttEntrar;
@@ -32,10 +42,15 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private final CallbackManager callbackManager = CallbackManager.Factory.create();
     Cliente cliente = new Cliente();
 
+    private Validator validator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        validator = new Validator(this);
+        validator.setValidationListener(new ValidationHanlder());
 
         txtUsuario = (TextView)findViewById(R.id.txtUsuario);
         txtSenha = (TextView)findViewById(R.id.txtSenha);
@@ -124,5 +139,28 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ValidationHanlder implements Validator.ValidationListener {
+
+        @Override
+        public void onValidationSucceeded() {
+            Toast.makeText(LoginActivity.this, "Yay! we got it right!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onValidationFailed(List<ValidationError> errors) {
+            for (ValidationError error : errors) {
+                View view = error.getView();
+                String message = error.getCollatedErrorMessage(LoginActivity.this);
+
+                // Display error messages ;)
+                if (view instanceof EditText) {
+                    ((EditText) view).setError(message);
+                } else {
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 }
