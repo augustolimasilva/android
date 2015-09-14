@@ -21,8 +21,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme_white"
-            android:screenOrientation="locked" >
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme_white" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,8 +40,8 @@
         <activity
             android:name=".activities.RedefinirSenhaActivity"
             android:label="@string/title_activity_redefinir_senha"
-            android:theme="@style/AppTheme_white"
-            android:parentActivityName=".activities.LoginActivity" >
+            android:parentActivityName=".activities.LoginActivity"
+            android:theme="@style/AppTheme_white" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
@@ -66,13 +66,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MapaActivity" />
         </activity>
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".activities.MinhasComprasActivity"
             android:label="@string/title_activity_minhas_compras"
@@ -81,9 +79,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MapaActivity" />
         </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_key"/>
+            android:value="@string/facebook_key" />
+
+        <activity
+            android:name=".activities.EditarCadastroActivity"
+            android:label="@string/title_activity_editar_cadastro" >
+        </activity>
     </application>
 
 </manifest>

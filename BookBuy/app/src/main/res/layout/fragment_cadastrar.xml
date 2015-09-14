@@ -63,37 +63,10 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtInputDDD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtInputEmail"
-        android:layout_marginTop="25dp"
-        android:textAppearance="?android:attr/textAppearanceMedium">
-
-        <EditText
-            android:id="@+id/txtDDD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="3"
-            android:hint="DDD"
-            android:phoneNumber="true"
-            android:layout_marginTop="25dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
         android:id="@+id/txtInputTelefone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtInputEmail"
-        android:layout_alignBottom="@+id/txtInputDDD"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/txtInputDDD"
-        android:layout_toRightOf="@+id/txtInputDDD">
+        android:layout_below="@+id/txtInputEmail">
 
         <EditText
             android:id="@+id/txtTelefone"
@@ -123,26 +96,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtInputRepetirSenha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtInputSenha">
-
-    <EditText
-        android:id="@+id/txtRepetirSenha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtInputSenha"
-        android:layout_marginTop="25dp"
-        android:hint="Repetir Senha"
-        android:inputType="textVisiblePassword"
-        android:password="true"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    </android.support.design.widget.TextInputLayout>
-
     <Button
         android:id="@+id/bttCadastrar"
         android:layout_width="wrap_content"
@@ -151,7 +104,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/txtInputEmail"
-        android:layout_below="@+id/txtInputRepetirSenha"
+        android:layout_below="@+id/txtInputSenha"
         android:layout_marginTop="20dp"
         android:background="#2b1d0c"
         android:text="CADASTRAR"

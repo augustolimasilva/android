@@ -31,8 +31,8 @@ public class DAOCliente {
     }
 
     public boolean atualizarCliente (Cliente cliente){
-
-
+        AtualizarClienteTask atualizarClienteTask = new AtualizarClienteTask();
+        atualizarClienteTask.execute(cliente);
         return true;
     }
 
@@ -64,6 +64,43 @@ public class DAOCliente {
             HttpTransportSE http = new HttpTransportSE(URL);
             try {
                 http.call("urn:" + INSERIR, envelope);
+
+                SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
+
+                return Boolean.parseBoolean(resposta.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    class AtualizarClienteTask extends AsyncTask<Cliente, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Cliente... params) {
+
+            SoapObject cli = new SoapObject(NAMESPACE, "cliente");
+
+            Cliente cliente = params[0];
+
+            cli.addProperty("id", cliente.getId());
+            cli.addProperty("nome", cliente.getNome());
+            cli.addProperty("email", cliente.getEmail());
+            cli.addProperty("telefone", cliente.getTelefone());
+
+            SoapObject atualizarCliente = new SoapObject(NAMESPACE, ATUALIZAR);
+
+            atualizarCliente.addSoapObject(cli);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(atualizarCliente);
+
+            envelope.implicitTypes = true;
+
+            HttpTransportSE http = new HttpTransportSE(URL);
+            try {
+                http.call("urn:" + ATUALIZAR, envelope);
 
                 SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
 

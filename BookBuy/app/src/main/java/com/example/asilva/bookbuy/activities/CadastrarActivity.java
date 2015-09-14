@@ -12,15 +12,29 @@ import android.widget.TextView;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 
 public class CadastrarActivity extends AppCompatActivity {
 
     Button bttCadastrar;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
     EditText txtUsuario;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
     EditText txtNome;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
+    @Email(message = "Email inválido")
     EditText txtEmail;
-    EditText txtDDD;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
     EditText txtTelefone;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
+    @Password(min = 6, scheme = Password.Scheme.NUMERIC, message = "Senha Inválida")
     EditText txtSenha;
 
 

@@ -2,10 +2,6 @@ package com.example.asilva.bookbuy.basicas;
 
 import android.widget.ImageView;
 
-import com.mobsandgeeks.saripaar.annotation.Email;
-import com.mobsandgeeks.saripaar.annotation.NotEmpty;
-import com.mobsandgeeks.saripaar.annotation.Password;
-
 import java.util.List;
 
 /**
@@ -14,24 +10,11 @@ import java.util.List;
 public class Cliente extends Usuario{
 
     private int id;
-
-    @NotEmpty(message = "É necessário preencher este campo!")
-    private String login;
-
-    @NotEmpty(message = "É necessário preencher este campo!")
+    private String usuario;
     private String nome;
-
-    @NotEmpty(message = "É necessário preencher este campo!")
-    @Email(message = "Email inválido")
     private String email;
-
-    @NotEmpty(message = "É necessário preencher este campo!")
     private String telefone;
-
-    @NotEmpty(message = "É necessário preencher este campo!")
-    @Password(min = 6, scheme = Password.Scheme.NUMERIC, message = "Senha Inválida")
     private String senha;
-
     private ImageView fotoPerfil;
     private List<Pedido> pedidos;
     private List<Reserva> reservas;
@@ -100,11 +83,11 @@ public class Cliente extends Usuario{
 
 
     public String getUsuario() {
-        return login;
+        return usuario;
     }
 
     public void setUsuario(String usuario) {
-        this.login = usuario;
+        this.usuario = usuario;
     }
 
     @Override
