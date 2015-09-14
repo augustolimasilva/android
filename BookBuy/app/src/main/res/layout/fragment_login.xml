@@ -47,10 +47,10 @@
             android:layout_marginTop="10dp" />
 
         <EditText
-            android:layout_width="163dp"
+            android:layout_width="162dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtUsuario"
-            android:textColor="#ffffff"
+            android:textColor="@color/white"
             android:layout_alignBottom="@+id/textView"
             android:layout_toRightOf="@+id/textView2" />
     </LinearLayout>
@@ -74,7 +74,7 @@
             android:layout_marginTop="10dp" />
 
         <EditText
-            android:layout_width="163dp"
+            android:layout_width="173dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textColor="@color/white"
