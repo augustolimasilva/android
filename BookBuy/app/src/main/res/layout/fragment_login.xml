@@ -92,7 +92,6 @@
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
-        android:background="#"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp" />
 
