@@ -1,6 +1,7 @@
 package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,15 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
         editTextTelefone = (EditText)findViewById(R.id.editTextTelefone);
         bttSalvarAlteracoes = (Button)findViewById(R.id.bttSalvarAlteracoes);
         bttSalvarAlteracoes.setOnClickListener(this);
+
+        SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+        String nome = prefs.getString("nome", "BookBuy");
+        String email = prefs.getString("email", "bookbuy@email.com");
+        String telefone = prefs.getString("telefone", "999999999");
+
+        editTextNome.setText(nome);
+        editTextEmail.setText(email);
+        editTextTelefone.setText(telefone);
 
         bttSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
             @Override

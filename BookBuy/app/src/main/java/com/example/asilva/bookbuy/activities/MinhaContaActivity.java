@@ -1,6 +1,7 @@
 package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,6 +31,15 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         txtTelefone = (TextView)findViewById(R.id.txtTelefone);
         bttEditar = (Button)findViewById(R.id.bttEditar);
         bttEditar.setOnClickListener(this);
+
+        SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+        String nome = prefs.getString("nome", "BookBuy");
+        String email = prefs.getString("email", "bookbuy@email.com");
+        String telefone = prefs.getString("telefone", "999999999");
+
+        txtNome.setText(nome);
+        txtEmail.setText(email);
+        txtTelefone.setText(telefone);
     }
 
     @Override

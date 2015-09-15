@@ -14,7 +14,7 @@
     <string name="conta_paypal">Conta Paypal</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="facebook_key">738499262944915</string>
-    <string name="title_activity_editar_cadastro">EditarCadastroActivity</string>
+    <string name="title_activity_editar_cadastro">Editar Cadastro</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

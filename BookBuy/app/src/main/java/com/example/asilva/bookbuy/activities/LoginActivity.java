@@ -33,10 +33,9 @@ import java.util.List;
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
     @NotEmpty
-    @Email
-    EditText editTextMail;
+    EditText txtUsuario, txtSenha;
 
-    TextView txtCadastrar, txtUsuario, txtSenha, txtRecuperarSenha;
+    TextView txtCadastrar, txtRecuperarSenha;
     Button bttEntrar;
     private static final String FACEBOOK_PERMISSION_PUBLIC_PROFILE = "public_profile";
     private final CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -52,8 +51,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         validator = new Validator(this);
         validator.setValidationListener(new ValidationHanlder());
 
-        txtUsuario = (TextView)findViewById(R.id.txtUsuario);
-        txtSenha = (TextView)findViewById(R.id.txtSenha);
+        txtUsuario = (EditText)findViewById(R.id.txtUsuario);
+        txtSenha = (EditText)findViewById(R.id.txtSenha);
         txtCadastrar = (TextView) findViewById(R.id.txtCadastrar);
         txtCadastrar.setOnClickListener(this);
         txtRecuperarSenha = (TextView)findViewById(R.id.txtRecuperarSenha);
@@ -84,17 +83,20 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     break;
                 case R.id.bttEntrar:
 
-                    DAOCliente daoCliente = new DAOCliente();
-                    cliente = daoCliente.pesquisarClientePorLogin(txtUsuario.getText().toString());
+                    Intent itMapa = new Intent(this, MapaActivity.class);
+                    startActivity(itMapa);
 
-                    if(cliente == null){
+                    //DAOCliente daoCliente = new DAOCliente();
+                    //daoCliente.pesquisarClientePorLogin(txtUsuario.getText().toString());
+
+                    /*if(cliente == null){
                         Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT);
                     }else {
 
                         Intent itMapa = new Intent(this, MapaActivity.class);
                         startActivity(itMapa);
                         break;
-                    }
+                    }*/
 
             }
     }
