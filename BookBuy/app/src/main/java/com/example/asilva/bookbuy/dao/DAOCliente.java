@@ -2,6 +2,7 @@ package com.example.asilva.bookbuy.dao;
 
 import android.os.AsyncTask;
 
+import com.example.asilva.bookbuy.activities.ClienteListener;
 import com.example.asilva.bookbuy.basicas.Cliente;
 
 import org.ksoap2.SoapEnvelope;
@@ -32,13 +33,11 @@ public class DAOCliente {
         return true;
     }
 
-    public Cliente pesquisarClientePorLogin(String login) {
-        PesquisarClienteTask pesquisarClienteTask = new PesquisarClienteTask();
-        pesquisarClienteTask.execute(login);
-        return cli;
+    public void pesquisarClientePorLogin(String login, ClienteListener listener) {
+        new PesquisarClienteTask(listener).execute(login);
     }
 
-    public boolean atualizarCliente (Cliente cliente){
+    public boolean atualizarCliente(Cliente cliente) {
         AtualizarClienteTask atualizarClienteTask = new AtualizarClienteTask();
         atualizarClienteTask.execute(cliente);
         return true;
@@ -83,11 +82,16 @@ public class DAOCliente {
         }
     }
 
-    class PesquisarClienteTask extends AsyncTask<String, Void, Cliente>{
+    class PesquisarClienteTask extends AsyncTask<String, Void, Cliente> {
+
+        private final ClienteListener listener;
+
+        private PesquisarClienteTask(final ClienteListener listener) {
+            this.listener = listener;
+        }
 
         @Override
         protected Cliente doInBackground(String... params) {
-            Cliente cli = null;
 
             SoapObject buscarCliente = new SoapObject(NAMESPACE, BUSCAR_POR_LOGIN);
             buscarCliente.addProperty("login", params[0]);
@@ -101,23 +105,29 @@ public class DAOCliente {
             HttpTransportSE http = new HttpTransportSE(URL);
 
             try {
+
                 http.call("urn:" + BUSCAR_POR_LOGIN, envelope);
 
                 SoapObject resposta = (SoapObject) envelope.getResponse();
 
-                cli = new Cliente();
+                final Cliente cliente = new Cliente();
 
-                cli.setId(Integer.parseInt(resposta.getProperty("id").toString()));
-                cli.setNome(resposta.getProperty("nome").toString());
-                cli.setEmail(resposta.getProperty("email").toString());
-                cli.setLogin(resposta.getProperty("login").toString());
-                cli.setSenha(resposta.getProperty("senha").toString());
+                cliente.setId(Integer.parseInt(resposta.getProperty("id").toString()));
+                cliente.setNome(resposta.getProperty("nome").toString());
+                cliente.setEmail(resposta.getProperty("email").toString());
+                cliente.setLogin(resposta.getProperty("login").toString());
+                cliente.setSenha(resposta.getProperty("senha").toString());
+
+                return cliente;
 
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
-            return cli;
+        }
+
+        @Override
+        protected void onPostExecute(final Cliente cliente) {
+            listener.onLogin(cliente);
         }
     }
 
