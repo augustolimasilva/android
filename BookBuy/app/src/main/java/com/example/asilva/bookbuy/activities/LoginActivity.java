@@ -100,7 +100,25 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         if (cliente == null) {
                             Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT).show();
 
-                        } else {
+                        }
+                        String senha= cliente.getSenha().toString();
+                        String senha2 = txtSenha.getText().toString();
+                        if(!senha.equals(senha2)){
+                            Toast.makeText(getApplicationContext(), "Senha inválida.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt("id", cliente.getId());
+                            editor.putString("usuario", cliente.getLogin());
+                            editor.putString("nome", cliente.getNome());
+                            editor.putString("email", cliente.getEmail());
+                            editor.putString("telefone", cliente.getTelefone());
+                            editor.putString("senha", cliente.getSenha());
+                            editor.putBoolean("estalogado", true);
+
+                            editor.commit();
+
                             final Intent itMapa = new Intent(LoginActivity.this, MapaActivity.class);
                             startActivity(itMapa);
                         }

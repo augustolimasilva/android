@@ -46,9 +46,21 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                DAOCliente clienteDAO = new DAOCliente();
+                SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+                String usuario = prefs.getString("usuario", "usuario");
+                String senha = prefs.getString("senha", "senha");
+                int id = prefs.getInt("id", 1);
 
-                boolean cliente = clienteDAO.atualizarCliente(new Cliente());
+                DAOCliente clienteDAO = new DAOCliente();
+                Cliente c = new Cliente();
+                c.setNome(editTextNome.getText().toString());
+                c.setEmail(editTextEmail.getText().toString());
+                c.setTelefone(editTextTelefone.getText().toString());
+                c.setLogin(usuario);
+                c.setId(id);
+                c.setSenha(senha);
+
+                boolean cliente = clienteDAO.atualizarCliente(c);
 
                 Log.d("Resultado", cliente + "");
             }

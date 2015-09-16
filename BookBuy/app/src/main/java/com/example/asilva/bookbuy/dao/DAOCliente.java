@@ -53,7 +53,7 @@ public class DAOCliente {
             Cliente cliente = params[0];
 
             cli.addProperty("id", cliente.getId());
-            cli.addProperty("login", cliente.getUsuario());
+            cli.addProperty("login", cliente.getLogin());
             cli.addProperty("nome", cliente.getNome());
             cli.addProperty("email", cliente.getEmail());
             cli.addProperty("telefone", cliente.getTelefone());
@@ -117,6 +117,7 @@ public class DAOCliente {
                 cliente.setEmail(resposta.getProperty("email").toString());
                 cliente.setLogin(resposta.getProperty("login").toString());
                 cliente.setSenha(resposta.getProperty("senha").toString());
+                cliente.setTelefone(resposta.getProperty("telefone").toString());
 
                 return cliente;
 
@@ -144,6 +145,8 @@ public class DAOCliente {
             cli.addProperty("nome", cliente.getNome());
             cli.addProperty("email", cliente.getEmail());
             cli.addProperty("telefone", cliente.getTelefone());
+            cli.addProperty("login", cliente.getLogin());
+            cli.addProperty("senha", cliente.getSenha());
 
             SoapObject atualizarCliente = new SoapObject(NAMESPACE, ATUALIZAR);
 

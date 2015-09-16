@@ -82,7 +82,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
         public void onValidationSucceeded() {
             Cliente c = new Cliente();
 
-            c.setUsuario(txtUsuario.getText().toString());
+            c.setLogin(txtUsuario.getText().toString());
             c.setNome(txtNome.getText().toString());
             c.setEmail(txtEmail.getText().toString());
             c.setTelefone(txtTelefone.getText().toString());
@@ -94,7 +94,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
             if (resultado) {
                 SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("usuario", c.getUsuario());
+                editor.putString("usuario", c.getLogin());
                 editor.putString("nome", c.getNome());
                 editor.putString("email", c.getEmail());
                 editor.putString("telefone", c.getTelefone());

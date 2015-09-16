@@ -10,7 +10,7 @@ import java.util.List;
 public class Cliente extends Usuario{
 
     private int id;
-    private String usuario;
+    private String login;
     private String nome;
     private String email;
     private String telefone;
@@ -81,13 +81,13 @@ public class Cliente extends Usuario{
         this.reservas = reservas;
     }
 
-
-    public String getUsuario() {
-        return usuario;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    @Override
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Override
@@ -98,5 +98,38 @@ public class Cliente extends Usuario{
     @Override
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cliente)) return false;
+
+        Cliente cliente = (Cliente) o;
+
+        if (getId() != cliente.getId()) return false;
+        if (!getLogin().equals(cliente.getLogin())) return false;
+        if (!getNome().equals(cliente.getNome())) return false;
+        if (!getEmail().equals(cliente.getEmail())) return false;
+        if (!getTelefone().equals(cliente.getTelefone())) return false;
+        if (!getSenha().equals(cliente.getSenha())) return false;
+        if (!getFotoPerfil().equals(cliente.getFotoPerfil())) return false;
+        if (!getPedidos().equals(cliente.getPedidos())) return false;
+        return getReservas().equals(cliente.getReservas());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getLogin().hashCode();
+        result = 31 * result + getNome().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getTelefone().hashCode();
+        result = 31 * result + getSenha().hashCode();
+        result = 31 * result + getFotoPerfil().hashCode();
+        result = 31 * result + getPedidos().hashCode();
+        result = 31 * result + getReservas().hashCode();
+        return result;
     }
 }

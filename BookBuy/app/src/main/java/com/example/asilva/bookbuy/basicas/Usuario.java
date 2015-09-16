@@ -23,7 +23,7 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getLogin() {
+    public String getLogin(String usuario) {
         return login;
     }
 

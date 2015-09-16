@@ -21,6 +21,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:hint="Login"
+            android:maxLines="1"
+            android:singleLine="true"
             android:autoText="false"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -38,6 +40,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
+            android:maxLines="1"
+            android:singleLine="true"
             android:autoText="false"
             android:hint="Nome"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -57,6 +61,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/txtInputNome"
             android:layout_marginTop="25dp"
+            android:maxLines="1"
+            android:singleLine="true"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -74,6 +80,8 @@
             android:layout_height="wrap_content"
             android:hint="Telefone"
             android:phoneNumber="true"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -91,6 +99,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/txtInputDDD"
         android:layout_marginTop="25dp"
+        android:maxLines="1"
+        android:singleLine="true"
         android:hint="Senha"
         android:password="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
