@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
@@ -29,6 +30,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
 
         editTextNome = (EditText)findViewById(R.id.editTextNome);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
+        editTextEmail.setEnabled(false);
         editTextTelefone = (EditText)findViewById(R.id.editTextTelefone);
         bttSalvarAlteracoes = (Button)findViewById(R.id.bttSalvarAlteracoes);
         bttSalvarAlteracoes.setOnClickListener(this);
@@ -61,6 +63,29 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
                 c.setSenha(senha);
 
                 boolean cliente = clienteDAO.atualizarCliente(c);
+
+                if (cliente){
+                    SharedPreferences.Editor prefes = getSharedPreferences("meu_dados", 0).edit();
+                    prefes.clear();
+                    prefes.commit();
+
+                    SharedPreferences pref = getSharedPreferences("meus_dados", 0);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("usuario", c.getLogin());
+                    editor.putString("nome", c.getNome());
+                    editor.putString("email", c.getEmail());
+                    editor.putString("telefone", c.getTelefone());
+                    editor.putString("id", c.getSenha());
+                    editor.putString("senha", c.getSenha());
+                    editor.putBoolean("estalogado", true);
+
+                    editor.commit();
+
+                    Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
+
+                    Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
+                    startActivity(it);
+                }
 
                 Log.d("Resultado", cliente + "");
             }
