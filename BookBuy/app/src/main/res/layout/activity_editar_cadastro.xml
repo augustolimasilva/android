@@ -9,45 +9,63 @@
     android:orientation="vertical"
     tools:context="com.example.asilva.bookbuy.fragments.CadastrarActivityFragment">
 
-    <EditText
-        android:id="@+id/editTextNome"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtInputNome"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:autoText="false"
-        android:hint="Nome"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtNome"
-        android:layout_marginTop="25dp"
-        android:hint="E-mail"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:inputType="textEmailAddress"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <EditText
+            android:id="@+id/editTextNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:autoText="false"
+            android:hint="Nome"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editTextTelefone"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtInputEmail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtEmail"
-        android:layout_marginTop="25dp"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:hint="Telefone"
-        android:phoneNumber="true"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtNome"
+            android:layout_marginTop="25dp"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txtInputTelefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtEmail"
+            android:layout_marginTop="25dp"
+            android:hint="Telefone"
+            android:maxLines="1"
+            android:phoneNumber="true"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/bttSalvarAlteracoes"
