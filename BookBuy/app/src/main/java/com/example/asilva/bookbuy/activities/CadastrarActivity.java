@@ -92,17 +92,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
             boolean resultado = clienteDAO.inserirCliente(c);
 
             if (resultado) {
-                SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("usuario", c.getLogin());
-                editor.putString("nome", c.getNome());
-                editor.putString("email", c.getEmail());
-                editor.putString("telefone", c.getTelefone());
-                editor.putBoolean("estalogado", true);
-
-                editor.commit();
-
-                Intent it = new Intent(CadastrarActivity.this, MapaActivity.class);
+                Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
                 startActivity(it);
             }
 
