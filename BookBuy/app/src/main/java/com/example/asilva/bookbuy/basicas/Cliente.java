@@ -15,7 +15,7 @@ public class Cliente extends Usuario{
     private String email;
     private String telefone;
     private String senha;
-    private ImageView fotoPerfil;
+    private byte[] fotoPerfil;
     private List<Pedido> pedidos;
     private List<Reserva> reservas;
 
@@ -57,11 +57,11 @@ public class Cliente extends Usuario{
         this.telefone = telefone;
     }
 
-    public ImageView getFotoPerfil() {
+    public byte[] getFotoPerfil() {
         return fotoPerfil;
     }
 
-    public void setFotoPerfil(ImageView fotoPerfil) {
+    public void setFotoPerfil(byte[] fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
 

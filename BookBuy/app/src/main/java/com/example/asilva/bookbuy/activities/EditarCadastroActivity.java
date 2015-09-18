@@ -61,6 +61,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
                 c.setLogin(usuario);
                 c.setId(id);
                 c.setSenha(senha);
+                c.setFotoPerfil(null);
 
                 boolean cliente = clienteDAO.atualizarCliente(c);
 
@@ -75,7 +76,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
                     editor.putString("nome", c.getNome());
                     editor.putString("email", c.getEmail());
                     editor.putString("telefone", c.getTelefone());
-                    editor.putString("id", c.getSenha());
+                    editor.putInt("id", c.getId());
                     editor.putString("senha", c.getSenha());
                     editor.putBoolean("estalogado", true);
 
