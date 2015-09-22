@@ -11,14 +11,14 @@ import com.example.asilva.bookbuy.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RedefinirSenhaActivityFragment extends Fragment {
+public class ReservaFragment extends Fragment {
 
-    public RedefinirSenhaActivityFragment() {
+    public ReservaFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_redefinir_senha, container, false);
+        return inflater.inflate(R.layout.fragment_reserva, container, false);
     }
 }

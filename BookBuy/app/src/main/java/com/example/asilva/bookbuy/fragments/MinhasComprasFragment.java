@@ -11,9 +11,9 @@ import com.example.asilva.bookbuy.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MinhasComprasActivityFragment extends Fragment {
+public class MinhasComprasFragment extends Fragment {
 
-    public MinhasComprasActivityFragment() {
+    public MinhasComprasFragment() {
     }
 
     @Override

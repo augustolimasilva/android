@@ -11,18 +11,18 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.basicas.Restaurante;
+import com.example.asilva.bookbuy.dao.DAORestaurante;
 import com.mikepenz.materialdrawer.Drawer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,6 +32,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapaActivity extends FragmentActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -50,8 +53,10 @@ public class MapaActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     private AccountHeader.Result headerNavigationLeft;
     private Drawer.Result navigationDrawerLeft;
-    Marker marker;
-    private MarkerOptions markerOption;
+    Marker marker, mkRestaurante;
+    private MarkerOptions markerOption, mkoRestaurante;
+    List<Restaurante> res;
+    Restaurante rs;
 
 
     @Override
@@ -67,6 +72,15 @@ public class MapaActivity extends FragmentActivity implements
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         String nome = prefs.getString("nome", "BookBuy");
         String email = prefs.getString("email", "bookbuy@email.com");
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(MapaActivity.this, MenuRestauranteActivity.class);
+                intent.putExtra("nomeRestaurante", mkRestaurante.getTitle());
+                startActivity(intent);
+            }
+        });
 
         headerNavigationLeft = new AccountHeader()
                 .withActivity(this)
@@ -126,6 +140,27 @@ public class MapaActivity extends FragmentActivity implements
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Sair").withIcon(R.drawable.ic_action_sair));
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
+
+        listarRestaurantes();
+    }
+
+    public void listarRestaurantes(){
+        new DAORestaurante().BuscarTodosRestaurantes(new RestauranteListener() {
+            @Override
+            public void onRestaurante(List<Restaurante> restaurantes) {
+
+                for(int i=0; i < restaurantes.size(); i++){
+
+                    rs = new Restaurante();
+                    rs = restaurantes.get(i);
+
+                    mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
+                    mkRestaurante.setTitle(rs.getNome());
+                    mkRestaurante.setSnippet(rs.getTelefone());
+                }
+
+            }
+        });
     }
 
     @Override
@@ -178,6 +213,14 @@ public class MapaActivity extends FragmentActivity implements
         });
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
+    }
+
+    private MarkerOptions loadMarkerOptions(){
+        if (mkoRestaurante == null) {
+            mkoRestaurante = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurante));
+        }
+
+        return mkoRestaurante;
     }
 
     private MarkerOptions loadMarkerOption() {

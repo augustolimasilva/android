@@ -15,6 +15,10 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="facebook_key">738499262944915</string>
     <string name="title_activity_editar_cadastro">Editar Cadastro</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_menu_restaurante">Menu Restaurante</string>
+    <string name="title_activity_pedido">PedidoActivity</string>
+    <string name="title_activity_reserva">ReservaActivity</string>
+    <string name="title_produto">Produtos</string>
+    <string name="title_reserva">Reserva</string>
+    <string name="title_pedido">Pedido</string>
 </resources>

@@ -88,6 +88,30 @@
             android:name=".activities.EditarCadastroActivity"
             android:label="@string/title_activity_editar_cadastro" >
         </activity>
+        <activity
+            android:name=".activities.MenuRestauranteActivity"
+            android:label="@string/title_activity_menu_restaurante"
+            android:parentActivityName=".activities.MapaActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.activities.MapaActivity" />
+        </activity>
+        <activity
+            android:name=".activities.PedidoActivity"
+            android:label="@string/title_activity_pedido"
+            android:parentActivityName=".activities.MapaActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.activities.MapaActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ReservaActivity"
+            android:label="@string/title_activity_reserva"
+            android:parentActivityName=".activities.MapaActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.activities.MapaActivity" />
+        </activity>
     </application>
 
 </manifest>

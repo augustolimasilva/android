@@ -3,11 +3,13 @@ package com.example.asilva.bookbuy.dao;
 import android.os.AsyncTask;
 
 
+import com.example.asilva.bookbuy.activities.ClienteListener;
+import com.example.asilva.bookbuy.activities.RestauranteListener;
+import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
@@ -19,39 +21,41 @@ public class DAORestaurante {
 
     private static final String URL = "http://54.149.96.214:8080/bookbuyWS/services/RestauranteDAO?wsdl";
     private static final String NAMESPACE = "http://bookbuyWS";
+    List<Restaurante> listaRes = new ArrayList<Restaurante>();
 
     private static final String BUSCAR_TODOS = "buscarTodosRestaurantes";
 
-    public List<Restaurante> BuscarTodosRestaurantes() {
+    public void BuscarTodosRestaurantes(RestauranteListener listener) {
+        new RestaurantesTask(listener).execute();
+    }
 
-        List<Restaurante> listaRes = new ArrayList<Restaurante>();
+    class RestaurantesTask extends AsyncTask<Void, Void, List<Restaurante>>{
 
-        SoapObject buscarRestaurantes = new SoapObject(NAMESPACE, BUSCAR_TODOS);
+        private final RestauranteListener listener;
 
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        public RestaurantesTask(final RestauranteListener listener) {
+            this.listener = listener;
+        }
 
-        envelope.setOutputSoapObject(buscarRestaurantes);
+        @Override
+        protected List<Restaurante> doInBackground(Void... params) {
+            listaRes = new ArrayList<Restaurante>();
 
-        envelope.implicitTypes = true;
+            SoapObject buscarRestaurantes = new SoapObject(NAMESPACE, BUSCAR_TODOS);
 
-        HttpTransportSE http = new HttpTransportSE(URL);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 
-        try {
-            http.call("urn:" + BUSCAR_TODOS, envelope);
+            envelope.setOutputSoapObject(buscarRestaurantes);
 
-            if (envelope.getResponse() instanceof SoapObject) {
-                SoapObject resposta = (SoapObject) envelope.getResponse();
+            envelope.implicitTypes = true;
 
-                Restaurante res = new Restaurante();
+            HttpTransportSE http = new HttpTransportSE(URL);
 
-                res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
-                res.setNome(resposta.getProperty("nome").toString());
-                res.setTelefone(resposta.getProperty("telefone").toString());
+            try {
+                http.call("urn:" + BUSCAR_TODOS, envelope);
 
-            } else {
-                Vector<SoapObject> retorno = (Vector<SoapObject>) envelope.getResponse();
-
-                for (SoapObject resposta : retorno) {
+                if (envelope.getResponse() instanceof SoapObject) {
+                    SoapObject resposta = (SoapObject) envelope.getResponse();
 
                     Restaurante res = new Restaurante();
 
@@ -59,14 +63,32 @@ public class DAORestaurante {
                     res.setNome(resposta.getProperty("nome").toString());
                     res.setTelefone(resposta.getProperty("telefone").toString());
 
-                    listaRes.add(res);
-                }
-            }
+                } else {
+                    Vector<SoapObject> retorno = (Vector<SoapObject>) envelope.getResponse();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+                    for (SoapObject resposta : retorno) {
+
+                        Restaurante res = new Restaurante();
+
+                        res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                        res.setNome(resposta.getProperty("nome").toString());
+                        res.setTelefone(resposta.getProperty("telefone").toString());
+                        res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
+                        res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
+
+                        listaRes.add(res);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            return listaRes;
         }
-        return listaRes;
+        @Override
+        protected void onPostExecute(final List<Restaurante> restaurantes) {
+            listener.onRestaurante(restaurantes);
+        }
     }
 }
