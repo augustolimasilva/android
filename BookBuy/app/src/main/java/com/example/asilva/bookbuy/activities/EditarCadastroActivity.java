@@ -2,6 +2,9 @@ package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +30,11 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_cadastro);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
+
+        bar.setDisplayHomeAsUpEnabled(false);
 
         editTextNome = (EditText)findViewById(R.id.editTextNome);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
@@ -85,6 +93,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
                     Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
 
                     Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
+                    it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(it);
                 }
 
@@ -107,20 +116,5 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
             case R.id.bttSalvarAlteracoes:
                 break;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

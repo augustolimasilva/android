@@ -41,7 +41,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
     EditText txtTelefone;
 
     @NotEmpty(message = "É necessário preencher este campo!")
-    @Password(min = 6, scheme = Password.Scheme.NUMERIC, message = "Senha Inválida")
+    @Password(min = 6, scheme = Password.Scheme.ALPHA_NUMERIC, message = "Senha Inválida")
     EditText txtSenha;
 
     private Validator validator;

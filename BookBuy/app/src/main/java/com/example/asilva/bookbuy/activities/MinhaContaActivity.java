@@ -2,6 +2,8 @@ package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,6 +33,11 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         txtTelefone = (TextView)findViewById(R.id.txtTelefone);
         bttEditar = (Button)findViewById(R.id.bttEditar);
         bttEditar.setOnClickListener(this);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
+
+        bar.setDisplayHomeAsUpEnabled(false);
 
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         String nome = prefs.getString("nome", "BookBuy");

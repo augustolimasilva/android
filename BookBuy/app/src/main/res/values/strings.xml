@@ -5,7 +5,7 @@
     <string name="title_activity_redefinir_senha">Redefinir Senha</string>
     <string name="mensagem">   Digite seu email e nós lhe enviamos instruções para definir uma nova senha.</string>
     <string name="title_activity_mapa">Map</string>
-    <string name="title_activity_minha_conta">Perfil</string>
+    <string name="title_activity_minha_conta">Meu Perfil</string>
     <string name="title_activity_minhas_compras">Minhas Compras</string>
     <string name="nome_completo">Nome Completo</string>
     <string name="email">Email</string>

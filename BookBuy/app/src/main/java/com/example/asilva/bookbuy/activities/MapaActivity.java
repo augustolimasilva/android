@@ -1,5 +1,7 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -77,7 +79,9 @@ public class MapaActivity extends FragmentActivity implements
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapaActivity.this, MenuRestauranteActivity.class);
-                intent.putExtra("nomeRestaurante", mkRestaurante.getTitle());
+
+                intent.putExtra("nomeRestaurante", marker.getTitle());
+                intent.putExtra("telefone", marker.getSnippet());
                 startActivity(intent);
             }
         });
@@ -122,12 +126,15 @@ public class MapaActivity extends FragmentActivity implements
                                 startActivity(Intent.createChooser(sharing, "Convide os amigos"));
                                 break;
                             case 3:
-                                SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
-                                prefs.clear();
-                                prefs.commit();
+                                        SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
+                                        prefs.clear();
+                                        prefs.commit();
 
-                                Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
-                                startActivity(itent);
+                                        Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
+                                        startActivity(itent);
+                                        finish();
+
+
                         }
                     }
                 })
@@ -248,5 +255,11 @@ public class MapaActivity extends FragmentActivity implements
         if (marker != null) {
             marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
     }
 }

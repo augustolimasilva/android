@@ -1,10 +1,14 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +17,13 @@ import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.fragments.MenuRestauranteFragment;
 import com.example.asilva.bookbuy.fragments.PedidoFragment;
 import com.example.asilva.bookbuy.fragments.ReservaFragment;
-import com.example.asilva.bookbuy.view.SlidingTabLayout;
 
-public class MenuRestauranteActivity extends AppCompatActivity {
+import io.karim.MaterialTabs;
+
+public class MenuRestauranteActivity extends ActionBarActivity {
 
     ViewPager mViewPager;
+    String nomeRestaurante, telefone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +33,25 @@ public class MenuRestauranteActivity extends AppCompatActivity {
         MenuRestaurantePageAdapter adapter = new MenuRestaurantePageAdapter(
                 getSupportFragmentManager());
 
-        mViewPager = (ViewPager)findViewById(R.id.viewPager);
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
+        Intent it = getIntent();
+        nomeRestaurante = it.getExtras().getString("nomeRestaurante").toString();
+
+        setTitle(nomeRestaurante);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+
+        mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
+
+        MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
+        tabs.setViewPager(mViewPager);
+
+        getSupportActionBar().setElevation(0);
+
     }
 
     public class MenuRestaurantePageAdapter extends FragmentPagerAdapter {
@@ -59,7 +81,6 @@ public class MenuRestauranteActivity extends AppCompatActivity {
                 return new PedidoFragment();
             }
         }
-
 
         @Override
         public int getCount() {
