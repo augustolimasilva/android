@@ -1,17 +1,21 @@
 package com.example.asilva.bookbuy.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.dao.DAORestaurante;
@@ -156,7 +160,7 @@ public class MapaActivity extends FragmentActivity implements
             @Override
             public void onRestaurante(List<Restaurante> restaurantes) {
 
-                for(int i=0; i < restaurantes.size(); i++){
+                for (int i = 0; i < restaurantes.size(); i++) {
 
                     rs = new Restaurante();
                     rs = restaurantes.get(i);
@@ -189,14 +193,27 @@ public class MapaActivity extends FragmentActivity implements
     }
 
     private synchronized void callConnection() {
-        Log.i("LOG", "callConnection()");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addOnConnectionFailedListener(this)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .build();
 
-        mGoogleApiClient.connect();
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if ( manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+
+            Log.i("LOG", "callConnection()");
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addOnConnectionFailedListener(this)
+                    .addConnectionCallbacks(this)
+                    .addApi(LocationServices.API)
+                    .build();
+
+            mGoogleApiClient.connect();
+        }else {
+            new MaterialDialog.Builder(this)
+                    .title("Teste")
+                    .content("Ative sua localização!")
+                    .positiveText("ATIVAR")
+                    .negativeText("SAIR")
+                    .show();
+        }
     }
 
     @Override
@@ -246,7 +263,7 @@ public class MapaActivity extends FragmentActivity implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("LOG", "onConnectionFailed(" + connectionResult + ")");
+        Toast.makeText(getApplicationContext(), "Ative sua localização.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
