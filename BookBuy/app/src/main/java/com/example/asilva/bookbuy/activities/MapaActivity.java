@@ -82,9 +82,18 @@ public class MapaActivity extends FragmentActivity implements
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapaActivity.this, MenuRestauranteActivity.class);
 
-                intent.putExtra("nomeRestaurante", marker.getTitle());
-                intent.putExtra("telefone", marker.getSnippet());
-                startActivity(intent);
+                for(int i = 0; i < res.size(); i++) {
+
+                    if (marker.getTitle().toString().equals(res.get(i).getNome().toString())) {
+
+                        intent.putExtra("nomeRestaurante", res.get(i).getNome());
+                        intent.putExtra("telefone", res.get(i).getTelefone());
+                        intent.putExtra("bairro", res.get(i).getBairro());
+                        intent.putExtra("endereco", res.get(i).getEndereco());
+
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -162,6 +171,8 @@ public class MapaActivity extends FragmentActivity implements
                 @Override
                 public void onRestaurante(List<Restaurante> restaurantes) {
 
+                    res = restaurantes;
+
                     for (int i = 0; i < restaurantes.size(); i++) {
                         rs = new Restaurante();
                         rs = restaurantes.get(i);
@@ -174,7 +185,7 @@ public class MapaActivity extends FragmentActivity implements
             });
 
         } else {
-            Toast.makeText(getApplicationContext(), "Ative sua wifi.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Ative sua Internet.", Toast.LENGTH_SHORT).show();
         }
     }
 
