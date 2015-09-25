@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.Util;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.facebook.CallbackManager;
@@ -92,37 +93,41 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
             case R.id.bttEntrar:
 
-                new DAOCliente().pesquisarClientePorLogin(txtUsuario.getText().toString(), new ClienteListener() {
+                if (Util.isNetworkConnected(this)) {
+                    new DAOCliente().pesquisarClientePorLogin(txtUsuario.getText().toString(), new ClienteListener() {
 
-                    @Override
-                    public void onLogin(final Cliente cliente) {
+                        @Override
+                        public void onLogin(final Cliente cliente) {
 
-                        if (cliente == null) {
-                            Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT).show();
-                        }else {
-                            // String senha= cliente.getSenha().toString();
-                            //String senha2 = txtSenha.getText().toString();
-                            if (!cliente.getSenha().toString().equals(txtSenha.getText().toString())) {
-                                Toast.makeText(getApplicationContext(), "Senha inválida.", Toast.LENGTH_SHORT).show();
+                            if (cliente == null) {
+                                Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT).show();
                             } else {
-                                SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("id", cliente.getId());
-                                editor.putString("usuario", cliente.getLogin());
-                                editor.putString("nome", cliente.getNome());
-                                editor.putString("email", cliente.getEmail());
-                                editor.putString("telefone", cliente.getTelefone());
-                                editor.putString("senha", cliente.getSenha());
-                                editor.putBoolean("estalogado", true);
+                                // String senha= cliente.getSenha().toString();
+                                //String senha2 = txtSenha.getText().toString();
+                                if (!cliente.getSenha().toString().equals(txtSenha.getText().toString())) {
+                                    Toast.makeText(getApplicationContext(), "Senha inválida.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("id", cliente.getId());
+                                    editor.putString("usuario", cliente.getLogin());
+                                    editor.putString("nome", cliente.getNome());
+                                    editor.putString("email", cliente.getEmail());
+                                    editor.putString("telefone", cliente.getTelefone());
+                                    editor.putString("senha", cliente.getSenha());
+                                    editor.putBoolean("estalogado", true);
 
-                                editor.commit();
+                                    editor.commit();
 
-                                final Intent itMapa = new Intent(LoginActivity.this, MapaActivity.class);
-                                startActivity(itMapa);
+                                    final Intent itMapa = new Intent(LoginActivity.this, MapaActivity.class);
+                                    startActivity(itMapa);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ative sua wifi.", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 

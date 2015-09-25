@@ -1,12 +1,11 @@
 package com.example.asilva.bookbuy.activities;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +14,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.Util;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.dao.DAORestaurante;
 import com.mikepenz.materialdrawer.Drawer;
@@ -39,7 +39,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapaActivity extends FragmentActivity implements
@@ -69,7 +68,6 @@ public class MapaActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
-        callConnection();
         //NAVIGATION DRAWER
 
         SupportMapFragment fragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_maps));
@@ -130,13 +128,13 @@ public class MapaActivity extends FragmentActivity implements
                                 startActivity(Intent.createChooser(sharing, "Convide os amigos"));
                                 break;
                             case 3:
-                                        SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
-                                        prefs.clear();
-                                        prefs.commit();
+                                SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
+                                prefs.clear();
+                                prefs.commit();
 
-                                        Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
-                                        startActivity(itent);
-                                        finish();
+                                Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
+                                startActivity(itent);
+                                finish();
 
 
                         }
@@ -152,51 +150,60 @@ public class MapaActivity extends FragmentActivity implements
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
 
+        //isOffline();
         listarRestaurantes();
     }
 
-    public void listarRestaurantes(){
-        new DAORestaurante().BuscarTodosRestaurantes(new RestauranteListener() {
-            @Override
-            public void onRestaurante(List<Restaurante> restaurantes) {
+    public void listarRestaurantes() {
 
-                for (int i = 0; i < restaurantes.size(); i++) {
+        if (Util.isNetworkConnected(this)) {
 
-                    rs = new Restaurante();
-                    rs = restaurantes.get(i);
+            new DAORestaurante().BuscarTodosRestaurantes(new RestauranteListener() {
+                @Override
+                public void onRestaurante(List<Restaurante> restaurantes) {
 
-                    mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
-                    mkRestaurante.setTitle(rs.getNome());
-                    mkRestaurante.setSnippet(rs.getTelefone());
+                    for (int i = 0; i < restaurantes.size(); i++) {
+                        rs = new Restaurante();
+                        rs = restaurantes.get(i);
+
+                        mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
+                        mkRestaurante.setTitle(rs.getNome());
+                        mkRestaurante.setSnippet(rs.getTelefone());
+                    }
                 }
+            });
 
-            }
-        });
+        } else {
+            Toast.makeText(getApplicationContext(), "Ative sua wifi.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+            callConnection();
+
+        } else if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
-    private synchronized void callConnection() {
+    private void callConnection() {
 
-        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if ( manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
             Log.i("LOG", "callConnection()");
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -206,13 +213,22 @@ public class MapaActivity extends FragmentActivity implements
                     .build();
 
             mGoogleApiClient.connect();
-        }else {
-            new MaterialDialog.Builder(this)
-                    .title("Teste")
-                    .content("Ative sua localização!")
-                    .positiveText("ATIVAR")
-                    .negativeText("SAIR")
-                    .show();
+
+        } else {
+
+            final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+
+            startActivity(intent);
+
+
+
+            Toast.makeText(getApplicationContext(), "Ative sua localização.", Toast.LENGTH_SHORT).show();
+            //new MaterialDialog.Builder(this)
+            //      .title("Teste")
+            //      .content("Ative sua localização!")
+            //      .positiveText("ATIVAR")
+            //      .negativeText("SAIR")
+            //      .show();
         }
     }
 
@@ -239,7 +255,7 @@ public class MapaActivity extends FragmentActivity implements
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
     }
 
-    private MarkerOptions loadMarkerOptions(){
+    private MarkerOptions loadMarkerOptions() {
         if (mkoRestaurante == null) {
             mkoRestaurante = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurante));
         }
@@ -275,8 +291,7 @@ public class MapaActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         moveTaskToBack(true);
     }
 }
