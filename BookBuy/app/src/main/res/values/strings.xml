@@ -21,4 +21,7 @@
     <string name="title_produto">Produtos</string>
     <string name="title_reserva">Reserva</string>
     <string name="title_pedido">Pedido</string>
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
