@@ -1,12 +1,32 @@
 package com.example.asilva.bookbuy.basicas;
 
-public class Restaurante {
+import java.io.Serializable;
+
+public class Restaurante implements Serializable {
 
     private int idRestaurante;
     private String nome;
     private String telefone;
     private float latitude;
+    private String endereco;
+    private String bairro;
     private float longitude;
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
 
     public float getLatitude() {
         return latitude;
@@ -46,5 +66,20 @@ public class Restaurante {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Restaurante)) return false;
+
+        Restaurante that = (Restaurante) o;
+
+        if (getIdRestaurante() != that.getIdRestaurante()) return false;
+        if (Float.compare(that.getLatitude(), getLatitude()) != 0) return false;
+        if (Float.compare(that.getLongitude(), getLongitude()) != 0) return false;
+        if (!getNome().equals(that.getNome())) return false;
+        return getTelefone().equals(that.getTelefone());
+
     }
 }

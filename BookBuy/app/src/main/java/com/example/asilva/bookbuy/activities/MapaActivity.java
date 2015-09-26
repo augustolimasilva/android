@@ -61,7 +61,7 @@ public class MapaActivity extends FragmentActivity implements
     Marker marker, mkRestaurante;
     private MarkerOptions markerOption, mkoRestaurante;
     List<Restaurante> res;
-    Restaurante rs;
+    Restaurante rs, rest;
 
 
     @Override
@@ -86,10 +86,14 @@ public class MapaActivity extends FragmentActivity implements
 
                     if (marker.getTitle().toString().equals(res.get(i).getNome().toString())) {
 
-                        intent.putExtra("nomeRestaurante", res.get(i).getNome());
-                        intent.putExtra("telefone", res.get(i).getTelefone());
-                        intent.putExtra("bairro", res.get(i).getBairro());
-                        intent.putExtra("endereco", res.get(i).getEndereco());
+                        rest = new Restaurante();
+                        rest = res.get(i);
+
+                        //intent.putExtra("nomeRestaurante", res.get(i).getNome());
+                        //intent.putExtra("telefone", res.get(i).getTelefone());
+                        //intent.putExtra("bairro", res.get(i).getBairro());
+                        //intent.putExtra("endereco", res.get(i).getEndereco());
+                        intent.putExtra("restaurante", rest);
 
                         startActivity(intent);
                     }

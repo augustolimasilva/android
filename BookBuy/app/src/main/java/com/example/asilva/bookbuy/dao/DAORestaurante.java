@@ -62,6 +62,8 @@ public class DAORestaurante {
                     res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
                     res.setNome(resposta.getProperty("nome").toString());
                     res.setTelefone(resposta.getProperty("telefone").toString());
+                    res.setEndereco(resposta.getProperty("rua").toString());
+                    res.setBairro(resposta.getProperty("bairro").toString());
 
                 } else {
                     Vector<SoapObject> retorno = (Vector<SoapObject>) envelope.getResponse();
@@ -73,6 +75,8 @@ public class DAORestaurante {
                         res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
                         res.setNome(resposta.getProperty("nome").toString());
                         res.setTelefone(resposta.getProperty("telefone").toString());
+                        res.setEndereco(resposta.getProperty("rua").toString());
+                        res.setBairro(resposta.getProperty("bairro").toString());
                         res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
                         res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
 

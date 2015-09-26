@@ -5,20 +5,60 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.basicas.Restaurante;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MenuRestauranteFragment extends Fragment {
 
-    public MenuRestauranteFragment() {
+    private Restaurante restaurante;
+
+    public static MenuRestauranteFragment newInstance(Restaurante restaurante) {
+        MenuRestauranteFragment menuRestauranteFragment = new MenuRestauranteFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("restaurante", restaurante);
+        menuRestauranteFragment.setArguments(args);
+
+        return menuRestauranteFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+
+        if (getArguments() != null) {
+            restaurante = (Restaurante) getArguments().getSerializable("restaurante");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_menu_restaurante, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_menu_restaurante, container, false);
+
+        TextView txtNome = (TextView) view.findViewById(R.id.txtNome);
+        TextView txtRua = (TextView) view.findViewById(R.id.txtEndereco);
+        TextView txtBairro = (TextView) view.findViewById(R.id.txtBairro);
+        TextView txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
+
+        String nomeRestaurante = restaurante.getNome();
+
+        txtNome.setText(nomeRestaurante);
+        //txtNome.setText(restaurante.getNome().toString());
+        //txtRua.setText(restaurante.getEndereco().toString());
+        //txtBairro.setText(restaurante.getBairro().toString());
+        //txtTelefone.setText(restaurante.getTelefone().toString());
+
+        return view;
+
     }
+
 }

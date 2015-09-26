@@ -7,13 +7,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.fragments.MenuRestauranteFragment;
 import com.example.asilva.bookbuy.fragments.PedidoFragment;
 import com.example.asilva.bookbuy.fragments.ReservaFragment;
@@ -23,7 +26,6 @@ import io.karim.MaterialTabs;
 public class MenuRestauranteActivity extends ActionBarActivity {
 
     ViewPager mViewPager;
-    String nomeRestaurante, telefone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +38,22 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
-        Intent it = getIntent();
-        nomeRestaurante = it.getExtras().getString("nomeRestaurante").toString();
-
-        setTitle(nomeRestaurante);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
 
+        Restaurante restaurante = (Restaurante)getIntent().getSerializableExtra("restaurante");
+
+        MenuRestauranteFragment menuRestauranteFragment = MenuRestauranteFragment.newInstance(restaurante);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.container, menuRestauranteFragment, "menuRestaurante");
+        ft.commit();
+
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
+
+        setTitle(restaurante.getNome());
 
         MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
