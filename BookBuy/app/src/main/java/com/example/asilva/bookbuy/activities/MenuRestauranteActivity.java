@@ -26,6 +26,7 @@ import io.karim.MaterialTabs;
 public class MenuRestauranteActivity extends ActionBarActivity {
 
     ViewPager mViewPager;
+    Restaurante restaurante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +42,17 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
 
-        Restaurante restaurante = (Restaurante)getIntent().getSerializableExtra("restaurante");
+        if(savedInstanceState == null) {
 
-        MenuRestauranteFragment menuRestauranteFragment = MenuRestauranteFragment.newInstance(restaurante);
+            restaurante = (Restaurante) getIntent().getSerializableExtra("restaurante");
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, menuRestauranteFragment, "menuRestaurante");
-        ft.commit();
+            MenuRestauranteFragment menuRestauranteFragment = MenuRestauranteFragment.newInstance(restaurante);
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.container, menuRestauranteFragment, "menuRestaurante");
+            ft.commit();
+        }
 
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);

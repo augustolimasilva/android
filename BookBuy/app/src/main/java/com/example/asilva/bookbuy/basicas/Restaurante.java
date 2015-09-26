@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class Restaurante implements Serializable {
 
-    private int idRestaurante;
-    private String nome;
-    private String telefone;
-    private float latitude;
-    private String endereco;
-    private String bairro;
-    private float longitude;
+    public int idRestaurante;
+    public String nome;
+    public String telefone;
+    public float latitude;
+    public String endereco;
+    public String bairro;
+    public float longitude;
 
     public String getBairro() {
         return bairro;

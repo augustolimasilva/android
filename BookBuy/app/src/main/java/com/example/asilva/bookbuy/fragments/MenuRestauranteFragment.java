@@ -49,13 +49,10 @@ public class MenuRestauranteFragment extends Fragment {
         TextView txtBairro = (TextView) view.findViewById(R.id.txtBairro);
         TextView txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
 
-        String nomeRestaurante = restaurante.getNome();
-
-        txtNome.setText(nomeRestaurante);
-        //txtNome.setText(restaurante.getNome().toString());
-        //txtRua.setText(restaurante.getEndereco().toString());
-        //txtBairro.setText(restaurante.getBairro().toString());
-        //txtTelefone.setText(restaurante.getTelefone().toString());
+        txtNome.setText(restaurante.nome);
+        txtRua.setText(restaurante.endereco);
+        txtBairro.setText(restaurante.bairro);
+        txtTelefone.setText(restaurante.telefone);
 
         return view;
 
