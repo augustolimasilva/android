@@ -1,7 +1,9 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
@@ -48,6 +50,8 @@ public class MapaActivity extends FragmentActivity implements
     private static final long FASTESET_INTERVAL = 5000;
     private static final int PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final long DEFAULT_ZOOM = 10;
+
+    private NetworkState networkState;
 
     private static final LocationRequest LOCATION_REQUEST = new LocationRequest().setInterval(INTERVAL)
             .setFastestInterval(FASTESET_INTERVAL)
@@ -165,6 +169,7 @@ public class MapaActivity extends FragmentActivity implements
 
         //isOffline();
         listarRestaurantes();
+        networkState = new NetworkState();
     }
 
     public void listarRestaurantes() {
@@ -203,6 +208,9 @@ public class MapaActivity extends FragmentActivity implements
         } else if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
         }
+
+        registerReceiver(networkState, new IntentFilter(NetworkStateReceiver.NETWORK));
+
     }
 
     @Override
@@ -211,6 +219,16 @@ public class MapaActivity extends FragmentActivity implements
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+
+        unregisterReceiver(networkState);
+    }
+
+    public class NetworkState extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            listarRestaurantes();
         }
     }
 
