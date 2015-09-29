@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.Util;
 import com.example.asilva.bookbuy.basicas.Restaurante;
@@ -141,19 +142,33 @@ public class MapaActivity extends FragmentActivity implements
                                 startActivity(Intent.createChooser(sharing, "Convide os amigos"));
                                 break;
                             case 3:
-                                SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
-                                prefs.clear();
-                                prefs.commit();
 
-                                Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
-                                startActivity(itent);
-                                finish();
+                                new MaterialDialog.Builder(MapaActivity.this)
+                                                  .title("Alerta")
+                                                  .content("Deseja sair do aplicativo BookBuy?")
+                                        .negativeText("Não").positiveText("Sim").callback(new MaterialDialog.ButtonCallback() {
 
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
 
+                                        SharedPreferences.Editor prefs = getSharedPreferences("meus_dados", 0).edit();
+                                        prefs.clear();
+                                        prefs.commit();
+
+                                        Intent itent = new Intent(MapaActivity.this, LoginActivity.class);
+                                        startActivity(itent);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onNegative(MaterialDialog dialog) {
+                                        dialog.dismiss();
+                                    }
+
+                                }).build().show();
                         }
                     }
-                })
-                .build();
+                }).build();
 
 
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Perfil").withIcon(R.drawable.ic_minha_conta));
