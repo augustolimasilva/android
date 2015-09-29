@@ -1,7 +1,9 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,13 +48,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.List;
 
-public class MapaActivity extends ActionBarActivity implements
+public class MapaActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final long INTERVAL = 1000;
     private static final long FASTESET_INTERVAL = 5000;
     private static final int PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final long DEFAULT_ZOOM = 10;
+
+    private NetworkState networkState;
 
     private static final LocationRequest LOCATION_REQUEST = new LocationRequest().setInterval(INTERVAL)
             .setFastestInterval(FASTESET_INTERVAL)
@@ -180,6 +184,7 @@ public class MapaActivity extends ActionBarActivity implements
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
 
         //isOffline();
+        networkState = new NetworkState();
         listarRestaurantes();
     }
 
@@ -199,7 +204,7 @@ public class MapaActivity extends ActionBarActivity implements
 
                         mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
                         mkRestaurante.setTitle(rs.getNome());
-                        mkRestaurante.setSnippet(rs.getTelefone());
+                        mkRestaurante.setSnippet("Telefone: " + rs.getTelefone());
                     }
                 }
             });
@@ -219,6 +224,8 @@ public class MapaActivity extends ActionBarActivity implements
         } else if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
         }
+
+        registerReceiver(networkState, new IntentFilter(NetworkStateReceiver.NETWORK));
     }
 
     @Override
@@ -227,6 +234,16 @@ public class MapaActivity extends ActionBarActivity implements
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+
+        unregisterReceiver(networkState);
+    }
+
+    public class NetworkState extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            listarRestaurantes();
         }
     }
 

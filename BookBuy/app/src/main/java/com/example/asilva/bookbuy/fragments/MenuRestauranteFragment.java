@@ -45,10 +45,10 @@ public class MenuRestauranteFragment extends Fragment {
         TextView txtBairro = (TextView) view.findViewById(R.id.txtBairro);
         TextView txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
 
-        txtNome.setText(restaurante.nome);
-        txtRua.setText(restaurante.endereco);
-        txtBairro.setText(restaurante.bairro);
-        txtTelefone.setText(restaurante.telefone);
+//        txtNome.setText(restaurante.nome);
+//        txtRua.setText(restaurante.endereco);
+//        txtBairro.setText(restaurante.bairro);
+//        txtTelefone.setText(restaurante.telefone);
 
         return view;
     }
