@@ -18,13 +18,24 @@ import android.widget.Toast;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+
+import java.util.List;
 
 public class EditarCadastroActivity extends AppCompatActivity implements View.OnClickListener{
 
+    @NotEmpty(message = "É necessário preencher este campo!")
     EditText editTextNome;
+
     EditText editTextEmail;
+
+    @NotEmpty(message = "É necessário preencher este campo!")
     EditText editTextTelefone;
     Button bttSalvarAlteracoes;
+
+    private Validator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,9 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
         bttSalvarAlteracoes = (Button)findViewById(R.id.bttSalvarAlteracoes);
         bttSalvarAlteracoes.setOnClickListener(this);
 
+        validator = new Validator(this);
+        validator.setValidationListener(new ValidationHanlder());
+
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         String nome = prefs.getString("nome", "BookBuy");
         String email = prefs.getString("email", "bookbuy@email.com");
@@ -52,54 +66,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
         editTextEmail.setText(email);
         editTextTelefone.setText(telefone);
 
-        bttSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
-                String usuario = prefs.getString("usuario", "usuario");
-                String senha = prefs.getString("senha", "senha");
-                int id = prefs.getInt("id", 1);
-
-                DAOCliente clienteDAO = new DAOCliente();
-                Cliente c = new Cliente();
-                c.setNome(editTextNome.getText().toString());
-                c.setEmail(editTextEmail.getText().toString());
-                c.setTelefone(editTextTelefone.getText().toString());
-                c.setLogin(usuario);
-                c.setId(id);
-                c.setSenha(senha);
-                c.setFotoPerfil(null);
-
-                boolean cliente = clienteDAO.atualizarCliente(c);
-
-                if (cliente){
-                    SharedPreferences.Editor prefes = getSharedPreferences("meu_dados", 0).edit();
-                    prefes.clear();
-                    prefes.commit();
-
-                    SharedPreferences pref = getSharedPreferences("meus_dados", 0);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("usuario", c.getLogin());
-                    editor.putString("nome", c.getNome());
-                    editor.putString("email", c.getEmail());
-                    editor.putString("telefone", c.getTelefone());
-                    editor.putInt("id", c.getId());
-                    editor.putString("senha", c.getSenha());
-                    editor.putBoolean("estalogado", true);
-
-                    editor.commit();
-
-                    Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
-
-                    Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
-                    it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(it);
-                }
-
-                Log.d("Resultado", cliente + "");
-            }
-        });
+        bttSalvarAlteracoes.setOnClickListener(this);
 
     }
 
@@ -112,9 +79,71 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bttSalvarAlteracoes:
-                break;
+        validator.validate();
+    }
+
+    private class ValidationHanlder implements Validator.ValidationListener {
+
+        @Override
+        public void onValidationSucceeded() {
+            SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
+            String usuario = prefs.getString("usuario", "usuario");
+            String senha = prefs.getString("senha", "senha");
+            int id = prefs.getInt("id", 1);
+
+            DAOCliente clienteDAO = new DAOCliente();
+            Cliente c = new Cliente();
+            c.setNome(editTextNome.getText().toString());
+            c.setEmail(editTextEmail.getText().toString());
+            c.setTelefone(editTextTelefone.getText().toString());
+            c.setLogin(usuario);
+            c.setId(id);
+            c.setSenha(senha);
+            c.setFotoPerfil(null);
+
+            boolean cliente = clienteDAO.atualizarCliente(c);
+
+            if (cliente){
+                SharedPreferences.Editor prefes = getSharedPreferences("meu_dados", 0).edit();
+                prefes.clear();
+                prefes.commit();
+
+                SharedPreferences pref = getSharedPreferences("meus_dados", 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("usuario", c.getLogin());
+                editor.putString("nome", c.getNome());
+                editor.putString("email", c.getEmail());
+                editor.putString("telefone", c.getTelefone());
+                editor.putInt("id", c.getId());
+                editor.putString("senha", c.getSenha());
+                editor.putBoolean("estalogado", true);
+
+                editor.commit();
+
+                Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
+
+                Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(it);
+            }
+
+            Log.d("Resultado", cliente + "");
+        }
+
+        @Override
+        public void onValidationFailed(List<ValidationError> errors) {
+
+            for (ValidationError error : errors) {
+                View view = error.getView();
+                String message = error.getCollatedErrorMessage(EditarCadastroActivity.this);
+
+                // Display error messages ;)
+                if (view instanceof EditText) {
+                    ((EditText) view).setError(message);
+                } else {
+                    Toast.makeText(EditarCadastroActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }
