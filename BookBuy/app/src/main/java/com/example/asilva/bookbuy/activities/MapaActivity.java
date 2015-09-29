@@ -235,8 +235,6 @@ public class MapaActivity extends FragmentActivity implements
 
             startActivity(intent);
 
-
-
             Toast.makeText(getApplicationContext(), "Ative sua localização.", Toast.LENGTH_SHORT).show();
             //new MaterialDialog.Builder(this)
             //      .title("Teste")
@@ -307,6 +305,10 @@ public class MapaActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if(navigationDrawerLeft.isDrawerOpen()){
+            navigationDrawerLeft.closeDrawer();
+        }else {
+            moveTaskToBack(true);
+        }
     }
 }
