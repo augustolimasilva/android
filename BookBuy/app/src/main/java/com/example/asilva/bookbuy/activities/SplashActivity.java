@@ -23,7 +23,7 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
-        }, secondsDelayed * 3000);
+        }, secondsDelayed * 1000);
     }
 
     @Override

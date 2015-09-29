@@ -9,10 +9,6 @@ import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Restaurante;
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MenuRestauranteFragment extends Fragment {
 
     private Restaurante restaurante;
@@ -49,13 +45,12 @@ public class MenuRestauranteFragment extends Fragment {
         TextView txtBairro = (TextView) view.findViewById(R.id.txtBairro);
         TextView txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
 
-        txtNome.setText(restaurante.nome);
-        txtRua.setText(restaurante.endereco);
-        txtBairro.setText(restaurante.bairro);
-        txtTelefone.setText(restaurante.telefone);
+//        txtNome.setText(restaurante.nome);
+//        txtRua.setText(restaurante.endereco);
+//        txtBairro.setText(restaurante.bairro);
+//        txtTelefone.setText(restaurante.telefone);
 
         return view;
-
     }
 
 }

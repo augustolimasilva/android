@@ -36,11 +36,11 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         MenuRestaurantePageAdapter adapter = new MenuRestaurantePageAdapter(
                 getSupportFragmentManager());
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
+     //   android.support.v7.app.ActionBar bar = getSupportActionBar();
+      //  bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+//        ActionBar actionBar = getSupportActionBar();
+ //       actionBar.setDisplayHomeAsUpEnabled(false);
 
         if(savedInstanceState == null) {
 
@@ -62,7 +62,7 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
 
-        getSupportActionBar().setElevation(0);
+     //l   getSupportActionBar().setElevation(0);
 
     }
 

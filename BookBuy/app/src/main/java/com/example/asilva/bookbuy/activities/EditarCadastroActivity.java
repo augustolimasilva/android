@@ -31,10 +31,10 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_cadastro);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
+      //  android.support.v7.app.ActionBar bar = getSupportActionBar();
+      //  bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
-        bar.setDisplayHomeAsUpEnabled(false);
+     //   bar.setDisplayHomeAsUpEnabled(false);
 
         editTextNome = (EditText)findViewById(R.id.editTextNome);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
