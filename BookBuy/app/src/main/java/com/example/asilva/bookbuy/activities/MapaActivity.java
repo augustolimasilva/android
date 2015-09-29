@@ -3,11 +3,16 @@ package com.example.asilva.bookbuy.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -41,7 +46,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.List;
 
-public class MapaActivity extends FragmentActivity implements
+public class MapaActivity extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final long INTERVAL = 1000;
@@ -62,6 +67,7 @@ public class MapaActivity extends FragmentActivity implements
     private MarkerOptions markerOption, mkoRestaurante;
     List<Restaurante> res;
     Restaurante rs, rest;
+    Toolbar mToolbar;
 
 
     @Override
@@ -72,6 +78,14 @@ public class MapaActivity extends FragmentActivity implements
 
         SupportMapFragment fragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_maps));
         mMap = fragment.getMap();
+
+        mToolbar = (Toolbar) findViewById(R.id.tb_main);
+        mToolbar.setTitle("Book Buy");
+
+        setSupportActionBar(mToolbar);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         String nome = prefs.getString("nome", "BookBuy");
@@ -114,6 +128,8 @@ public class MapaActivity extends FragmentActivity implements
 
         navigationDrawerLeft = new Drawer()
                 .withActivity(this)
+                .withDisplayBelowToolbar(false)
+                .withToolbar(mToolbar)
                 .withDisplayBelowToolbar(false)
                 .withActionBarDrawerToggleAnimated(true)
                 .withDrawerGravity(Gravity.LEFT)

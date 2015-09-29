@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
 
-public class MinhaContaActivity extends AppCompatActivity implements View.OnClickListener{
+public class MinhaContaActivity extends ActionBarActivity implements View.OnClickListener{
 
 
     TextView txtNome;
