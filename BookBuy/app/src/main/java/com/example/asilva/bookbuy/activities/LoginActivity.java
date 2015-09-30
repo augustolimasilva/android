@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.Util;
 import com.example.asilva.bookbuy.basicas.Cliente;
@@ -100,12 +101,36 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         public void onLogin(final Cliente cliente) {
 
                             if (cliente == null) {
-                                Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "Usuário não cadastrado.", Toast.LENGTH_SHORT).show();
+
+                                new MaterialDialog.Builder(LoginActivity.this)
+                                        .title("Usuário inválido!")
+                                        .content("O usuário informado não existe.")
+                                        .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        dialog.dismiss();
+                                    }
+
+                                }).build().show();
+
                             } else {
-                                // String senha= cliente.getSenha().toString();
-                                //String senha2 = txtSenha.getText().toString();
+
                                 if (!cliente.getSenha().toString().equals(txtSenha.getText().toString())) {
-                                    Toast.makeText(getApplicationContext(), "Senha inválida.", Toast.LENGTH_SHORT).show();
+
+                                    new MaterialDialog.Builder(LoginActivity.this)
+                                            .title("Senha inválida!")
+                                            .content("A senha digitada é inválida. Tente novamente!")
+                                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                                        @Override
+                                        public void onPositive(MaterialDialog dialog) {
+                                            dialog.dismiss();
+                                        }
+
+                                    }).build().show();
+
                                 } else {
                                     SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
                                     SharedPreferences.Editor editor = prefs.edit();
@@ -126,7 +151,18 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         }
                     });
                 } else {
-                    Toast.makeText(getApplicationContext(), "Ative sua wifi.", Toast.LENGTH_SHORT).show();
+
+                    new MaterialDialog.Builder(LoginActivity.this)
+                            .title("Alerta")
+                            .content("Ative sua Internet")
+                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                    }).build().show();
                 }
         }
     }

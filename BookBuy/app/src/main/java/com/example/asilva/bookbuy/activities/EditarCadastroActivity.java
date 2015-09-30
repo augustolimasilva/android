@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
@@ -33,6 +34,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
 
     @NotEmpty(message = "É necessário preencher este campo!")
     EditText editTextTelefone;
+
     Button bttSalvarAlteracoes;
 
     private Validator validator;

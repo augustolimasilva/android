@@ -198,7 +198,6 @@ public class MapaActivity extends AppCompatActivity implements
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
         navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
 
-        //isOffline();
         networkState = new NetworkState();
         listarRestaurantes();
     }
