@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
-import com.example.asilva.bookbuy.Util;
+import com.example.asilva.bookbuy.util.Util;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.facebook.CallbackManager;
@@ -25,11 +25,9 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
-import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.List;
 

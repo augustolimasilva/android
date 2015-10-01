@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by wildsonsantos on 08/09/2015.
  */
-public class Cliente extends Usuario{
+public class Cliente{
 
     private int id;
     private String login;
@@ -49,6 +49,18 @@ public class Cliente extends Usuario{
         this.email = email;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public String getTelefone() {
         return telefone;
     }
@@ -83,21 +95,6 @@ public class Cliente extends Usuario{
 
     public String getLogin() {
         return login;
-    }
-
-    @Override
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @Override
-    public String getSenha() {
-        return senha;
-    }
-
-    @Override
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     @Override

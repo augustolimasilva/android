@@ -17,11 +17,9 @@ public class DAOCliente {
     private static final String NAMESPACE = "http://bookbuyWS";
 
     private static final String INSERIR = "inserirCliente";
-    private static final String EXCLUIR = "excluirCliente";
     private static final String ATUALIZAR = "atualizarCliente";
-    private static final String BUSCAR_TODOS = "buscarTodosClientes";
-    private static final String BUSCAR_POR_ID = "buscarClientePorId";
     private static final String BUSCAR_POR_LOGIN = "buscarClientePorLogin";
+    private static final String BUSCAR_POR_EMAIL = "buscarClientePorEmail";
     Cliente cli;
 
     public boolean inserirCliente(Cliente cliente) {
@@ -32,6 +30,10 @@ public class DAOCliente {
 
     public void pesquisarClientePorLogin(String login, ClienteListener listener) {
         new PesquisarClienteTask(listener).execute(login);
+    }
+
+    public void pesquisarClientePorEmail(String email, ClienteListener listener) {
+        new PesquisarClienteTaskEmail(listener).execute(email);
     }
 
     public boolean atualizarCliente(Cliente cliente) {
@@ -104,6 +106,56 @@ public class DAOCliente {
             try {
 
                 http.call("urn:" + BUSCAR_POR_LOGIN, envelope);
+
+                SoapObject resposta = (SoapObject) envelope.getResponse();
+
+                final Cliente cliente = new Cliente();
+
+                cliente.setId(Integer.parseInt(resposta.getProperty("id").toString()));
+                cliente.setNome(resposta.getProperty("nome").toString());
+                cliente.setEmail(resposta.getProperty("email").toString());
+                cliente.setLogin(resposta.getProperty("login").toString());
+                cliente.setSenha(resposta.getProperty("senha").toString());
+                cliente.setTelefone(resposta.getProperty("telefone").toString());
+
+                return cliente;
+
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Cliente cliente) {
+            listener.onLogin(cliente);
+        }
+    }
+
+    class PesquisarClienteTaskEmail extends AsyncTask<String, Void, Cliente> {
+
+        private final ClienteListener listener;
+
+        private PesquisarClienteTaskEmail(final ClienteListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Cliente doInBackground(String... params) {
+
+            SoapObject buscarCliente = new SoapObject(NAMESPACE, BUSCAR_POR_LOGIN);
+            buscarCliente.addProperty("email", params[0]);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+            envelope.setOutputSoapObject(buscarCliente);
+
+            envelope.implicitTypes = true;
+
+            HttpTransportSE http = new HttpTransportSE(URL);
+
+            try {
+
+                http.call("urn:" + BUSCAR_POR_EMAIL, envelope);
 
                 SoapObject resposta = (SoapObject) envelope.getResponse();
 

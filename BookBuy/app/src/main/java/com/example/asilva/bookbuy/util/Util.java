@@ -1,4 +1,4 @@
-package com.example.asilva.bookbuy;
+package com.example.asilva.bookbuy.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

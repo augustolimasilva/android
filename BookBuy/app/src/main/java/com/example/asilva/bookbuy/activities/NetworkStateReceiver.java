@@ -3,9 +3,8 @@ package com.example.asilva.bookbuy.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 
-import com.example.asilva.bookbuy.Util;
+import com.example.asilva.bookbuy.util.Util;
 
 /**
  * Created by wildsonsantos on 28/09/2015.

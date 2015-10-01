@@ -1,7 +1,6 @@
 package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +8,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.dao.DAOCliente;
@@ -26,6 +25,8 @@ import java.util.List;
 public class CadastrarActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button bttCadastrar;
+    Cliente c;
+    DAOCliente clienteDAO;
 
     @NotEmpty(message = "É necessário preencher este campo!")
     EditText txtUsuario;
@@ -71,7 +72,6 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_cadastrar, menu);
         return true;
     }
@@ -80,7 +80,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
 
         @Override
         public void onValidationSucceeded() {
-            Cliente c = new Cliente();
+            c = new Cliente();
 
             c.setLogin(txtUsuario.getText().toString());
             c.setNome(txtNome.getText().toString());
@@ -88,15 +88,52 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
             c.setTelefone(txtTelefone.getText().toString());
             c.setSenha(txtSenha.getText().toString());
 
-            DAOCliente clienteDAO = new DAOCliente();
-            boolean resultado = clienteDAO.inserirCliente(c);
+            clienteDAO = new DAOCliente();
 
-            if (resultado) {
-                Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
-                startActivity(it);
-            }
+            clienteDAO.pesquisarClientePorLogin(txtUsuario.getText().toString(), new ClienteListener() {
+                @Override
+                public void onLogin(Cliente cliente) {
+                    if(cliente != null){
+                        new MaterialDialog.Builder(CadastrarActivity.this)
+                                .title("Cadastro")
+                                .content("O usuário informado já está cadastrado.")
+                                .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
 
-            Log.d("Resultado", resultado + "" + c.getEmail());
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                        }).build().show();
+                    }
+                }
+            });
+
+            clienteDAO.pesquisarClientePorEmail(txtEmail.getText().toString(), new ClienteListener() {
+                @Override
+                public void onLogin(Cliente cliente) {
+                    if (cliente != null) {
+                        new MaterialDialog.Builder(CadastrarActivity.this)
+                                .title("Cadastro")
+                                .content("O email informado já está cadastrado.")
+                                .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                        }).build().show();
+                    } else{
+                        boolean resultado = clienteDAO.inserirCliente(c);
+
+                        if (resultado) {
+                            Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
+                            startActivity(it);
+                        }
+                    }
+                }
+            });
         }
 
         @Override
@@ -106,7 +143,6 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                 View view = error.getView();
                 String message = error.getCollatedErrorMessage(CadastrarActivity.this);
 
-                // Display error messages ;)
                 if (view instanceof EditText) {
                     ((EditText) view).setError(message);
                 } else {

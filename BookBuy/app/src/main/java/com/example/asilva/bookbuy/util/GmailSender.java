@@ -1,4 +1,4 @@
-package com.example.asilva.bookbuy;
+package com.example.asilva.bookbuy.util;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -23,7 +23,7 @@ public class GmailSender extends javax.mail.Authenticator {
     private Session session;
 
     static {
-        Security.addProvider(new com.example.asilva.bookbuy.JSSEProvider());
+        Security.addProvider(new JSSEProvider());
     }
 
     public GmailSender(String user, String password) {
