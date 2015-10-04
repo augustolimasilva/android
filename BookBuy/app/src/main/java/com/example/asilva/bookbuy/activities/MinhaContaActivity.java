@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
 
-public class MinhaContaActivity extends ActionBarActivity implements View.OnClickListener{
+public class MinhaContaActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView txtNome;
     TextView txtEmail;
@@ -32,7 +34,7 @@ public class MinhaContaActivity extends ActionBarActivity implements View.OnClic
         bttEditar = (Button)findViewById(R.id.bttEditar);
         bttEditar.setOnClickListener(this);
 
-        //android.support.v7.app.ActionBar bar = getSupportActionBar();
+        final ActionBar bar = getSupportActionBar();
         //bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
         //bar.setDisplayHomeAsUpEnabled(false);

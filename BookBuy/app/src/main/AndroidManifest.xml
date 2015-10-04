@@ -52,6 +52,7 @@
 
         <activity
             android:name=".activities.MapaActivity"
+            android:theme="@style/Theme.Map"
             android:label="@string/title_activity_mapa" >
         </activity>
         <activity

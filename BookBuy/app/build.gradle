@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.code.ksoap2-android:ksoap2-android:3.1.1'
     compile 'com.mobsandgeeks:android-saripaar:2.0.2'
     compile 'io.karim:materialtabs:2.0.2'
+    compile 'com.github.moraisigor:fontdroid:0.1.0'
 
     compile('com.mikepenz.materialdrawer:library:2.8.2@aar') {
         transitive = true

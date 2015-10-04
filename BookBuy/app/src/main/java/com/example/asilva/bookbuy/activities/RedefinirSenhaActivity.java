@@ -1,6 +1,6 @@
 package com.example.asilva.bookbuy.activities;
 
-import android.graphics.Color;
+/*import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import com.example.asilva.bookbuy.R;
 
 public class RedefinirSenhaActivity extends AppCompatActivity {
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_redefinir_senha);
@@ -41,5 +41,5 @@ public class RedefinirSenhaActivity extends AppCompatActivity {
             }
         });
 
-    }
-}
+    }*/
+

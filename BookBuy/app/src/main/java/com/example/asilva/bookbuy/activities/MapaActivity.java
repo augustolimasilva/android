@@ -210,13 +210,18 @@ public class MapaActivity extends AppCompatActivity implements
 
                     res = restaurantes;
 
-                    for (int i = 0; i < restaurantes.size(); i++) {
-                        rs = new Restaurante();
-                        rs = restaurantes.get(i);
+                    if(restaurantes == null){
+                        Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                        mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
-                        mkRestaurante.setTitle(rs.getNome());
-                        mkRestaurante.setSnippet("Telefone: " + rs.getTelefone());
+                        for (int i = 0; i < restaurantes.size(); i++) {
+                            rs = new Restaurante();
+                            rs = restaurantes.get(i);
+
+                            mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
+                            mkRestaurante.setTitle(rs.getNome());
+                            mkRestaurante.setSnippet("Telefone: " + rs.getTelefone());
+                        }
                     }
                 }
             });

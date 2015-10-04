@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="app">#ea9533</color>
     <color name="primary">#c4151c </color>
     <color name="grey_light">#d2d2d2 </color>
     <color name="grey">#42494e </color>

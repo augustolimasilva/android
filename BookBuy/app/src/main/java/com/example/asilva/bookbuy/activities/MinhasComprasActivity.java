@@ -16,10 +16,10 @@ public class MinhasComprasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_compras);
 
-      //  android.support.v7.app.ActionBar bar = getSupportActionBar();
-      //  bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        //bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
-      //  bar.setDisplayHomeAsUpEnabled(false);
+        //bar.setDisplayHomeAsUpEnabled(false);
     }
 
 

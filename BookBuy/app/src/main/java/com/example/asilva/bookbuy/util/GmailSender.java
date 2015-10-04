@@ -1,6 +1,6 @@
 package com.example.asilva.bookbuy.util;
 
-import javax.activation.DataHandler;
+/*import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -104,4 +104,4 @@ public class GmailSender extends javax.mail.Authenticator {
             throw new IOException("Not Supported");
         }
     }
-}
+}*/
