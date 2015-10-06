@@ -12,8 +12,8 @@
         android:layout_height="48dp"
         android:background="#ea9533"
         app:mtSameWeightTabs="true"
-        android:textColor="#FFFFFF"
-        app:mtTextColorSelected="#FFFFFF"
+        android:textColor="#000000"
+        app:mtTextColorSelected="#000000"
         app:mtIndicatorColor="#000000"
         app:mtPaddingMiddle="false" />
 

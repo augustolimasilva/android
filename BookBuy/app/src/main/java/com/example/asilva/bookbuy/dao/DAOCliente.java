@@ -143,7 +143,7 @@ public class DAOCliente {
         @Override
         protected Cliente doInBackground(String... params) {
 
-            SoapObject buscarCliente = new SoapObject(NAMESPACE, BUSCAR_POR_LOGIN);
+            SoapObject buscarCliente = new SoapObject(NAMESPACE, BUSCAR_POR_EMAIL);
             buscarCliente.addProperty("email", params[0]);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
