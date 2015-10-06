@@ -3,7 +3,6 @@ package com.example.asilva.bookbuy.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -82,6 +81,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
         public void onValidationSucceeded() {
             c = new Cliente();
 
+            c.setSituacao("ATIVO");
             c.setLogin(txtUsuario.getText().toString());
             c.setNome(txtNome.getText().toString());
             c.setEmail(txtEmail.getText().toString());

@@ -36,11 +36,8 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         MenuRestaurantePageAdapter adapter = new MenuRestaurantePageAdapter(
                 getSupportFragmentManager());
 
-     //   android.support.v7.app.ActionBar bar = getSupportActionBar();
-      //  bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
-
-//        ActionBar actionBar = getSupportActionBar();
- //       actionBar.setDisplayHomeAsUpEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         if(savedInstanceState == null) {
 

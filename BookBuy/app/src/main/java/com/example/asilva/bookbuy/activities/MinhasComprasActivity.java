@@ -2,6 +2,7 @@ package com.example.asilva.bookbuy.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,10 +17,8 @@ public class MinhasComprasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_compras);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        //bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
-
-        //bar.setDisplayHomeAsUpEnabled(false);
+        final ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(false);
     }
 
 

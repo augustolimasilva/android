@@ -4,9 +4,6 @@ import android.widget.ImageView;
 
 import java.util.List;
 
-/**
- * Created by wildsonsantos on 08/09/2015.
- */
 public class Cliente{
 
     private int id;
@@ -18,12 +15,19 @@ public class Cliente{
     private byte[] fotoPerfil;
     private List<Pedido> pedidos;
     private List<Reserva> reservas;
+    private String situacao;
 
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
 
     public Cliente(){
 
     }
-
 
     public int getId() {
         return id;

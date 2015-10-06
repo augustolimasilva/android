@@ -57,6 +57,7 @@ public class DAOCliente {
             cli.addProperty("email", cliente.getEmail());
             cli.addProperty("telefone", cliente.getTelefone());
             cli.addProperty("senha", cliente.getSenha());
+            cli.addProperty("situacao", cliente.getSituacao());
 
             SoapObject inserirCliente = new SoapObject(NAMESPACE, INSERIR);
 

@@ -35,9 +35,7 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         bttEditar.setOnClickListener(this);
 
         final ActionBar bar = getSupportActionBar();
-        //bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
-
-        //bar.setDisplayHomeAsUpEnabled(false);
+        bar.setDisplayHomeAsUpEnabled(false);
 
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         String nome = prefs.getString("nome", "BookBuy");
