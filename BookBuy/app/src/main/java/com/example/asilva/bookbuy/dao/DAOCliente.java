@@ -13,8 +13,8 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class DAOCliente {
 
-    private static final String URL = "http://54.149.96.214:8080/bookbuyWS/services/ClienteDAO?wsdl";
-    private static final String NAMESPACE = "http://bookbuyWS";
+    private static final String URL = "http://52.25.165.254:8080/WSbookbuy/services/ClienteDAO?wsdl";
+    private static final String NAMESPACE = "http://DAO";
 
     private static final String INSERIR = "inserirCliente";
     private static final String ATUALIZAR = "atualizarCliente";
