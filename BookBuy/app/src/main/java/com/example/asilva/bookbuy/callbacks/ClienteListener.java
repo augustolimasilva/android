@@ -1,4 +1,4 @@
-package com.example.asilva.bookbuy.activities;
+package com.example.asilva.bookbuy.callbacks;
 
 import com.example.asilva.bookbuy.basicas.Cliente;
 

@@ -2,7 +2,7 @@ package com.example.asilva.bookbuy.dao;
 
 import android.os.AsyncTask;
 
-import com.example.asilva.bookbuy.activities.ClienteListener;
+import com.example.asilva.bookbuy.callbacks.ClienteListener;
 import com.example.asilva.bookbuy.basicas.Cliente;
 
 import org.ksoap2.SoapEnvelope;
@@ -20,12 +20,14 @@ public class DAOCliente {
     private static final String ATUALIZAR = "atualizarCliente";
     private static final String BUSCAR_POR_LOGIN = "buscarClientePorLogin";
     private static final String BUSCAR_POR_EMAIL = "buscarClientePorEmail";
+
     Cliente cli;
+    boolean retorno;
 
     public boolean inserirCliente(Cliente cliente) {
         ClienteTask clienteTask = new ClienteTask();
         clienteTask.execute(cliente);
-        return true;
+        return retorno;
     }
 
     public void pesquisarClientePorLogin(String login, ClienteListener listener) {
@@ -74,7 +76,7 @@ public class DAOCliente {
 
                 SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
 
-                return Boolean.parseBoolean(resposta.toString());
+                return retorno =  Boolean.parseBoolean(resposta.toString());
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;

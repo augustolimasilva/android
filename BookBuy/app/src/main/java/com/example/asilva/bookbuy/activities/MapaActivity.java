@@ -15,13 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.basicas.TipoRestaurante;
+import com.example.asilva.bookbuy.callbacks.RestaurantesListener;
+import com.example.asilva.bookbuy.callbacks.TiposRestauranteListener;
+import com.example.asilva.bookbuy.dao.DAOTiposRestaurante;
 import com.example.asilva.bookbuy.util.Util;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.dao.DAORestaurante;
@@ -63,12 +70,12 @@ public class MapaActivity extends AppCompatActivity implements
 
     private GoogleMap mMap;
     protected GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
     private AccountHeader.Result headerNavigationLeft;
     private Drawer.Result navigationDrawerLeft;
     Marker marker, mkRestaurante;
     private MarkerOptions markerOption, mkoRestaurante;
     List<Restaurante> res;
+    List<TipoRestaurante> listaTiposRes;
     Restaurante rs, rest;
     Toolbar mToolbar;
 
@@ -162,8 +169,8 @@ public class MapaActivity extends AppCompatActivity implements
                             case 3:
 
                                 new MaterialDialog.Builder(MapaActivity.this)
-                                                  .title("Alerta")
-                                                  .content("Deseja sair do aplicativo BookBuy?")
+                                        .title("Alerta")
+                                        .content("Deseja sair do aplicativo BookBuy?")
                                         .negativeText("Não").positiveText("Sim").callback(new MaterialDialog.ButtonCallback() {
 
                                     @Override
@@ -188,7 +195,6 @@ public class MapaActivity extends AppCompatActivity implements
                     }
                 }).build();
 
-
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Perfil").withIcon(R.drawable.ic_minha_conta));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Minhas compras").withIcon(R.drawable.ic_minhas_compras));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Compartilhar").withIcon(R.drawable.ic_compartilhar));
@@ -198,19 +204,20 @@ public class MapaActivity extends AppCompatActivity implements
 
         networkState = new NetworkState();
         listarRestaurantes();
+        listarTiposRestaurante();
     }
 
     public void listarRestaurantes() {
 
         if (Util.isNetworkConnected(this)) {
 
-            new DAORestaurante().BuscarTodosRestaurantes(new RestauranteListener() {
+            new DAORestaurante().buscarTodosRestaurantes(new RestaurantesListener() {
                 @Override
                 public void onRestaurante(List<Restaurante> restaurantes) {
 
                     res = restaurantes;
 
-                    if(restaurantes == null){
+                    if (restaurantes == null) {
                         Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
                     } else {
 
@@ -229,6 +236,17 @@ public class MapaActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(getApplicationContext(), "Ative sua Internet.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void listarTiposRestaurante() {
+
+            new DAOTiposRestaurante().buscarTodosTiposRestaurante(new TiposRestauranteListener() {
+                @Override
+                public void onTiposRestaurante(List<TipoRestaurante> listTiposRes) {
+
+                    listaTiposRes = listTiposRes;
+                }
+            });
     }
 
     @Override
@@ -360,5 +378,32 @@ public class MapaActivity extends AppCompatActivity implements
         }else {
             moveTaskToBack(true);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_mapa, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.icFiltro) {
+                new MaterialDialog.Builder(this)
+                        .title(R.string.dialog_tipo)
+                        .items(R.array.items)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            }
+                        })
+                        .show();
+            }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

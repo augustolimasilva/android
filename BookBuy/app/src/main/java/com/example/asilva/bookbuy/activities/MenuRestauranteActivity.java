@@ -99,4 +99,22 @@ public class MenuRestauranteActivity extends ActionBarActivity {
             return 3;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_menu_restaurante, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.icMapa) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

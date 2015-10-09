@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
+import com.example.asilva.bookbuy.callbacks.ClienteListener;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -127,10 +128,10 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                     } else{
                         boolean resultado = clienteDAO.inserirCliente(c);
 
-                        if (resultado) {
+                       if (resultado) {
                             Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
                             startActivity(it);
-                        }
+                       }
                     }
                 }
             });

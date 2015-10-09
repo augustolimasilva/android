@@ -22,6 +22,7 @@
     <string name="title_reserva">Reserva</string>
     <string name="title_pedido">Pedido</string>
     <string name="title_activity_splash">Book Buy</string>
+    <string name="dialog_tipo">Escolha um Tipo:</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -32,4 +33,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="iconeRota">Traçar Rota</string>
+    <string name="iconeMapa">Traçar Rota</string>
+    <string name="iconeFiltro">Filtrar</string>
 </resources>

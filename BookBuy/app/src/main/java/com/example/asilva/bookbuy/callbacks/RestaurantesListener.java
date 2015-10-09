@@ -1,10 +1,10 @@
-package com.example.asilva.bookbuy.activities;
+package com.example.asilva.bookbuy.callbacks;
 
 import com.example.asilva.bookbuy.basicas.Restaurante;
 
 import java.util.List;
 
-public interface RestauranteListener {
+public interface RestaurantesListener {
 
     void onRestaurante(List<Restaurante> restaurantes);
 }

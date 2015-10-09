@@ -3,9 +3,7 @@ package com.example.asilva.bookbuy.dao;
 import android.os.AsyncTask;
 
 
-import com.example.asilva.bookbuy.activities.ClienteListener;
-import com.example.asilva.bookbuy.activities.RestauranteListener;
-import com.example.asilva.bookbuy.basicas.Cliente;
+import com.example.asilva.bookbuy.callbacks.RestaurantesListener;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 
 import org.ksoap2.SoapEnvelope;
@@ -25,15 +23,15 @@ public class DAORestaurante {
 
     private static final String BUSCAR_TODOS = "buscarTodosRestaurantes";
 
-    public void BuscarTodosRestaurantes(RestauranteListener listener) {
+    public void buscarTodosRestaurantes(RestaurantesListener listener) {
         new RestaurantesTask(listener).execute();
     }
 
     class RestaurantesTask extends AsyncTask<Void, Void, List<Restaurante>>{
 
-        private final RestauranteListener listener;
+        private final RestaurantesListener listener;
 
-        public RestaurantesTask(final RestauranteListener listener) {
+        public RestaurantesTask(final RestaurantesListener listener) {
             this.listener = listener;
         }
 
@@ -64,6 +62,10 @@ public class DAORestaurante {
                     res.setTelefone(resposta.getProperty("telefone").toString());
                     res.setEndereco(resposta.getProperty("rua").toString());
                     res.setBairro(resposta.getProperty("bairro").toString());
+                    res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
+                    res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
+
+                    listaRes.add(res);
 
                 } else {
                     Vector<SoapObject> retorno = (Vector<SoapObject>) envelope.getResponse();

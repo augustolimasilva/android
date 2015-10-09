@@ -1,8 +1,13 @@
 package com.example.asilva.bookbuy.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -45,12 +50,11 @@ public class MenuRestauranteFragment extends Fragment {
         TextView txtBairro = (TextView) view.findViewById(R.id.txtBairro);
         TextView txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
 
-//        txtNome.setText(restaurante.nome);
+ //       txtNome.setText(restaurante.nome);
 //        txtRua.setText(restaurante.endereco);
 //        txtBairro.setText(restaurante.bairro);
 //        txtTelefone.setText(restaurante.telefone);
 
         return view;
     }
-
 }
