@@ -19,14 +19,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.adapters.TiposRestauranteAdapter;
+import com.example.asilva.bookbuy.basicas.RestauranteTipo;
 import com.example.asilva.bookbuy.basicas.TipoRestaurante;
 import com.example.asilva.bookbuy.callbacks.RestaurantesListener;
+import com.example.asilva.bookbuy.callbacks.RestaurantesPorTipoListener;
 import com.example.asilva.bookbuy.callbacks.TiposRestauranteListener;
 import com.example.asilva.bookbuy.dao.DAOTiposRestaurante;
 import com.example.asilva.bookbuy.util.Util;
@@ -52,6 +55,7 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapaActivity extends AppCompatActivity implements
@@ -74,8 +78,9 @@ public class MapaActivity extends AppCompatActivity implements
     private Drawer.Result navigationDrawerLeft;
     Marker marker, mkRestaurante;
     private MarkerOptions markerOption, mkoRestaurante;
-    List<Restaurante> res;
+    List<Restaurante> res, resFiltrados;
     List<TipoRestaurante> listaTiposRes;
+    List<RestauranteTipo> listaResPorTipo;
     Restaurante rs, rest;
     Toolbar mToolbar;
 
@@ -205,6 +210,7 @@ public class MapaActivity extends AppCompatActivity implements
         networkState = new NetworkState();
         listarRestaurantes();
         listarTiposRestaurante();
+        listarRestaurantesPorTipo();
     }
 
     public void listarRestaurantes() {
@@ -240,6 +246,7 @@ public class MapaActivity extends AppCompatActivity implements
 
     public void listarTiposRestaurante() {
 
+        if (Util.isNetworkConnected(this)) {
             new DAOTiposRestaurante().buscarTodosTiposRestaurante(new TiposRestauranteListener() {
                 @Override
                 public void onTiposRestaurante(List<TipoRestaurante> listTiposRes) {
@@ -247,6 +254,19 @@ public class MapaActivity extends AppCompatActivity implements
                     listaTiposRes = listTiposRes;
                 }
             });
+        }
+    }
+
+    public void listarRestaurantesPorTipo() {
+
+        if (Util.isNetworkConnected(this)) {
+            new DAOTiposRestaurante().buscarTodosRestaurantesPorTipo(new RestaurantesPorTipoListener() {
+                @Override
+                public void onRestaurantesPorTipo(List<RestauranteTipo> restaurantesPorTipo) {
+                    listaResPorTipo = restaurantesPorTipo;
+                }
+            });
+        }
     }
 
     @Override
@@ -279,6 +299,8 @@ public class MapaActivity extends AppCompatActivity implements
         @Override
         public void onReceive(final Context context, final Intent intent) {
             listarRestaurantes();
+            listarRestaurantesPorTipo();
+            listarTiposRestaurante();
         }
     }
 
@@ -392,18 +414,51 @@ public class MapaActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.icFiltro) {
-                new MaterialDialog.Builder(this)
+                if(listaTiposRes != null){
+                MaterialDialog dialog = new MaterialDialog.Builder(this)
                         .title(R.string.dialog_tipo)
                         .items(R.array.items)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                which++;
+                                for (int i = 0; i < listaResPorTipo.size(); i++) {
+                                    for (int z = 0; z < res.size(); z++) {
+                                        if (which == listaResPorTipo.get(i).getIdTipo() &&
+                                                listaResPorTipo.get(i).getIdRestaurante() == res.get(z).getIdRestaurante()) {
+
+                                            resFiltrados = new ArrayList<Restaurante>();
+                                            resFiltrados.add(res.get(z));
+                                        }
+                                    }
+                                }
+                                if (resFiltrados != null) {
+                                    mMap.clear();
+
+                                    for (int x = 0; x < resFiltrados.size(); x++) {
+                                        rs = new Restaurante();
+                                        rs = resFiltrados.get(x);
+
+                                        mkRestaurante = mMap.addMarker(loadMarkerOptions().position(new LatLng(rs.getLatitude(), rs.getLongitude())));
+                                        mkRestaurante.setTitle(rs.getNome());
+                                        mkRestaurante.setSnippet("Telefone: " + rs.getTelefone());
+
+                                        callConnection();
+                                    }
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Nenhum restaurante encontrado para o tipo selecionado.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         })
                         .show();
+
+                ListView list = dialog.getListView();
+                TiposRestauranteAdapter tiposRestauranteAdapter = new TiposRestauranteAdapter(listaTiposRes);
+                list.setAdapter(tiposRestauranteAdapter);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
+                }
             }
-
-
         return super.onOptionsItemSelected(item);
     }
 }
