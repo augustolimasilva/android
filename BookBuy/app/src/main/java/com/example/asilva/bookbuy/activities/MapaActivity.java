@@ -84,7 +84,6 @@ public class MapaActivity extends AppCompatActivity implements
     Restaurante rs, rest;
     Toolbar mToolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -360,7 +359,7 @@ public class MapaActivity extends AppCompatActivity implements
 
     private MarkerOptions loadMarkerOptions() {
         if (mkoRestaurante == null) {
-            mkoRestaurante = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurante));
+            mkoRestaurante = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.mkres));
         }
 
         return mkoRestaurante;
@@ -387,7 +386,6 @@ public class MapaActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-
         if (marker != null) {
             marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         }
@@ -434,7 +432,6 @@ public class MapaActivity extends AppCompatActivity implements
                                 }
                                 if (resFiltrados != null) {
                                     mMap.clear();
-
                                     for (int x = 0; x < resFiltrados.size(); x++) {
                                         rs = new Restaurante();
                                         rs = resFiltrados.get(x);
