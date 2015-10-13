@@ -2,14 +2,9 @@ package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +23,7 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minha_conta);
 
-        txtNome = (TextView)findViewById(R.id.txtNome);
+        txtNome = (TextView)findViewById(R.id.txtRua);
         txtEmail = (TextView)findViewById(R.id.txtEmail);
         txtTelefone = (TextView)findViewById(R.id.txtTelefone);
         bttEditar = (Button)findViewById(R.id.bttEditar);

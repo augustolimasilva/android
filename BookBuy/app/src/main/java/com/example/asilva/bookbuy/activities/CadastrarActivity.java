@@ -25,7 +25,7 @@ import java.util.List;
 public class CadastrarActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button bttCadastrar;
-    Cliente c;
+    Cliente c, c1, c2;
     DAOCliente clienteDAO;
 
     @NotEmpty(message = "É necessário preencher este campo!")
@@ -53,7 +53,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_cadastrar);
 
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
-        txtNome = (EditText) findViewById(R.id.txtNome);
+        txtNome = (EditText) findViewById(R.id.txtRua);
         txtEmail = (EditText) findViewById(R.id.txtEmail);
         txtTelefone = (EditText) findViewById(R.id.txtTelefone);
         txtSenha = (EditText) findViewById(R.id.txtSenha);
@@ -95,6 +95,8 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onLogin(Cliente cliente) {
                     if(cliente != null){
+                        c1 = new Cliente();
+                        c1 = cliente;
                         new MaterialDialog.Builder(CadastrarActivity.this)
                                 .title("Cadastro")
                                 .content("O usuário informado já está cadastrado.")
@@ -114,6 +116,8 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onLogin(Cliente cliente) {
                     if (cliente != null) {
+                        c2 = new Cliente();
+                        c2 = cliente;
                         new MaterialDialog.Builder(CadastrarActivity.this)
                                 .title("Cadastro")
                                 .content("O email informado já está cadastrado.")
@@ -125,7 +129,8 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                             }
 
                         }).build().show();
-                    } else{
+                    }
+                    else{
                         boolean resultado = clienteDAO.inserirCliente(c);
 
                        if (resultado) {

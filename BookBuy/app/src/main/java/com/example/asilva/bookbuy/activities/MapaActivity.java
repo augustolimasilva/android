@@ -117,11 +117,29 @@ public class MapaActivity extends AppCompatActivity implements
                         rest = new Restaurante();
                         rest = res.get(i);
 
+                        SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("idRestaurante", rest.getIdRestaurante());
+                        editor.putString("nome", rest.getNome());
+                        editor.putString("telefone", rest.getTelefone());
+                        editor.putString("rua", rest.getRua());
+                        editor.putString("bairro", rest.getBairro());
+                        editor.putString("cidade", rest.getCidade());
+                        editor.putString("complemento", rest.getComplemento());
+                        editor.putString("numero", rest.getNumero());
+                        editor.putString("cnpj", rest.getCnpj());
+                        editor.putString("email", rest.getEmail());
+                        editor.putFloat("latitude", rest.getLatitude());
+                        editor.putFloat("longitude", rest.getLongitude());
+                        editor.putString("cep", rest.getNome());
+
+                        editor.commit();
+
                         //intent.putExtra("nomeRestaurante", res.get(i).getNome());
                         //intent.putExtra("telefone", res.get(i).getTelefone());
                         //intent.putExtra("bairro", res.get(i).getBairro());
                         //intent.putExtra("endereco", res.get(i).getEndereco());
-                        intent.putExtra("restaurante", rest);
+                        //intent.putExtra("restaurante", rest);
 
                         startActivity(intent);
                     }
@@ -430,7 +448,7 @@ public class MapaActivity extends AppCompatActivity implements
                                         }
                                     }
                                 }
-                                if (resFiltrados != null) {
+                                if (resFiltrados != null && resFiltrados.size() > 0) {
                                     mMap.clear();
                                     for (int x = 0; x < resFiltrados.size(); x++) {
                                         rs = new Restaurante();
@@ -442,8 +460,13 @@ public class MapaActivity extends AppCompatActivity implements
 
                                         callConnection();
                                     }
-                                }else{
-                                    Toast.makeText(getApplicationContext(), "Nenhum restaurante encontrado para o tipo selecionado.", Toast.LENGTH_SHORT).show();
+                                }else
+                                    if(resFiltrados == null || resFiltrados.size() == 0){
+                                        Toast.makeText(getApplicationContext(), "Nenhum restaurante encontrado para o tipo selecionado.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                if(resFiltrados != null) {
+                                    resFiltrados.clear();
                                 }
                             }
                         })
