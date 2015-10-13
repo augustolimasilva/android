@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
 import com.example.asilva.bookbuy.callbacks.ReservaListener;
+import com.example.asilva.bookbuy.callbacks.ReservasClienteListener;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -24,6 +25,7 @@ public class DAOReserva {
 
     private static final String BUSCAR_TODOS = "buscarTodasReservas";
     private static final String ATUALIZAR_RESERVA  = "atualizarReserva";
+    public static final String BUSCAR_RESERVAS_CLIENTE = "buscarTodasReservasDoCliente";
 
     boolean retorno = false;
 
@@ -35,6 +37,85 @@ public class DAOReserva {
         new AtualizarReservaTask(listener).execute(reserva);
         return retorno;
     }
+
+    public void buscarReservasDoCliente(int idCliente, ReservasClienteListener listener){
+        new BuscarReservasDoClienteTask(listener).execute(idCliente);
+    }
+
+    class BuscarReservasDoClienteTask extends AsyncTask<Integer, Void, List<Reserva>>{
+
+        private final ReservasClienteListener listener;
+
+        public BuscarReservasDoClienteTask(final ReservasClienteListener listener) {
+            this.listener = listener;
+        }
+
+            @Override
+            protected List<Reserva> doInBackground(Integer... params) {
+
+                listaReservas = new ArrayList<Reserva>();
+
+                SoapObject buscarReservas = new SoapObject(NAMESPACE, BUSCAR_RESERVAS_CLIENTE);
+                buscarReservas.addProperty("idCliente", params[0]);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+                envelope.setOutputSoapObject(buscarReservas);
+
+                envelope.implicitTypes = true;
+
+                HttpTransportSE http = new HttpTransportSE(URL);
+
+                try {
+                    http.call("urn:" + BUSCAR_RESERVAS_CLIENTE, envelope);
+
+                    if (envelope.getResponse() instanceof SoapObject) {
+                        SoapObject resposta = (SoapObject) envelope.getResponse();
+
+                        Reserva res = new Reserva();
+
+                        res.setIdReserva(Integer.parseInt(resposta.getProperty("idReserva").toString()));
+                        res.setDataHora(resposta.getProperty("dataHora").toString());
+                        res.setQtdPessoas(Integer.parseInt(resposta.getProperty("qtdPessoas").toString()));
+                        res.setSituacao(resposta.getProperty("situacao").toString());
+                        res.setStatus(resposta.getProperty("status").toString());
+                        res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
+                        res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+
+                        listaReservas.add(res);
+
+                    } else {
+                        Vector<SoapObject> retorno = (Vector<SoapObject>) envelope.getResponse();
+
+                        for (SoapObject resposta : retorno) {
+
+                            Reserva res = new Reserva();
+
+                            res.setIdReserva(Integer.parseInt(resposta.getProperty("idReserva").toString()));
+                            res.setDataHora(resposta.getProperty("dataHora").toString());
+                            res.setQtdPessoas(Integer.parseInt(resposta.getProperty("qtdPessoas").toString()));
+                            res.setSituacao(resposta.getProperty("situacao").toString());
+                            res.setStatus(resposta.getProperty("status").toString());
+                            res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
+                            res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+
+                            listaReservas.add(res);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                return listaReservas;
+            }
+
+            @Override
+            protected void onPostExecute(final List<Reserva> reservas) {
+                listener.onReserva(reservas);
+            }
+        }
+
 
     class AtualizarReservaTask extends AsyncTask<Reserva, Void, Boolean> {
 
