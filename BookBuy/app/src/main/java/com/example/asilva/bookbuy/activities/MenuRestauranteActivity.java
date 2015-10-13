@@ -2,6 +2,7 @@ package com.example.asilva.bookbuy.activities;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -30,7 +31,8 @@ import io.karim.MaterialTabs;
 public class MenuRestauranteActivity extends ActionBarActivity {
 
     ViewPager mViewPager;
-    Restaurante restaurante;
+    float latitude, longitude;
+    String nomeRestaurante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +45,15 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
 
-        if(savedInstanceState == null) {
-
-            restaurante = (Restaurante) getIntent().getSerializableExtra("restaurante");
-
-            MenuRestauranteFragment menuRestauranteFragment = MenuRestauranteFragment.newInstance(restaurante);
-
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.container, menuRestauranteFragment, "menuRestaurante");
-            ft.commit();
-        }
+        SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
+        nomeRestaurante = prefs.getString("nome", "bookbuy@email.com");
+        latitude = prefs.getFloat("latitude", (float) 9.1);
+        longitude = prefs.getFloat("longitude", (float) 9.2);
 
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
 
-        setTitle(restaurante.getNome());
+        setTitle(nomeRestaurante);
 
         MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
@@ -75,11 +70,11 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return getString(R.string.title_produto);
+                return getString(R.string.title_informacoes);
             }else if(position == 1){
-                return getString(R.string.title_reserva);
+                return getString(R.string.title_produto);
             }else{
-                return getString(R.string.title_pedido);
+                return getString(R.string.title_reserva);
             }
         }
 
@@ -88,9 +83,9 @@ public class MenuRestauranteActivity extends ActionBarActivity {
             if(i == 0){
                 return new MenuRestauranteFragment();
             }else if(i == 1){
-                return new ReservaFragment();
-            }else{
                 return new PedidoFragment();
+            }else{
+                return new ReservaFragment();
             }
         }
 
@@ -112,9 +107,21 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.icMapa) {
-            return true;
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude + "?q="));
+            startActivity(it);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        SharedPreferences.Editor prefs = getSharedPreferences("dados_restaurante", 0).edit();
+        prefs.clear();
+        prefs.commit();
+
+        Intent it = new Intent(this, MapaActivity.class);
+        startActivity(it);
     }
 }

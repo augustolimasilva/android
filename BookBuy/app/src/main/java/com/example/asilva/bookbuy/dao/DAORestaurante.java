@@ -60,8 +60,14 @@ public class DAORestaurante {
                     res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
                     res.setNome(resposta.getProperty("nome").toString());
                     res.setTelefone(resposta.getProperty("telefone").toString());
-                    res.setEndereco(resposta.getProperty("rua").toString());
+                    res.setRua(resposta.getProperty("rua").toString());
                     res.setBairro(resposta.getProperty("bairro").toString());
+                    res.setCidade(resposta.getProperty("cidade").toString());
+                    res.setNumero(resposta.getProperty("numero").toString());
+                    res.setComplemento(resposta.getProperty("complemento").toString());
+                    res.setCnpj(resposta.getProperty("cnpj").toString());
+                    res.setCep(resposta.getProperty("cep").toString());
+                    res.setEmail(resposta.getProperty("email").toString());
                     res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
                     res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
 
@@ -77,8 +83,14 @@ public class DAORestaurante {
                         res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
                         res.setNome(resposta.getProperty("nome").toString());
                         res.setTelefone(resposta.getProperty("telefone").toString());
-                        res.setEndereco(resposta.getProperty("rua").toString());
+                        res.setRua(resposta.getProperty("rua").toString());
                         res.setBairro(resposta.getProperty("bairro").toString());
+                        res.setCidade(resposta.getProperty("cidade").toString());
+                        res.setNumero(resposta.getProperty("numero").toString());
+                        res.setComplemento(resposta.getProperty("complemento").toString());
+                        res.setCnpj(resposta.getProperty("cnpj").toString());
+                        res.setCep(resposta.getProperty("cep").toString());
+                        res.setEmail(resposta.getProperty("email").toString());
                         res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
                         res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
 

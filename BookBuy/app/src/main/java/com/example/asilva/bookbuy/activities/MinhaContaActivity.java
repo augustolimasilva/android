@@ -2,18 +2,12 @@ package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +18,8 @@ import com.example.asilva.bookbuy.util.BitmapUtility;
 
 import java.io.File;
 import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MinhaContaActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,9 +60,10 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         txtNome = (TextView) findViewById(R.id.txtNome);
 
         txtEmail = (TextView) findViewById(R.id.txtEmail);
-        circle_image_view_photo = (ImageView) findViewById(R.id.circle_image_view_photo);
+        circle_image_view_photo = (CircleImageView) findViewById(R.id.circle_image_view_photo);
         txtTelefone = (TextView) findViewById(R.id.txtTelefone);
         bttEditar = (Button) findViewById(R.id.bttEditar);
+
         bttEditar.setOnClickListener(this);
         circle_image_view_photo.setOnClickListener(this);
 

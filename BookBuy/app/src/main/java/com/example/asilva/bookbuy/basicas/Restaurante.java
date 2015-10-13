@@ -5,12 +5,83 @@ import java.io.Serializable;
 public class Restaurante implements Serializable {
 
     public int idRestaurante;
+    public String cnpj;
+    public String email;
     public String nome;
     public String telefone;
     public float latitude;
-    public String endereco;
-    public String bairro;
     public float longitude;
+    public String bairro;
+    public String cep;
+    public String cidade;
+    public String rua;
+    public String numero;
+    public String complemento;
+    public byte[] logo;
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
 
     public String getBairro() {
         return bairro;
@@ -18,14 +89,6 @@ public class Restaurante implements Serializable {
 
     public void setBairro(String bairro) {
         this.bairro = bairro;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
     }
 
     public float getLatitude() {

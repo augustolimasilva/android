@@ -2,45 +2,74 @@ package com.example.asilva.bookbuy.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.fragments.MeusPedidosFragment;
+import com.example.asilva.bookbuy.fragments.MinhasReservasFragment;
 
-public class MinhasComprasActivity extends AppCompatActivity {
+import io.karim.MaterialTabs;
+
+public class MinhasComprasActivity extends ActionBarActivity {
+
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_compras);
 
-        final ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(false);
+        MinhasComprasPageAdapter adapter = new MinhasComprasPageAdapter(
+                getSupportFragmentManager());
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+
+        mViewPager = (ViewPager)findViewById(R.id.viewPager);
+        mViewPager.setAdapter(adapter);
+
+        MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
+        tabs.setViewPager(mViewPager);
+
+        getSupportActionBar().setElevation(0);
     }
 
+    public class MinhasComprasPageAdapter extends FragmentPagerAdapter {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_minhas_compras, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        public MinhasComprasPageAdapter(FragmentManager fm) {
+            super(fm);
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return getString(R.string.title_minhas_reservas);
+            }else{
+                return getString(R.string.title_meus_pedidos);
+            }
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            if(i == 0){
+                return new MinhasReservasFragment();
+            }else{
+                return new MeusPedidosFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }

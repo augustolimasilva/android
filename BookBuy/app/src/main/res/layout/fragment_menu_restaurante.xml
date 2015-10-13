@@ -6,59 +6,60 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.asilva.bookbuy.fragments.MenuRestauranteFragment">
 
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_below="@+id/txtNome"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/txtNome"
+        android:layout_width="95dp"
+        android:layout_height="130dp"
+        android:id="@+id/imgLogo"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Medium Text"
-        android:id="@+id/txtEndereco"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_alignLeft="@+id/txtNome"
-        android:layout_alignStart="@+id/txtNome" />
+        android:id="@+id/txtRua"
+        android:layout_alignTop="@+id/imgLogo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="105dp"
+        android:layout_marginStart="44dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/txtBairro"
-        android:layout_below="@+id/txtEndereco"
-        android:layout_alignLeft="@+id/txtEndereco"
-        android:layout_alignStart="@+id/txtEndereco" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Medium Text"
         android:id="@+id/txtTelefone"
-        android:layout_below="@+id/txtBairro"
-        android:layout_alignLeft="@+id/txtBairro"
-        android:layout_alignStart="@+id/txtBairro" />
+        android:layout_below="@+id/txtRua"
+        android:layout_alignLeft="@+id/txtRua"
+        android:layout_alignStart="@+id/txtRua"
+        android:layout_marginTop="10dp"
+        android:clickable="true" />
 
-    <ListView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/txtEmail"
         android:layout_below="@+id/txtTelefone"
-        android:layout_marginTop="33dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignLeft="@+id/txtTelefone"
+        android:layout_alignStart="@+id/txtTelefone"
+        android:layout_marginTop="10dp"
+        android:clickable="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_below="@+id/txtEmail"
+        android:layout_toRightOf="@+id/imgLogo"
+        android:layout_toEndOf="@+id/imgLogo" />
+
 </RelativeLayout>
+
+
