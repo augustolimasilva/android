@@ -118,6 +118,7 @@
         </activity>
         <activity
             android:name=".activities.SplashActivity"
+            android:theme="@style/AppTheme_splash"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
