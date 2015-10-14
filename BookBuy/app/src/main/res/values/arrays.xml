@@ -29,4 +29,9 @@
         <item>Ola</item>
         <item>Ola</item>
     </string-array>
+
+    <string-array name="items2">
+        <item>Atualizar Reserva</item>
+        <item>Cancelar Reserva</item>
+    </string-array>
 </resources>

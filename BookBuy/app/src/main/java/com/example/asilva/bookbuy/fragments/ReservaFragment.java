@@ -58,11 +58,11 @@ public class ReservaFragment extends Fragment {
         nomeCliente = prefsCliente.getString("nome", "Book buy");
         idCliente = prefsCliente.getInt("id", 1);
 
-        edtNomeRestaurante = (EditText)view.findViewById(R.id.edtNomeRestaurante);
-        edtNomeCliente = (EditText)view.findViewById(R.id.edtNomeCliente);
-        spnQtdPessoas = (Spinner)view.findViewById(R.id.spnQtdPessoas);
-        spnReservas = (Spinner)view.findViewById(R.id.spnReservas);
-        bttReservar = (Button)view.findViewById(R.id.bttReservar);
+        edtNomeRestaurante = (EditText) view.findViewById(R.id.edtNomeRestaurante);
+        edtNomeCliente = (EditText) view.findViewById(R.id.edtNomeCliente);
+        spnQtdPessoas = (Spinner) view.findViewById(R.id.spnQtdPessoas);
+        spnReservas = (Spinner) view.findViewById(R.id.spnReservas);
+        bttReservar = (Button) view.findViewById(R.id.bttReservar);
 
         spnReservas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -105,7 +105,7 @@ public class ReservaFragment extends Fragment {
         return view;
     }
 
-    public void efetuarReserva(){
+    public void efetuarReserva() {
 
         reserva = new Reserva();
 
@@ -120,57 +120,53 @@ public class ReservaFragment extends Fragment {
         new DAOReserva().atualizarReserva(reserva, new EfetuarReservaListener() {
             @Override
             public void atualizarReserva(boolean retorno) {
-                reto = retorno;
+                if (retorno == true) {
+                    buscarDataHoraDisponiveis();
+                    new MaterialDialog.Builder(getContext())
+                            .title("Sucesso")
+                            .content("Reserva efetuada com Sucesso!")
+                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                    }).build().show();
+                } else {
+                    new MaterialDialog.Builder(getContext())
+                            .title("Erro")
+                            .content("Não foi possível efetuar sua reserva, tente novamente!")
+                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                    }).build().show();
+                }
             }
         });
-
-        if(reto == true){
-            buscarDataHoraDisponiveis();
-            new MaterialDialog.Builder(getContext())
-                    .title("Sucesso")
-                    .content("Reserva efetuada com Sucesso!")
-                    .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
-
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    dialog.dismiss();
-                }
-
-            }).build().show();
-        }else{
-            new MaterialDialog.Builder(getContext())
-                    .title("Erro")
-                    .content("Não foi possível efetuar sua reserva, tente novamente!")
-                    .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
-
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    dialog.dismiss();
-                }
-
-            }).build().show();
-        }
-
     }
 
-    public void buscarDataHoraDisponiveis(){
+    public void buscarDataHoraDisponiveis() {
         if (Util.isNetworkConnected(getContext())) {
             new DAOReserva().buscarTodasReservas(idRestaurante, new ReservaListener() {
                 @Override
                 public void onReserva(List<Reserva> reservas) {
                     listaReservas = reservas;
-                        if(listaReservas != null) {
-                            listaDataHoraDisponiveis();
-                        }else
-                        if(listaReservas == null){
-                            Toast.makeText(getContext(), "Nenhum reserva disponível foi encontrado para esse restaurante.", Toast.LENGTH_SHORT).show();
-                        }
+                    if (listaReservas != null) {
+                        listaDataHoraDisponiveis();
+                    } else if (listaReservas == null) {
+                        Toast.makeText(getContext(), "Nenhum reserva disponível foi encontrado para esse restaurante.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
     }
 
-    public void listaQtdPessoas(){
+    public void listaQtdPessoas() {
 
         List<Integer> list = new ArrayList<Integer>();
         list.add(2);
@@ -189,8 +185,8 @@ public class ReservaFragment extends Fragment {
         spnQtdPessoas.setAdapter(dataAdapter);
     }
 
-    public void listaDataHoraDisponiveis(){
-        if(listaReservas != null && listaReservas.size() > 0) {
+    public void listaDataHoraDisponiveis() {
+        if (listaReservas != null && listaReservas.size() > 0) {
             ReservasAdapter reservasAdapter = new ReservasAdapter(listaReservas);
             spnReservas.setAdapter(reservasAdapter);
         }

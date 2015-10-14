@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
@@ -17,7 +17,7 @@
         android:layout_marginLeft="5dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
@@ -29,7 +29,7 @@
         android:layout_marginTop="5dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
@@ -38,23 +38,4 @@
         android:layout_alignLeft="@+id/txtDataReserva"
         android:layout_alignStart="@+id/txtDataReserva"
         android:layout_marginTop="4dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bttAtualizar"
-        android:src="@drawable/ic_action_atualizar"
-        android:layout_below="@+id/txtNomeRestaurante"
-        android:layout_toLeftOf="@+id/bttCancelar"
-        android:layout_toStartOf="@+id/bttCancelar" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bttCancelar"
-        android:src="@drawable/ic_action_remover"
-        android:layout_alignTop="@+id/bttAtualizar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="5dp" />
 </RelativeLayout>

@@ -8,7 +8,16 @@ public class Reserva {
     private int idRestaurante;
     private String status;
     private String situacao;
+    private String nomeRestaurante;
     private int qtdPessoas;
+
+    public String getNomeRestaurante() {
+        return nomeRestaurante;
+    }
+
+    public void setNomeRestaurante(String nomeRestaurante) {
+        this.nomeRestaurante = nomeRestaurante;
+    }
 
     public int getIdReserva() {
         return idReserva;

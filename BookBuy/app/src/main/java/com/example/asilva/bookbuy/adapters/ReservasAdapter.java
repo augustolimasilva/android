@@ -47,6 +47,10 @@ public class ReservasAdapter extends BaseAdapter {
 
         Reserva reserva = mReservas.get(i);
 
+        String data = reserva.getDataHora().substring(8,10) + "-" + reserva.getDataHora().substring(5,7) + "-" + reserva.getDataHora().substring(0,4) +
+                " " + reserva.getDataHora().substring(11,13) + ":" + reserva.getDataHora().substring(14,16);
+
+
         if (view == null){
             view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item, null);
@@ -54,7 +58,7 @@ public class ReservasAdapter extends BaseAdapter {
 
         ViewHolder holder = new ViewHolder(view);
 
-        holder.txtTitulo.setText(reserva.getDataHora().substring(0, 16));
+        holder.txtTitulo.setText(data);
 
         return view;
     }

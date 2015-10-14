@@ -84,7 +84,6 @@ public class MapaActivity extends AppCompatActivity implements
     Restaurante rs, rest;
     Toolbar mToolbar;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
@@ -119,6 +118,7 @@ public class MapaActivity extends AppCompatActivity implements
 
                         SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
                         SharedPreferences.Editor editor = prefs.edit();
+
                         editor.putInt("idRestaurante", rest.getIdRestaurante());
                         editor.putString("nome", rest.getNome());
                         editor.putString("telefone", rest.getTelefone());
@@ -134,12 +134,6 @@ public class MapaActivity extends AppCompatActivity implements
                         editor.putString("cep", rest.getNome());
 
                         editor.commit();
-
-                        //intent.putExtra("nomeRestaurante", res.get(i).getNome());
-                        //intent.putExtra("telefone", res.get(i).getTelefone());
-                        //intent.putExtra("bairro", res.get(i).getBairro());
-                        //intent.putExtra("endereco", res.get(i).getEndereco());
-                        //intent.putExtra("restaurante", rest);
 
                         startActivity(intent);
                     }
