@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
+import com.example.asilva.bookbuy.callbacks.CadastroClienteListener;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -39,15 +40,12 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
 
     private Validator validator;
 
+    Cliente c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_cadastro);
-
-      //  android.support.v7.app.ActionBar bar = getSupportActionBar();
-      //  bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
-
-     //   bar.setDisplayHomeAsUpEnabled(false);
 
         editTextNome = (EditText)findViewById(R.id.editTextNome);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
@@ -69,12 +67,10 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
         editTextTelefone.setText(telefone);
 
         bttSalvarAlteracoes.setOnClickListener(this);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_editar_cadastro, menu);
         return true;
     }
@@ -94,7 +90,7 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
             int id = prefs.getInt("id", 1);
 
             DAOCliente clienteDAO = new DAOCliente();
-            Cliente c = new Cliente();
+            c = new Cliente();
             c.setNome(editTextNome.getText().toString());
             c.setEmail(editTextEmail.getText().toString());
             c.setTelefone(editTextTelefone.getText().toString());
@@ -103,33 +99,36 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
             c.setSenha(senha);
             c.setFotoPerfil(null);
 
-            boolean cliente = clienteDAO.atualizarCliente(c);
+            new DAOCliente().atualizarCliente(c, new CadastroClienteListener() {
+                @Override
+                public void onCliente(boolean retorno) {
+                    if (retorno == true) {
+                        SharedPreferences.Editor prefes = getSharedPreferences("meu_dados", 0).edit();
+                        prefes.clear();
+                        prefes.commit();
 
-            if (cliente){
-                SharedPreferences.Editor prefes = getSharedPreferences("meu_dados", 0).edit();
-                prefes.clear();
-                prefes.commit();
+                        SharedPreferences pref = getSharedPreferences("meus_dados", 0);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("usuario", c.getLogin());
+                        editor.putString("nome", c.getNome());
+                        editor.putString("email", c.getEmail());
+                        editor.putString("telefone", c.getTelefone());
+                        editor.putInt("id", c.getId());
+                        editor.putString("senha", c.getSenha());
+                        editor.putBoolean("estalogado", true);
 
-                SharedPreferences pref = getSharedPreferences("meus_dados", 0);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("usuario", c.getLogin());
-                editor.putString("nome", c.getNome());
-                editor.putString("email", c.getEmail());
-                editor.putString("telefone", c.getTelefone());
-                editor.putInt("id", c.getId());
-                editor.putString("senha", c.getSenha());
-                editor.putBoolean("estalogado", true);
+                        editor.commit();
 
-                editor.commit();
+                        Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(EditarCadastroActivity.this, "Cadastro Atualizado.", Toast.LENGTH_SHORT).show();
-
-                Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
-                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(it);
-            }
-
-            Log.d("Resultado", cliente + "");
+                        Intent it = new Intent(EditarCadastroActivity.this, MinhaContaActivity.class);
+                        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(it);
+                    } else {
+                        Toast.makeText(EditarCadastroActivity.this, "Não foi possível atualizar seu cadastro. Tente novamente!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         @Override
@@ -139,7 +138,6 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
                 View view = error.getView();
                 String message = error.getCollatedErrorMessage(EditarCadastroActivity.this);
 
-                // Display error messages ;)
                 if (view instanceof EditText) {
                     ((EditText) view).setError(message);
                 } else {

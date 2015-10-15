@@ -2,6 +2,7 @@ package com.example.asilva.bookbuy.dao;
 
 import android.os.AsyncTask;
 
+import com.example.asilva.bookbuy.callbacks.CadastroClienteListener;
 import com.example.asilva.bookbuy.callbacks.ClienteListener;
 import com.example.asilva.bookbuy.basicas.Cliente;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
@@ -24,12 +25,10 @@ public class DAOCliente {
     private static final String BUSCAR_POR_EMAIL = "buscarClientePorEmail";
     public static final String ESQUECEU_SENHA = "recuperarSenha";
 
-    Cliente cli;
     boolean retorno = false;
 
-    public boolean inserirCliente(Cliente cliente) {
-        ClienteTask clienteTask = new ClienteTask();
-        clienteTask.execute(cliente);
+    public boolean inserirCliente(Cliente cliente, CadastroClienteListener listener) {
+        new ClienteTask(listener).execute(cliente);
         return retorno;
     }
 
@@ -41,10 +40,9 @@ public class DAOCliente {
         new PesquisarClienteTaskEmail(listener).execute(email);
     }
 
-    public boolean atualizarCliente(Cliente cliente) {
-        AtualizarClienteTask atualizarClienteTask = new AtualizarClienteTask();
-        atualizarClienteTask.execute(cliente);
-        return true;
+    public boolean atualizarCliente(Cliente cliente, CadastroClienteListener listener) {
+        new AtualizarClienteTask(listener).execute(cliente);
+        return retorno;
     }
 
     public boolean esqueceuSenha(String email, EsqueceuSenhaListener listener){
@@ -93,6 +91,12 @@ public class DAOCliente {
 
     class ClienteTask extends AsyncTask<Cliente, Void, Boolean> {
 
+        private final CadastroClienteListener listener;
+
+        private ClienteTask(final CadastroClienteListener listener) {
+            this.listener = listener;
+        }
+
         @Override
         protected Boolean doInBackground(Cliente... params) {
 
@@ -128,6 +132,11 @@ public class DAOCliente {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean retorno) {
+            listener.onCliente(retorno);
         }
     }
 
@@ -233,6 +242,12 @@ public class DAOCliente {
 
     class AtualizarClienteTask extends AsyncTask<Cliente, Void, Boolean> {
 
+        private final CadastroClienteListener listener;
+
+        private AtualizarClienteTask(final CadastroClienteListener listener) {
+            this.listener = listener;
+        }
+
         @Override
         protected Boolean doInBackground(Cliente... params) {
 
@@ -262,11 +277,16 @@ public class DAOCliente {
 
                 SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
 
-                return Boolean.parseBoolean(resposta.toString());
+                return retorno = Boolean.parseBoolean(resposta.toString());
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean retorno) {
+            listener.onCliente(retorno);
         }
     }
 }

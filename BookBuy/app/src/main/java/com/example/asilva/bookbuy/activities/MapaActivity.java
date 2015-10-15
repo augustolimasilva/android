@@ -337,12 +337,6 @@ public class MapaActivity extends AppCompatActivity implements
             startActivity(intent);
 
             Toast.makeText(getApplicationContext(), "Ative sua localização.", Toast.LENGTH_SHORT).show();
-            //new MaterialDialog.Builder(this)
-            //      .title("Teste")
-            //      .content("Ative sua localização!")
-            //      .positiveText("ATIVAR")
-            //      .negativeText("SAIR")
-            //      .show();
         }
     }
 

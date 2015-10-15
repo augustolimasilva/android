@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Cliente;
+import com.example.asilva.bookbuy.callbacks.CadastroClienteListener;
 import com.example.asilva.bookbuy.callbacks.ClienteListener;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -94,9 +95,9 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
             clienteDAO.pesquisarClientePorLogin(txtUsuario.getText().toString(), new ClienteListener() {
                 @Override
                 public void onLogin(Cliente cliente) {
-                    if(cliente != null){
-                        c1 = new Cliente();
-                        c1 = cliente;
+                    c1 = new Cliente();
+                    c1 = cliente;
+                    if (cliente != null) {
                         new MaterialDialog.Builder(CadastrarActivity.this)
                                 .title("Cadastro")
                                 .content("O usuário informado já está cadastrado.")
@@ -108,35 +109,63 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                             }
 
                         }).build().show();
-                    }
-                }
-            });
-
-            clienteDAO.pesquisarClientePorEmail(txtEmail.getText().toString(), new ClienteListener() {
-                @Override
-                public void onLogin(Cliente cliente) {
-                    if (cliente != null) {
-                        c2 = new Cliente();
-                        c2 = cliente;
-                        new MaterialDialog.Builder(CadastrarActivity.this)
-                                .title("Cadastro")
-                                .content("O email informado já está cadastrado.")
-                                .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
-
+                    } else if (c1 == null) {
+                        new DAOCliente().pesquisarClientePorEmail(txtEmail.getText().toString(), new ClienteListener() {
                             @Override
-                            public void onPositive(MaterialDialog dialog) {
-                                dialog.dismiss();
+                            public void onLogin(Cliente cliente) {
+                                c2 = new Cliente();
+                                c2 = cliente;
+                                if (cliente != null) {
+                                    new MaterialDialog.Builder(CadastrarActivity.this)
+                                            .title("Cadastro")
+                                            .content("O email informado já está cadastrado.")
+                                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                                        @Override
+                                        public void onPositive(MaterialDialog dialog) {
+                                            dialog.dismiss();
+                                        }
+
+                                    }).build().show();
+                                } else {
+                                    new DAOCliente().inserirCliente(c, new CadastroClienteListener() {
+                                        @Override
+                                        public void onCliente(boolean retorno) {
+                                            if (retorno == true) {
+
+                                                new MaterialDialog.Builder((CadastrarActivity.this))
+                                                        .title("Cadastro")
+                                                        .content("Cadastro efetuada com Sucesso!")
+                                                        .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                                                    @Override
+                                                    public void onPositive(MaterialDialog dialog) {
+                                                        Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
+                                                        startActivity(it);
+                                                    }
+
+                                                }).build().show();
+
+                                            } else {
+
+                                                new MaterialDialog.Builder((CadastrarActivity.this))
+                                                        .title("Cadastro")
+                                                        .content("Não foi possível efetuar seu cadastro!")
+                                                        .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                                                    @Override
+                                                    public void onPositive(MaterialDialog dialog) {
+                                                        dialog.dismiss();
+                                                    }
+
+                                                }).build().show();
+
+                                            }
+                                        }
+                                    });
+                                }
                             }
-
-                        }).build().show();
-                    }
-                    else{
-                        boolean resultado = clienteDAO.inserirCliente(c);
-
-                       if (resultado) {
-                            Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
-                            startActivity(it);
-                       }
+                        });
                     }
                 }
             });
