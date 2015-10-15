@@ -33,23 +33,25 @@
         android:id="@+id/txtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtRua"
-        android:layout_marginTop="25dp"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_above="@+id/txtTelefone"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="45dp" />
 
     <TextView
         android:id="@+id/txtTelefone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtEmail"
-        android:layout_marginTop="25dp"
         android:hint="Telefone"
         android:phoneNumber="true"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_above="@+id/bttEditar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="73dp" />
 
     <Button
         android:id="@+id/bttEditar"
@@ -58,7 +60,6 @@
         android:background="#2b1d0c"
         android:text="EDITAR"
         android:textColor="#ffffff"
-        android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
