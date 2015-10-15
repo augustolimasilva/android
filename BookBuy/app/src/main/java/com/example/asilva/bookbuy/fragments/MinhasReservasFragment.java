@@ -18,9 +18,12 @@ import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.activities.LoginActivity;
 import com.example.asilva.bookbuy.adapters.ReservaClienteAdapter;
 import com.example.asilva.bookbuy.basicas.Reserva;
+import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
 import com.example.asilva.bookbuy.callbacks.ReservasClienteListener;
+import com.example.asilva.bookbuy.callbacks.RestaurantesListener;
 import com.example.asilva.bookbuy.dao.DAOReserva;
+import com.example.asilva.bookbuy.dao.DAORestaurante;
 import com.example.asilva.bookbuy.util.Util;
 
 import java.util.ArrayList;

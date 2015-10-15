@@ -87,8 +87,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 break;
 
             case R.id.txtRecuperarSenha:
-                //Intent intent = new Intent(this, RedefinirSenhaActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(this, RedefinirSenhaActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.bttEntrar:

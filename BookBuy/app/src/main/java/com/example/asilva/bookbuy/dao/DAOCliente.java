@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 
 import com.example.asilva.bookbuy.callbacks.ClienteListener;
 import com.example.asilva.bookbuy.basicas.Cliente;
+import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
+import com.example.asilva.bookbuy.callbacks.EsqueceuSenhaListener;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -20,9 +22,10 @@ public class DAOCliente {
     private static final String ATUALIZAR = "atualizarCliente";
     private static final String BUSCAR_POR_LOGIN = "buscarClientePorLogin";
     private static final String BUSCAR_POR_EMAIL = "buscarClientePorEmail";
+    public static final String ESQUECEU_SENHA = "recuperarSenha";
 
     Cliente cli;
-    boolean retorno;
+    boolean retorno = false;
 
     public boolean inserirCliente(Cliente cliente) {
         ClienteTask clienteTask = new ClienteTask();
@@ -42,6 +45,50 @@ public class DAOCliente {
         AtualizarClienteTask atualizarClienteTask = new AtualizarClienteTask();
         atualizarClienteTask.execute(cliente);
         return true;
+    }
+
+    public boolean esqueceuSenha(String email, EsqueceuSenhaListener listener){
+        new EsqueceuSenhaTask(listener).execute(email);
+        return retorno;
+    }
+
+    class EsqueceuSenhaTask extends AsyncTask<String, Void, Boolean> {
+
+        private final EsqueceuSenhaListener listener;
+
+        public EsqueceuSenhaTask(final EsqueceuSenhaListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            SoapObject buscarCliente = new SoapObject(NAMESPACE, ESQUECEU_SENHA);
+            buscarCliente.addProperty("email", params[0]);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+            envelope.setOutputSoapObject(buscarCliente);
+
+            envelope.implicitTypes = true;
+
+            HttpTransportSE http = new HttpTransportSE(URL);
+            try {
+                http.call("urn:" + ESQUECEU_SENHA, envelope);
+
+                SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
+
+                return retorno = Boolean.parseBoolean(resposta.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean retorno) {
+            listener.esqueceuSenha(retorno);
+        }
     }
 
     class ClienteTask extends AsyncTask<Cliente, Void, Boolean> {
