@@ -35,4 +35,5 @@
     <string name="iconeFiltro">Filtrar</string>
     <string name="title_minhas_reservas">Reservas</string>
     <string name="title_meus_pedidos">Pedidos</string>
+    <string name="opcao">Escolha uma opção:</string>
 </resources>
