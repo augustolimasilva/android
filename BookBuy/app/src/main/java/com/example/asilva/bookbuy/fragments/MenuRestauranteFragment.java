@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,10 @@ import com.example.asilva.bookbuy.util.Util;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MenuRestauranteFragment extends Fragment {
@@ -32,7 +36,7 @@ public class MenuRestauranteFragment extends Fragment {
     private Restaurante restaurante;
     int idRestaurante;
     String telefone, email, rua, numero;
-    TextView txtRua, txtEmail, txtTelefone;
+    TextView txtRua, txtEmail, txtTelefone, txtDistancia;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

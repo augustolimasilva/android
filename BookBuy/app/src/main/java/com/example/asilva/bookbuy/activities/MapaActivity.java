@@ -83,6 +83,7 @@ public class MapaActivity extends AppCompatActivity implements
     List<RestauranteTipo> listaResPorTipo;
     Restaurante rs, rest;
     Toolbar mToolbar;
+    float latitude, longitude;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,9 +130,11 @@ public class MapaActivity extends AppCompatActivity implements
                         editor.putString("numero", rest.getNumero());
                         editor.putString("cnpj", rest.getCnpj());
                         editor.putString("email", rest.getEmail());
-                        editor.putFloat("latitude", rest.getLatitude());
-                        editor.putFloat("longitude", rest.getLongitude());
+                        editor.putFloat("latitudeRes", rest.getLatitude());
+                        editor.putFloat("longitudeRes", rest.getLongitude());
                         editor.putString("cep", rest.getNome());
+                        editor.putFloat("latitude", latitude);
+                        editor.putFloat("longitude", longitude);
 
                         editor.commit();
 
@@ -392,8 +395,11 @@ public class MapaActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
+        latitude = (float) location.getLatitude();
+        longitude = (float) location.getLongitude();
+
         if (marker != null) {
-            marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+            marker.setPosition(new LatLng(latitude, longitude));
         }
     }
 

@@ -26,7 +26,10 @@ import com.example.asilva.bookbuy.dao.DAOReserva;
 import com.example.asilva.bookbuy.dao.DAORestaurante;
 import com.example.asilva.bookbuy.util.Util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MinhasReservasFragment extends Fragment {
@@ -34,10 +37,11 @@ public class MinhasReservasFragment extends Fragment {
     List<Reserva> listaReservas = new ArrayList<>();
     ListView listReservas;
     ProgressBar progressBar;
-    int idCliente;
+    int idCliente, dataReserva, dataAtual;
     Reserva reserva;
     SharedPreferences prefsCliente;
     ReservaClienteAdapter reservaClienteAdapter;
+    Date date;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,28 +78,42 @@ public class MinhasReservasFragment extends Fragment {
 
                                         @Override
                                         public void onPositive(MaterialDialog dialog) {
-                                            reserva.setStatus("DISPONIVEL");
-                                            new DAOReserva().atualizarReserva(reserva, new EfetuarReservaListener() {
-                                                @Override
-                                                public void atualizarReserva(boolean retorno) {
 
-                                                    if (retorno) {
+                                            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                                            date = new Date();
+                                            dataAtual = Integer.parseInt(dateFormat.format(date));
 
-                                                        listaReservas.remove(reserva);
+                                            dataReserva = Integer.parseInt(reserva.getDataHora().substring(0, 4) +
+                                                    reserva.getDataHora().substring(5, 7) +
+                                                    reserva.getDataHora().substring(8, 10));
 
-                                                        reservaClienteAdapter.notifyDataSetChanged();
+                                            if (dataAtual == dataReserva || dataAtual < dataReserva) {
 
-                                                        Toast.makeText(getContext(), "Reserva cancelada!", Toast.LENGTH_SHORT).show();
+                                                reserva.setStatus("DISPONIVEL");
+                                                new DAOReserva().atualizarReserva(reserva, new EfetuarReservaListener() {
+                                                    @Override
+                                                    public void atualizarReserva(boolean retorno) {
 
-                                                    } else {
-                                                        Toast.makeText(getContext(), "Não foi possível cancelar sua reserva. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                        if (retorno) {
+
+                                                            listaReservas.remove(reserva);
+
+                                                            reservaClienteAdapter.notifyDataSetChanged();
+
+                                                            Toast.makeText(getContext(), "Reserva cancelada!", Toast.LENGTH_SHORT).show();
+
+                                                        } else {
+                                                            Toast.makeText(getContext(), "Não foi possível cancelar sua reserva. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                            } else if (dataReserva < dataAtual) {
+                                                Toast.makeText(getContext(), "Essa reserva não pode ser mais cancelada!", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
 
                                         @Override
-                                        public void onNegative (MaterialDialog dialog){
+                                        public void onNegative(MaterialDialog dialog) {
                                             dialog.dismiss();
                                         }
 
@@ -105,7 +123,6 @@ public class MinhasReservasFragment extends Fragment {
                         })
                         .show();
             }
-
         });
 
         if (listaReservas == null || listaReservas.size() == 0) {

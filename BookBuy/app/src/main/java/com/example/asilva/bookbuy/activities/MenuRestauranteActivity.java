@@ -47,8 +47,8 @@ public class MenuRestauranteActivity extends ActionBarActivity {
 
         SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
         nomeRestaurante = prefs.getString("nome", "bookbuy@email.com");
-        latitude = prefs.getFloat("latitude", (float) 9.1);
-        longitude = prefs.getFloat("longitude", (float) 9.2);
+        latitude = prefs.getFloat("latitudeRes", (float) 9.1);
+        longitude = prefs.getFloat("longitudeRes", (float) 9.2);
 
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
