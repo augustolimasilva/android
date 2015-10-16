@@ -39,7 +39,7 @@
             android:name=".activities.RedefinirSenhaActivity"
             android:label="@string/title_activity_redefinir_senha"
             android:parentActivityName=".activities.LoginActivity"
-            android:theme="@style/AppTheme_white" >
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
