@@ -78,10 +78,15 @@ public class MinhasReservasFragment extends Fragment {
                                             new DAOReserva().atualizarReserva(reserva, new EfetuarReservaListener() {
                                                 @Override
                                                 public void atualizarReserva(boolean retorno) {
-                                                    if (retorno == true) {
-                                                        listarReservasCliente();
+
+                                                    if (retorno) {
+
+                                                        listaReservas.remove(reserva);
+
                                                         reservaClienteAdapter.notifyDataSetChanged();
+
                                                         Toast.makeText(getContext(), "Reserva cancelada!", Toast.LENGTH_SHORT).show();
+
                                                     } else {
                                                         Toast.makeText(getContext(), "Não foi possível cancelar sua reserva. Tente Novamente!", Toast.LENGTH_SHORT).show();
                                                     }
@@ -90,7 +95,7 @@ public class MinhasReservasFragment extends Fragment {
                                         }
 
                                         @Override
-                                        public void onNegative(MaterialDialog dialog) {
+                                        public void onNegative (MaterialDialog dialog){
                                             dialog.dismiss();
                                         }
 
@@ -100,6 +105,7 @@ public class MinhasReservasFragment extends Fragment {
                         })
                         .show();
             }
+
         });
 
         if (listaReservas == null || listaReservas.size() == 0) {
@@ -133,5 +139,6 @@ public class MinhasReservasFragment extends Fragment {
     public void atualizarLista() {
         reservaClienteAdapter = new ReservaClienteAdapter(listaReservas);
         listReservas.setAdapter(reservaClienteAdapter);
+        reservaClienteAdapter.notifyDataSetChanged();
     }
 }
