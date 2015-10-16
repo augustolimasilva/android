@@ -22,6 +22,7 @@ import com.example.asilva.bookbuy.callbacks.CadastroClienteListener;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
@@ -29,11 +30,13 @@ import java.util.List;
 public class EditarCadastroActivity extends AppCompatActivity implements View.OnClickListener{
 
     @NotEmpty(message = "É necessário preencher este campo!")
+    @Length(trim = true)
     EditText editTextNome;
 
     EditText editTextEmail;
 
     @NotEmpty(message = "É necessário preencher este campo!")
+    @Length(min = 10, max = 11, trim = true, message = "Tamanho inválido")
     EditText editTextTelefone;
 
     Button bttSalvarAlteracoes;

@@ -18,6 +18,7 @@ import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
@@ -29,17 +30,21 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
     Cliente c, c1, c2;
     DAOCliente clienteDAO;
 
-    @NotEmpty(message = "É necessário preencher este campo!")
+    @NotEmpty(message = "É necessário preencher este campo!", trim = true)
+    @Length(trim = true)
     EditText txtUsuario;
 
-    @NotEmpty(message = "É necessário preencher este campo!")
+    @NotEmpty(message = "É necessário preencher este campo!", trim = true)
+    @Length(trim = true)
     EditText txtNome;
 
     @NotEmpty(message = "É necessário preencher este campo!")
+    @Length(trim = true)
     @Email(message = "Email inválido")
     EditText txtEmail;
 
-    @NotEmpty(message = "É necessário preencher este campo!")
+    @NotEmpty(message = "É necessário preencher este campo!", trim = true)
+    @Length(min = 10, max = 11, trim = true, message = "Tamanho inválido")
     EditText txtTelefone;
 
     @NotEmpty(message = "É necessário preencher este campo!")
