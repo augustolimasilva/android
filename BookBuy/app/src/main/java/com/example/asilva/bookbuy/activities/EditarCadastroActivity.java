@@ -92,7 +92,6 @@ public class EditarCadastroActivity extends AppCompatActivity implements View.On
             String senha = prefs.getString("senha", "senha");
             int id = prefs.getInt("id", 1);
 
-            DAOCliente clienteDAO = new DAOCliente();
             c = new Cliente();
             c.setNome(editTextNome.getText().toString());
             c.setEmail(editTextEmail.getText().toString());

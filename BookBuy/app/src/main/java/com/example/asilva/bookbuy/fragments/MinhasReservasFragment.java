@@ -1,5 +1,7 @@
 package com.example.asilva.bookbuy.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
@@ -8,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
-import com.example.asilva.bookbuy.activities.LoginActivity;
+import com.example.asilva.bookbuy.activities.EditarReservaActivity;
 import com.example.asilva.bookbuy.adapters.ReservaClienteAdapter;
 import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.basicas.Restaurante;
@@ -35,6 +36,7 @@ import java.util.List;
 public class MinhasReservasFragment extends Fragment {
 
     List<Reserva> listaReservas = new ArrayList<>();
+    List<Restaurante> res = new ArrayList<>();
     ListView listReservas;
     ProgressBar progressBar;
     int idCliente, dataReserva, dataAtual;
@@ -42,6 +44,7 @@ public class MinhasReservasFragment extends Fragment {
     SharedPreferences prefsCliente;
     ReservaClienteAdapter reservaClienteAdapter;
     Date date;
+    private NetworkState networkState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class MinhasReservasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_minhas_reservas, container, false);
+
+        listarRestaurantes();
 
         prefsCliente = this.getActivity().getSharedPreferences("meus_dados", 0);
         idCliente = prefsCliente.getInt("id", 1);
@@ -118,6 +123,23 @@ public class MinhasReservasFragment extends Fragment {
                                         }
 
                                     }).build().show();
+                                } else if (which == 0) {
+                                    SharedPreferences prefs = getActivity().getSharedPreferences("dados_reserva", 0);
+                                    SharedPreferences.Editor editor = prefs.edit();
+
+                                    editor.putInt("idReserva", reserva.getIdReserva());
+                                    editor.putString("dataHora", reserva.getDataHora());
+                                    editor.putInt("idCliente", reserva.getIdCliente());
+                                    editor.putInt("qtdPessoas", reserva.getQtdPessoas());
+                                    editor.putInt("idRestaurante", reserva.getIdRestaurante());
+                                    editor.putString("status", reserva.getStatus());
+                                    editor.putString("situacao", reserva.getSituacao());
+                                    editor.putString("nomeRestaurante", reserva.getNomeRestaurante());
+
+                                    editor.commit();
+
+                                    Intent it = new Intent(getActivity(), EditarReservaActivity.class);
+                                    startActivity(it);
                                 }
                             }
                         })
@@ -131,7 +153,28 @@ public class MinhasReservasFragment extends Fragment {
             atualizarLista();
         }
 
+        networkState = new NetworkState();
+
         return view;
+    }
+
+    public void listarRestaurantes() {
+        if (Util.isNetworkConnected(getContext())) {
+            new DAORestaurante().buscarTodosRestaurantes(new RestaurantesListener() {
+                @Override
+                public void onRestaurante(List<Restaurante> restaurantes) {
+                    res = restaurantes;
+                }
+            });
+        }
+    }
+
+    public class NetworkState extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            listarReservasCliente();
+        }
     }
 
     public void listarReservasCliente() {

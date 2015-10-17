@@ -36,4 +36,6 @@
     <string name="title_minhas_reservas">Reservas</string>
     <string name="title_meus_pedidos">Pedidos</string>
     <string name="opcao">Escolha uma opção:</string>
+    <string name="atualizar_reserva">Atualizar</string>
+    <string name="title_activity_editar_reserva">Atualizar Reserva</string>
 </resources>
