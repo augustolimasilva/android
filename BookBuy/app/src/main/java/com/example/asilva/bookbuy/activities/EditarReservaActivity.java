@@ -59,6 +59,7 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
         idReserva = prefs2.getInt("idReserva", 1);
         idCliente = prefs2.getInt("idCliente", 1);
         idRestaurante = prefs2.getInt("idRestaurante", 1);
+        nomeRestaurante = prefs2.getString("nomeRestaurante", "teste");
 
         spnQtdPessoas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -72,6 +73,7 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+        editTxtNomeRestaurante.setText(nomeRestaurante);
         editTxtNomeCliente.setText(nomeCliente);
         editTxtDataHora.setText(dataHora.substring(8, 10) + "-" + dataHora.substring(5, 7) + "-" + dataHora.substring(0, 4) +
                 " " + dataHora.substring(11, 13) + ":" + dataHora.substring(14, 16));
@@ -143,6 +145,7 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
         prefs.commit();
 
         Intent it = new Intent(this, MinhasComprasActivity.class);
+        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(it);
     }
 }

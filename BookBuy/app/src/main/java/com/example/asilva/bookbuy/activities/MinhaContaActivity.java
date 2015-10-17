@@ -75,9 +75,9 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
         String email = prefs.getString("email", "bookbuy@email.com");
         String telefone = prefs.getString("telefone", "999999999");
 
-        txtNome.setText(nome);
-        txtEmail.setText(email);
-        txtTelefone.setText(telefone);
+        txtNome.setText("Nome: " + nome);
+        txtEmail.setText("Email: " + email);
+        txtTelefone.setText("Telefone: " + telefone);
     }
 
     @Override

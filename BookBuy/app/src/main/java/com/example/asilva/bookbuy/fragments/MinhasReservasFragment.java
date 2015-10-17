@@ -3,6 +3,7 @@ package com.example.asilva.bookbuy.fragments;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.activities.EditarReservaActivity;
+import com.example.asilva.bookbuy.activities.NetworkStateReceiver;
 import com.example.asilva.bookbuy.adapters.ReservaClienteAdapter;
 import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.basicas.Restaurante;
@@ -56,8 +58,6 @@ public class MinhasReservasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_minhas_reservas, container, false);
-
-        listarRestaurantes();
 
         prefsCliente = this.getActivity().getSharedPreferences("meus_dados", 0);
         idCliente = prefsCliente.getInt("id", 1);
@@ -158,17 +158,6 @@ public class MinhasReservasFragment extends Fragment {
         return view;
     }
 
-    public void listarRestaurantes() {
-        if (Util.isNetworkConnected(getContext())) {
-            new DAORestaurante().buscarTodosRestaurantes(new RestaurantesListener() {
-                @Override
-                public void onRestaurante(List<Restaurante> restaurantes) {
-                    res = restaurantes;
-                }
-            });
-        }
-    }
-
     public class NetworkState extends BroadcastReceiver {
 
         @Override
@@ -193,6 +182,9 @@ public class MinhasReservasFragment extends Fragment {
                     }
                 }
             });
+        }else{
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Verifique sua conexão com a internet.", Toast.LENGTH_SHORT).show();
         }
     }
 

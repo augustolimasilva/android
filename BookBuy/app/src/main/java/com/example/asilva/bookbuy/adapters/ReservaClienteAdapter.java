@@ -63,7 +63,7 @@ public class ReservaClienteAdapter extends BaseAdapter {
 
         ViewHolder holder = new ViewHolder(view);
 
-        holder.txtNomeRestaurante.setText(reserva.getStatus());
+        holder.txtNomeRestaurante.setText(reserva.getNomeRestaurante());
         holder.txtDataReserva.setText("Data: " + data);
         holder.txtQtdPessoas.setText("Qtd de Pessoas: " + String.valueOf(reserva.getQtdPessoas()));
 

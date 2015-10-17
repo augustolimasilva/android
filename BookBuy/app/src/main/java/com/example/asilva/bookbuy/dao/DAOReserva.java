@@ -81,6 +81,7 @@ public class DAOReserva {
                         res.setStatus(resposta.getProperty("status").toString());
                         res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                         res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                        res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                         listaReservas.add(res);
 
@@ -98,6 +99,7 @@ public class DAOReserva {
                             res.setStatus(resposta.getProperty("status").toString());
                             res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                             res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                            res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                             listaReservas.add(res);
                         }

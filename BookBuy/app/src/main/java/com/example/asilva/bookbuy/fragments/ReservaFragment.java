@@ -36,8 +36,8 @@ public class ReservaFragment extends Fragment {
     int idRestaurante, idCliente, qtdPessoas;
     List<Reserva> listaReservas = new ArrayList<>();
     Button bttReservar;
-    boolean reto;
     Reserva reserva, reservaSelecionada;
+    ReservasAdapter reservasAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,6 @@ public class ReservaFragment extends Fragment {
 
         buscarDataHoraDisponiveis();
         listaQtdPessoas();
-        //listaDataHoraDisponiveis();
 
         edtNomeRestaurante.setText(nomeRestaurante);
         edtNomeCliente.setText(nomeCliente);
@@ -187,7 +186,7 @@ public class ReservaFragment extends Fragment {
 
     public void listaDataHoraDisponiveis() {
         if (listaReservas != null && listaReservas.size() > 0) {
-            ReservasAdapter reservasAdapter = new ReservasAdapter(listaReservas);
+            reservasAdapter = new ReservasAdapter(listaReservas);
             spnReservas.setAdapter(reservasAdapter);
         }
     }
