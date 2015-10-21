@@ -97,6 +97,7 @@ public class ReservaFragment extends Fragment {
 
         buscarDataHoraDisponiveis();
         listaQtdPessoas();
+        listaDataHoraDisponiveis();
 
         edtNomeRestaurante.setText(nomeRestaurante);
         edtNomeCliente.setText(nomeCliente);

@@ -9,9 +9,6 @@ import android.widget.TextView;
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Reserva;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class ReservaClienteAdapter extends BaseAdapter {
@@ -24,8 +21,8 @@ public class ReservaClienteAdapter extends BaseAdapter {
         public final TextView txtQtdPessoas;
 
         ViewHolder (View v){
-            txtNomeRestaurante = (TextView)v.findViewById(R.id.txtNomeRestaurante);
-            txtDataReserva = (TextView)v.findViewById(R.id.txtDataReserva);
+            txtNomeRestaurante = (TextView)v.findViewById(R.id.txtNomeProduto);
+            txtDataReserva = (TextView)v.findViewById(R.id.txtQuantidade);
             txtQtdPessoas = (TextView)v.findViewById(R.id.txtQtdPessoas);
         }
     }

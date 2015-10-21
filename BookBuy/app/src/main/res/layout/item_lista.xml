@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/txtNomeProduto"
+        android:id="@+id/edtQuantidade"
         android:padding="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="9dp" />
@@ -23,7 +23,7 @@
         android:id="@+id/txtValorProduto"
         android:layout_marginRight="9dp"
         android:layout_marginEnd="29dp"
-        android:layout_alignBottom="@+id/txtNomeProduto"
+        android:layout_alignBottom="@+id/edtQuantidade"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

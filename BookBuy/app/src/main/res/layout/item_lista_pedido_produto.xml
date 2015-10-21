@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/txtQtdPessoas"
+        android:id="@+id/txtValorTotal"
         android:layout_below="@+id/txtQuantidade"
         android:layout_alignLeft="@+id/txtQuantidade"
         android:layout_alignStart="@+id/txtQuantidade"

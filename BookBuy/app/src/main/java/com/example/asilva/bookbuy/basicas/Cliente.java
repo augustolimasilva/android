@@ -1,7 +1,5 @@
 package com.example.asilva.bookbuy.basicas;
 
-import android.widget.ImageView;
-
 import java.util.List;
 
 public class Cliente{
@@ -13,7 +11,7 @@ public class Cliente{
     private String telefone;
     private String senha;
     private byte[] fotoPerfil;
-    private List<Pedido> pedidos;
+    private List<PedidoProduto> pedidoProdutos;
     private List<Reserva> reservas;
     private String situacao;
 
@@ -81,12 +79,12 @@ public class Cliente{
         this.fotoPerfil = fotoPerfil;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public List<PedidoProduto> getPedidoProdutos() {
+        return pedidoProdutos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
+        this.pedidoProdutos = pedidoProdutos;
     }
 
     public List<Reserva> getReservas() {
@@ -115,7 +113,7 @@ public class Cliente{
         if (!getTelefone().equals(cliente.getTelefone())) return false;
         if (!getSenha().equals(cliente.getSenha())) return false;
         if (!getFotoPerfil().equals(cliente.getFotoPerfil())) return false;
-        if (!getPedidos().equals(cliente.getPedidos())) return false;
+        if (!getPedidoProdutos().equals(cliente.getPedidoProdutos())) return false;
         return getReservas().equals(cliente.getReservas());
 
     }
@@ -129,7 +127,7 @@ public class Cliente{
         result = 31 * result + getTelefone().hashCode();
         result = 31 * result + getSenha().hashCode();
         result = 31 * result + getFotoPerfil().hashCode();
-        result = 31 * result + getPedidos().hashCode();
+        result = 31 * result + getPedidoProdutos().hashCode();
         result = 31 * result + getReservas().hashCode();
         return result;
     }

@@ -16,7 +16,7 @@
     <string name="facebook_key">738499262944915</string>
     <string name="title_activity_editar_cadastro">Editar Cadastro</string>
     <string name="title_activity_menu_restaurante">Menu Restaurante</string>
-    <string name="title_activity_pedido">PedidoActivity</string>
+    <string name="title_activity_pedido">Pedido</string>
     <string name="title_activity_reserva">ReservaActivity</string>
     <string name="title_produto">Produtos</string>
     <string name="title_reserva">Reserva</string>
@@ -38,4 +38,11 @@
     <string name="opcao">Escolha uma opção:</string>
     <string name="atualizar_reserva">Atualizar</string>
     <string name="title_activity_editar_reserva">Atualizar Reserva</string>
+    <string name="quantidade">Quantidade:</string>
+    <string name="total">Total:</string>
+    <string name="txtDataHora">Data/Hora:</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="icFinalizarPedido">Finalizar Pedido</string>
+    <string name="dialog_meu_pedido">Resumo do Pedido</string>
+    <string name="bttConcluir">Concluir</string>
 </resources>

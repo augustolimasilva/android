@@ -8,4 +8,10 @@
         android:orderInCategory="100"
         app:showAsAction="always"
         android:icon="@drawable/ic_dialog_map"/>
+
+    <item android:id="@+id/icFinalizarPedido"
+        android:title="@string/icFinalizarPedido"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_carrinho"/>
 </menu>

@@ -1,25 +1,13 @@
 package com.example.asilva.bookbuy.basicas;
 
-import java.util.List;
-
-/**
- * Created by wildsonsantos on 08/09/2015.
- */
 public class Pedido {
 
     private int idPedido;
     private String dataHora;
-    private Cliente cliente;
-    private Restaurante restaurante;
-    private Pagamento pagamento;
-    private Mesa mesa;
-    private List<Item> itens;
-
-
-    public Pedido() {
-
-    }
-
+    private String tempoEstimado;
+    private int idCliente;
+    private int idRestaurante;
+    private String situacao;
 
     public int getIdPedido() {
         return idPedido;
@@ -37,43 +25,35 @@ public class Pedido {
         this.dataHora = dataHora;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getTempoEstimado() {
+        return tempoEstimado;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setTempoEstimado(String tempoEstimado) {
+        this.tempoEstimado = tempoEstimado;
     }
 
-    public Restaurante getRestaurante() {
-        return restaurante;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Pagamento getPagamento() {
-        return pagamento;
+    public int getIdRestaurante() {
+        return idRestaurante;
     }
 
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
+    public void setIdRestaurante(int idRestaurante) {
+        this.idRestaurante = idRestaurante;
     }
 
-    public Mesa getMesa() {
-        return mesa;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setMesa(Mesa mesa) {
-        this.mesa = mesa;
-    }
-
-    public List<Item> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<Item> itens) {
-        this.itens = itens;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 }

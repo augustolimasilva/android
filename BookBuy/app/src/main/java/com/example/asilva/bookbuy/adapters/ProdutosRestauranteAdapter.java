@@ -20,7 +20,7 @@ public class ProdutosRestauranteAdapter extends BaseAdapter{
         public final TextView txtValorProduto;
 
         ViewHolder (View v){
-            txtNomeProduto = (TextView)v.findViewById(R.id.txtNomeProduto);
+            txtNomeProduto = (TextView)v.findViewById(R.id.edtQuantidade);
             txtValorProduto = (TextView)v.findViewById(R.id.txtValorProduto);
         }
     }
