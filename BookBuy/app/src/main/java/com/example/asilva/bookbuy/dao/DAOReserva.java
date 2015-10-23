@@ -43,8 +43,8 @@ public class DAOReserva {
         new BuscarReservasDoClienteTask(listener).execute(idCliente);
     }
 
-    public void buscarReservasDoClienteRestaurante(int idCliente,int idRestaurante, ReservasClienteListener listener){
-        new BuscarReservasDoClienteRestauranteTask(listener).execute(idCliente, idRestaurante);
+    public void buscarReservasDoClienteRestaurante(int idRestaurante,int idCliente, ReservasClienteListener listener){
+        new BuscarReservasDoClienteRestauranteTask(listener).execute(idRestaurante, idCliente);
     }
 
     class BuscarReservasDoClienteRestauranteTask extends AsyncTask<Integer, Void, List<Reserva>>{
@@ -61,8 +61,8 @@ public class DAOReserva {
             listaReservas = new ArrayList<Reserva>();
 
             SoapObject buscarReservas = new SoapObject(NAMESPACE, BUSCAR_RESERVAS_CLIENTE_RESTAURANTE);
-            buscarReservas.addProperty("idCliente", params[0]);
-            buscarReservas.addProperty("idRestaurante", params[1]);
+            buscarReservas.addProperty("idRestaurante", params[0]);
+            buscarReservas.addProperty("idCliente", params[1]);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 
@@ -87,7 +87,6 @@ public class DAOReserva {
                     res.setStatus(resposta.getProperty("status").toString());
                     res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                     res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
-                    res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                     listaReservas.add(res);
 
@@ -105,7 +104,6 @@ public class DAOReserva {
                         res.setStatus(resposta.getProperty("status").toString());
                         res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                         res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
-                        res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                         listaReservas.add(res);
                     }

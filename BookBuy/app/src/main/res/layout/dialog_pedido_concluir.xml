@@ -14,7 +14,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/txtDataHora"
             android:id="@+id/textView7"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="23dp"
             android:layout_marginLeft="5dp" />
 
         <Spinner
@@ -44,7 +44,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/txtValorFinal"
-            android:layout_marginLeft="120dp" />
+            android:layout_marginLeft="160dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_marginTop="5dp"
             android:background="@android:color/transparent"
             android:textColor="#26A69A"
-            android:layout_marginLeft="200dp" />
+            android:layout_marginLeft="205dp" />
     </LinearLayout>
 
 </LinearLayout>

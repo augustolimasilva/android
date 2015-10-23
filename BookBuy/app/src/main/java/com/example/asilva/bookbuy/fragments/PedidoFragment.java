@@ -36,7 +36,10 @@ import com.example.asilva.bookbuy.dao.DAOProduto;
 import com.example.asilva.bookbuy.dao.DAOReserva;
 import com.example.asilva.bookbuy.util.Util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PedidoFragment extends Fragment {
@@ -56,6 +59,8 @@ public class PedidoFragment extends Fragment {
     Button bttAdicionarItem, bttConcluir;
     Produto produto;
     float latitude, longitude;
+    String valorProduto;
+    float valorTotal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +74,6 @@ public class PedidoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pedido, container, false);
 
         quantidade = 0;
-
-        buscarDataHoraDisponiveis();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("dados_restaurante", 0);
         idRestaurante = prefs.getInt("idRestaurante", 1);
@@ -89,19 +92,18 @@ public class PedidoFragment extends Fragment {
 
                 produto = (Produto) listProdutos.getAdapter().getItem(i);
 
-                String valorProduto = Float.toString(produto.valorProduto), valorTotal;
-
                 final Dialog dialog = new Dialog(getContext());
 
                 dialog.setContentView(R.layout.dialog_pedido);
 
                 dialog.setTitle(produto.getDescricao());
 
+                valorProduto = Float.toString(produto.valorProduto);
+
                 txtValor = (TextView) dialog.findViewById(R.id.txtValor);
                 txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
                 edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
                 bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
-                //valorTotal = String.valueOf(produto.getValorProduto() * quantidade);
 
                 bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -128,12 +130,12 @@ public class PedidoFragment extends Fragment {
                 });
 
                 txtValor.setText("R$: " + valorProduto + "0");
-                //txtValorTotal.setText("R$: " + valorTotal + "0");
 
                 dialog.show();
             }
         });
 
+        buscarDataHoraDisponiveis();
         listaProdutos();
         atualizarLista();
 
@@ -184,6 +186,9 @@ public class PedidoFragment extends Fragment {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
 
+                                reservasAdapter = new ReservasAdapter(listaReservas);
+                                calcularValorDoPedido();
+
                                 final Dialog dial = new Dialog(getContext());
 
                                 dial.setContentView(R.layout.dialog_pedido_concluir);
@@ -193,11 +198,10 @@ public class PedidoFragment extends Fragment {
                                 spnDatas = (Spinner)dial.findViewById(R.id.spnDatas);
                                 txtValorFinal = (TextView)dial.findViewById(R.id.txtValorFinal);
                                 bttConcluir = (Button)dial.findViewById(R.id.bttConcluir);
+                                txtValorFinal = (TextView)dial.findViewById(R.id.txtValorFinal);
 
-                                //buscarDataHoraDisponiveis();
-
-                               // reservasAdapter = new ReservasAdapter(listaReservas);
-                                //spnDatas.setAdapter(reservasAdapter);
+                                txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
+                                spnDatas.setAdapter(reservasAdapter);
 
                                 dial.show();
                             }
@@ -219,18 +223,27 @@ public class PedidoFragment extends Fragment {
             new DAOReserva().buscarReservasDoClienteRestaurante(idRestaurante,idCliente, new ReservasClienteListener() {
                 @Override
                 public void onReserva(List<Reserva> reservas) {
-                    listaReservas = reservas;
-                   // if (listaReservas != null) {
-                     //   listaDataHoraDisponiveis();
+                    if(reservas != null) {
+                        listaReservas = reservas;
+                    }else{
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        Date date = new Date();
+                        String data = dateFormat.format(date);
+
+                        Reserva res = new Reserva();
+                        res.setDataHora(data);
+                        listaReservas.add(res);
+                    }
                 }
             });
         }
     }
-/*
-    public void listaDataHoraDisponiveis() {
-        if (listaReservas != null && listaReservas.size() > 0) {
-            reservasAdapter = new ReservasAdapter(listaReservas);
-            spnReservas.setAdapter(reservasAdapter);
+
+    public void calcularValorDoPedido(){
+        valorTotal = 0;
+
+        for(int i = 0; i < listaProdutosPedido.size(); i++){
+            valorTotal = valorTotal + listaProdutosPedido.get(i).getValorItem();
         }
-    }*/
+    }
 }
