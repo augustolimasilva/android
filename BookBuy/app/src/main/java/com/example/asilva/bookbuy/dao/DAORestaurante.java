@@ -17,7 +17,7 @@ import java.util.Vector;
 
 public class DAORestaurante {
 
-    private static final String URL = "http://52.25.165.254:8080/WSbookbuy/services/RestauranteDAO?wsdl";
+    private static final String URL = "http://52.25.38.52:8080/WSbookbuy/services/RestauranteDAO?wsdl";
     private static final String NAMESPACE = "http://DAO";
     List<Restaurante> listaRes = new ArrayList<Restaurante>();
 

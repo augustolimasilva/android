@@ -11,7 +11,7 @@ public class Cliente{
     private String telefone;
     private String senha;
     private byte[] fotoPerfil;
-    private List<PedidoProduto> pedidoProdutos;
+    private List<Item> items;
     private List<Reserva> reservas;
     private String situacao;
 
@@ -79,12 +79,12 @@ public class Cliente{
         this.fotoPerfil = fotoPerfil;
     }
 
-    public List<PedidoProduto> getPedidoProdutos() {
-        return pedidoProdutos;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
-        this.pedidoProdutos = pedidoProdutos;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public List<Reserva> getReservas() {
@@ -113,7 +113,7 @@ public class Cliente{
         if (!getTelefone().equals(cliente.getTelefone())) return false;
         if (!getSenha().equals(cliente.getSenha())) return false;
         if (!getFotoPerfil().equals(cliente.getFotoPerfil())) return false;
-        if (!getPedidoProdutos().equals(cliente.getPedidoProdutos())) return false;
+        if (!getItems().equals(cliente.getItems())) return false;
         return getReservas().equals(cliente.getReservas());
 
     }
@@ -127,7 +127,7 @@ public class Cliente{
         result = 31 * result + getTelefone().hashCode();
         result = 31 * result + getSenha().hashCode();
         result = 31 * result + getFotoPerfil().hashCode();
-        result = 31 * result + getPedidoProdutos().hashCode();
+        result = 31 * result + getItems().hashCode();
         result = 31 * result + getReservas().hashCode();
         return result;
     }

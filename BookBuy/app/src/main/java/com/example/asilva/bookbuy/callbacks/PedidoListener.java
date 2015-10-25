@@ -2,5 +2,5 @@ package com.example.asilva.bookbuy.callbacks;
 
 public interface PedidoListener {
 
-    void onPedido(int idPedido);
+    void onPedido(Integer idPedido);
 }

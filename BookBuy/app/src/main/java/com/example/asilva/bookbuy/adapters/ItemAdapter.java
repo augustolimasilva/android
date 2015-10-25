@@ -7,13 +7,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
-import com.example.asilva.bookbuy.basicas.PedidoProduto;
+import com.example.asilva.bookbuy.basicas.Item;
 
 import java.util.List;
 
-public class PedidoProdutoAdapter extends BaseAdapter {
+public class ItemAdapter extends BaseAdapter {
 
-    List<PedidoProduto> mPedidoProdutos;
+    List<Item> mItems;
 
     public static class ViewHolder{
         public final TextView txtNomeProduto;
@@ -27,18 +27,18 @@ public class PedidoProdutoAdapter extends BaseAdapter {
         }
     }
 
-    public PedidoProdutoAdapter(List<PedidoProduto> mPedidoProdutos) {
-        this.mPedidoProdutos = mPedidoProdutos;
+    public ItemAdapter(List<Item> mItems) {
+        this.mItems = mItems;
     }
 
     @Override
     public int getCount() {
-        return mPedidoProdutos.size();
+        return mItems.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mPedidoProdutos.get(i);
+        return mItems.get(i);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class PedidoProdutoAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        PedidoProduto pedidoProduto = mPedidoProdutos.get(i);
+        Item item = mItems.get(i);
 
         if (view == null){
             view = LayoutInflater.from(viewGroup.getContext())
@@ -58,9 +58,9 @@ public class PedidoProdutoAdapter extends BaseAdapter {
 
         ViewHolder holder = new ViewHolder(view);
 
-        holder.txtNomeProduto.setText(pedidoProduto.nomeProduto);
-        holder.txtQuantidade.setText("Quantidade: " + String.valueOf(pedidoProduto.quantidade));
-        holder.txtValorTotal.setText("Valor Total: R$:" + Float.toString(pedidoProduto.valorItem) + "0");
+        holder.txtNomeProduto.setText(item.nomeProduto);
+        holder.txtQuantidade.setText("Quantidade: " + String.valueOf(item.quantidade));
+        holder.txtValorTotal.setText("Valor Total: R$:" + Float.toString(item.valorItem) + "0");
 
         return view;
     }

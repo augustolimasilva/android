@@ -6,8 +6,26 @@ public class Pedido {
     private String dataHora;
     private String tempoEstimado;
     private int idCliente;
+    private int idMesa;
     private int idRestaurante;
     private String situacao;
+    private String status;
+
+    public int getIdMesa() {
+        return idMesa;
+    }
+
+    public void setIdMesa(int idMesa) {
+        this.idMesa = idMesa;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getIdPedido() {
         return idPedido;
