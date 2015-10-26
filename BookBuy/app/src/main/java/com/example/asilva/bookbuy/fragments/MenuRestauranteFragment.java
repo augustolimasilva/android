@@ -57,9 +57,6 @@ public class MenuRestauranteFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_menu_restaurante, container, false);
 
-        //rotaTask = new RotaTask();
-        //rotaTask.execute();
-
         SharedPreferences prefs = this.getActivity().getSharedPreferences("dados_restaurante", 0);
         telefone = prefs.getString("telefone", "81999999999");
         email = prefs.getString("email", "erro@gmail.com");
@@ -76,6 +73,7 @@ public class MenuRestauranteFragment extends Fragment {
         txtRua = (TextView) view.findViewById(R.id.txtRua);
         txtEmail = (TextView) view.findViewById(R.id.txtEmail);
         txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
+        txtDistancia  = (TextView)view.findViewById(R.id.txtDistancia);
 
         txtTelefone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +97,7 @@ public class MenuRestauranteFragment extends Fragment {
 
         txtRua.setText("Endereço: " + rua + "," + " " + numero);
         txtTelefone.setText("Telefone: " + telefone);
-       // txtEmail.setText("Email: " + email);
+        txtEmail.setText("Email: " + email);
 
 
         return view;
@@ -111,27 +109,15 @@ public class MenuRestauranteFragment extends Fragment {
             public void onRota(Rota rota) {
                 if(rota != null){
                     rot = rota;
-                    txtEmail.setText(rot.getDistancia());
+                    txtDistancia.setText("Distancia: " + rot.getDistancia());
+
+                    SharedPreferences prefs = getActivity().getSharedPreferences("dados_rota", 0);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("distancia", rot.getDistancia());
+                    editor.putString("tempo", rot.getTempo());
                 }
             }
         });
     }
-/*
-    class RotaTask extends AsyncTask<Void, Void, Rota> {
-
-        @Override
-        protected Rota doInBackground(Void... params) {
-            return rot = RotaHttp.downloadRota(latitude, longitude, latRes, longRes);
-        }
-
-        @Override
-        protected void onPostExecute(Rota rota) {
-            super.onPostExecute(rota);
-
-            if(rota != null){
-                rot = rota;
-            }
-        }
-    }*/
 
 }

@@ -85,6 +85,9 @@ public class PedidoFragment extends Fragment {
         SharedPreferences prefsCliente = this.getActivity().getSharedPreferences("meus_dados", 0);
         idCliente = prefsCliente.getInt("id", 1);
 
+        SharedPreferences prefsRota = this.getActivity().getSharedPreferences("dados_rota", 0);
+        tempoEstimado = prefsRota.getString("tempo", "22 minutos");
+
         listProdutos = (ListView) view.findViewById(R.id.listProdutos);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -221,10 +224,9 @@ public class PedidoFragment extends Fragment {
 
                                                                                      final Pedido pedido = new Pedido();
                                                                                      pedido.setDataHora(reservaSelecionada.getDataHora());
-                                                                               //      pedido.setIdPedido(1);
                                                                                      pedido.setSituacao("ATIVO");
                                                                                      pedido.setStatus("ABERTO");
-                                                                                     pedido.setTempoEstimado("22 minutos");
+                                                                                     pedido.setTempoEstimado(tempoEstimado);
                                                                                      pedido.setIdCliente(idCliente);
                                                                                      pedido.setIdRestaurante(idRestaurante);
                                                                                      pedido.setIdMesa(1);
@@ -238,6 +240,7 @@ public class PedidoFragment extends Fragment {
                                                                                                  for (int i = 0; i < listaProdutosPedido.size(); i++) {
 
                                                                                                      Item it = new Item();
+                                                                                                     it.setIdItem(1);
                                                                                                      it.setIdPedido(idPed);
                                                                                                      it.setIdPromocao(1);
                                                                                                      it.setIdProduto(listaProdutosPedido.get(i).getIdProduto());
@@ -250,12 +253,11 @@ public class PedidoFragment extends Fragment {
                                                                                                              if (retorno == true) {
                                                                                                                  Toast.makeText(getContext(), "Pedido efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                                                                                                              } else {
-                                                                                                                 Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                                                                                 Toast.makeText(getContext(), "Não foi possível Concluir seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
                                                                                                              }
                                                                                                          }
                                                                                                      });
                                                                                                  }
-
                                                                                              } else {
                                                                                                  Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
                                                                                              }

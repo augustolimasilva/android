@@ -107,7 +107,7 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.icMapa) {
-            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude + "?q="));
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + latitude + "," + longitude));
             startActivity(it);
         }
 
@@ -120,6 +120,10 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         SharedPreferences.Editor prefs = getSharedPreferences("dados_restaurante", 0).edit();
         prefs.clear();
         prefs.commit();
+
+        SharedPreferences.Editor prefs2 = getSharedPreferences("dados_rota", 0).edit();
+        prefs2.clear();
+        prefs2.commit();
 
         Intent it = new Intent(this, MapaActivity.class);
         startActivity(it);

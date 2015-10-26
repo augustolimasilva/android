@@ -34,7 +34,7 @@ public class DAOItem {
 
         @Override
         protected Boolean doInBackground(Item... params) {
-            SoapObject it = new SoapObject(NAMESPACE, "item");
+            SoapObject it = new SoapObject(NAMESPACE, "pedidoProduto");
 
             Item item = params[0];
 
