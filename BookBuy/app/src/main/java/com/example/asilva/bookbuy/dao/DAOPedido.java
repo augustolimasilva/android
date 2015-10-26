@@ -13,7 +13,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class DAOPedido {
 
-    private static final String URL = "http://52.25.38.52:8080/WSbookbuy/services/PedidoDAO?wsdl";
+    private static final String URL = "http://52.10.208.222:8080/WSbookbuy/services/PedidoDAO?wsdl";
     private static final String NAMESPACE = "http://DAO";
 
     int idPedido = 0;
