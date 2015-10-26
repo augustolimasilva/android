@@ -100,7 +100,7 @@ public class MenuRestauranteFragment extends Fragment {
         txtRua.setText("Endereço: " + rua + "," + " " + numero);
         txtTelefone.setText("Telefone: " + telefone);
        // txtEmail.setText("Email: " + email);
-        txtEmail.setText(rot.getDistancia());
+
 
         return view;
     }
@@ -111,6 +111,7 @@ public class MenuRestauranteFragment extends Fragment {
             public void onRota(Rota rota) {
                 if(rota != null){
                     rot = rota;
+                    txtEmail.setText(rot.getDistancia());
                 }
             }
         });
