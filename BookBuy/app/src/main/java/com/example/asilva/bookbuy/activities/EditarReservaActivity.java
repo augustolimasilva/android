@@ -20,6 +20,10 @@ import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
 import com.example.asilva.bookbuy.dao.DAOReserva;
 import com.example.asilva.bookbuy.fragments.MinhasReservasFragment;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Length;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +31,17 @@ import java.util.List;
 public class EditarReservaActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText editTxtNomeRestaurante, editTxtDataHora, editTxtNomeCliente;
+
+    @NotEmpty(message = "É necessário preencher este campo!", trim = true)
+    @Length(min = 1, max = 2, trim = true, message = "Tamanho inválido")
+    EditText editTxtQtdPessoas;
+
     Button bttSalvarAlteracoes;
-    Spinner spnQtdPessoas;
-    SharedPreferences prefs, prefs2;
+    SharedPreferences prefs2;
     String nomeCliente, nomeRestaurante, dataHora, status, situacao;
     int idReserva, idCliente, idRestaurante, qtdPessoas;
     Reserva res;
+    private Validator validator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +54,9 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
         editTxtNomeRestaurante = (EditText) findViewById(R.id.editTxtNomeRestaurante);
         editTxtDataHora = (EditText) findViewById(R.id.editTxtDataHora);
         editTxtNomeCliente = (EditText) findViewById(R.id.editTxtNomeCliente);
+        editTxtQtdPessoas = (EditText) findViewById(R.id.editTxtQtdPessoas);
         bttSalvarAlteracoes = (Button) findViewById(R.id.bttSalvarAlteracoes);
         bttSalvarAlteracoes.setOnClickListener(this);
-        spnQtdPessoas = (Spinner) findViewById(R.id.spnQtdPessoas);
 
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         nomeCliente = prefs.getString("nome", "BookBuy");
@@ -60,37 +69,36 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
         idCliente = prefs2.getInt("idCliente", 1);
         idRestaurante = prefs2.getInt("idRestaurante", 1);
         nomeRestaurante = prefs2.getString("nomeRestaurante", "teste");
-
-        spnQtdPessoas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                qtdPessoas = (int) spnQtdPessoas.getAdapter().getItem(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        qtdPessoas = prefs2.getInt("qtdPessoas", 1);
 
         editTxtNomeRestaurante.setText(nomeRestaurante);
         editTxtNomeCliente.setText(nomeCliente);
         editTxtDataHora.setText(dataHora.substring(8, 10) + "-" + dataHora.substring(5, 7) + "-" + dataHora.substring(0, 4) +
                 " " + dataHora.substring(11, 13) + ":" + dataHora.substring(14, 16));
+        editTxtQtdPessoas.setText(String.valueOf(qtdPessoas));
 
-        listaQtdPessoas();
+        validator = new Validator(this);
+        validator.setValidationListener(new ValidationHanlder());
 
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bttSalvarAlteracoes:
+        validator.validate();
+    }
 
+    private class ValidationHanlder implements Validator.ValidationListener {
+
+        @Override
+        public void onValidationSucceeded() {
+
+            if (Integer.parseInt(editTxtQtdPessoas.getText().toString()) == 0 || Integer.parseInt(editTxtQtdPessoas.getText().toString()) < 0 || Integer.parseInt(editTxtQtdPessoas.getText().toString()) > 20) {
+                Toast.makeText(EditarReservaActivity.this, "Preencha o campo entre 1 a 20 pessoas.", Toast.LENGTH_SHORT).show();
+            } else {
                 res = new Reserva();
                 res.setIdRestaurante(idRestaurante);
                 res.setStatus(status);
                 res.setIdCliente(idCliente);
-                res.setQtdPessoas(qtdPessoas);
+                res.setQtdPessoas(Integer.parseInt(editTxtQtdPessoas.getText().toString()));
                 res.setDataHora(dataHora);
                 res.setIdReserva(idReserva);
                 res.setSituacao(situacao);
@@ -114,27 +122,23 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
                         }
                     }
                 });
-                break;
+            }
         }
-    }
 
-    public void listaQtdPessoas() {
+        @Override
+        public void onValidationFailed(List<ValidationError> errors) {
 
-        List<Integer> list = new ArrayList<Integer>();
-        list.add(2);
-        list.add(4);
-        list.add(6);
-        list.add(8);
-        list.add(12);
-        list.add(14);
-        list.add(16);
-        list.add(18);
-        list.add(20);
+            for (ValidationError error : errors) {
+                View view = error.getView();
+                String message = error.getCollatedErrorMessage(EditarReservaActivity.this);
 
-        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnQtdPessoas.setAdapter(dataAdapter);
+                if (view instanceof EditText) {
+                    ((EditText) view).setError(message);
+                } else {
+                    Toast.makeText(EditarReservaActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override

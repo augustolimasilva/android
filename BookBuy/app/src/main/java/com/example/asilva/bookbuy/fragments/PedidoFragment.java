@@ -26,14 +26,17 @@ import com.example.asilva.bookbuy.basicas.Item;
 import com.example.asilva.bookbuy.basicas.Pedido;
 import com.example.asilva.bookbuy.basicas.Produto;
 import com.example.asilva.bookbuy.basicas.Reserva;
+import com.example.asilva.bookbuy.basicas.Rota;
 import com.example.asilva.bookbuy.callbacks.ItemListener;
 import com.example.asilva.bookbuy.callbacks.PedidoListener;
 import com.example.asilva.bookbuy.callbacks.ProdutosListener;
 import com.example.asilva.bookbuy.callbacks.ReservasClienteListener;
+import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.dao.DAOItem;
 import com.example.asilva.bookbuy.dao.DAOPedido;
 import com.example.asilva.bookbuy.dao.DAOProduto;
 import com.example.asilva.bookbuy.dao.DAOReserva;
+import com.example.asilva.bookbuy.util.BaixarRota;
 import com.example.asilva.bookbuy.util.Util;
 
 import java.text.DateFormat;
@@ -49,17 +52,20 @@ public class PedidoFragment extends Fragment {
     ListView listProdutos;
     ProgressBar progressBar;
     int idRestaurante, quantidade, idCliente, idPed;
-    TextView txtValor, txtValorTotal, txtValorFinal;
+    TextView txtValor, txtValorTotal, txtValorFinal, txtData;
     Spinner spnDatas;
     List<Reserva> listaReservas = new ArrayList<>();
     ReservasAdapter reservasAdapter;
+    ListView list;
+    ItemAdapter itemAdapter;
+    int posicao;
 
     EditText edtQuantidade;
 
     Button bttAdicionarItem, bttConcluir;
     Produto produto;
-    float latitude, longitude;
-    String valorProduto, horaPedido, tempoEstimado;
+    float latitude, longitude, latRes, longRes;
+    String valorProduto, tempoEstimado, data;
     float valorTotal;
     Item item;
     Reserva reservaSelecionada;
@@ -76,17 +82,21 @@ public class PedidoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pedido, container, false);
 
         quantidade = 0;
+       // buscarDistancia();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("dados_restaurante", 0);
         idRestaurante = prefs.getInt("idRestaurante", 1);
-        latitude = prefs.getFloat("latitudeRes", (float) 9.1);
-        longitude = prefs.getFloat("longitudeRes", (float) 9.2);
+        latitude = prefs.getFloat("latitude", 1);
+        longitude = prefs.getFloat("longitude", 1);
+        latRes = prefs.getFloat("latitudeRes", 1);
+        longRes = prefs.getFloat("longitudeRes", 1);
+
+        SharedPreferences prefs2 = this.getActivity().getSharedPreferences("dados_rota", 0);
+        tempoEstimado = prefs2.getString("tempo", "22 minutos");
+
 
         SharedPreferences prefsCliente = this.getActivity().getSharedPreferences("meus_dados", 0);
         idCliente = prefsCliente.getInt("id", 1);
-
-        SharedPreferences prefsRota = this.getActivity().getSharedPreferences("dados_rota", 0);
-        tempoEstimado = prefsRota.getString("tempo", "22 minutos");
 
         listProdutos = (ListView) view.findViewById(R.id.listProdutos);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -115,8 +125,9 @@ public class PedidoFragment extends Fragment {
                     public void onClick(View v) {
                         quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString()));
 
-                        if (quantidade != 0) {
-
+                        if(quantidade == 0){
+                            Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                        }else {
                             item = new Item();
 
                             item.setIdProduto(produto.getIdProduto());
@@ -127,8 +138,6 @@ public class PedidoFragment extends Fragment {
                             listaProdutosPedido.add(item);
 
                             dialog.dismiss();
-                        } else {
-                            Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -139,7 +148,6 @@ public class PedidoFragment extends Fragment {
             }
         });
 
-        buscarDataHoraDisponiveis();
         listaProdutos();
         atualizarLista();
 
@@ -178,6 +186,7 @@ public class PedidoFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.icFinalizarPedido) {
+
             if (listaProdutosPedido != null) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                         .title(R.string.dialog_meu_pedido)
@@ -185,27 +194,52 @@ public class PedidoFragment extends Fragment {
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                posicao = which;
+                                new MaterialDialog.Builder(getContext())
+                                        .title("Excluir")
+                                        .content("Deseja excluir esse produto do seu pedido?")
+                                        .negativeText("Não").positiveText("Sim").callback(new MaterialDialog.ButtonCallback() {
+
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        listaProdutosPedido.remove(posicao);
+                                    }
+
+                                    @Override
+                                    public void onNegative(MaterialDialog dialog) {
+                                        dialog.dismiss();
+                                    }
+
+                                }).build().show();
                             }
                         }).positiveText("Finalizar Pedido").callback(new MaterialDialog.ButtonCallback() {
-                                                                         @Override
-                                                                         public void onPositive(MaterialDialog dialog) {
+                                                                                                 @Override
+                                                                                                 public void onPositive(MaterialDialog dialog) {
 
-                                                                             reservasAdapter = new ReservasAdapter(listaReservas);
-                                                                             calcularValorDoPedido();
-                                                                             final Dialog dial = new Dialog(getContext());
-                                                                             dial.setContentView(R.layout.dialog_pedido_concluir);
+                                                                                                     reservasAdapter = new ReservasAdapter(listaReservas);
+                                                                                                     calcularValorDoPedido();
+                                                                                                     final Dialog dial = new Dialog(getContext());
+                                                                                                     dial.setContentView(R.layout.dialog_pedido_concluir);
 
-                                                                             dial.setTitle("Escolha um horário: ");
+                                                                                                     dial.setTitle("Escolha um horário: ");
 
-                                                                             spnDatas = (Spinner) dial.findViewById(R.id.spnDatas);
-                                                                             txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
-                                                                             bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
-                                                                             txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
+                                                                                                     //spnDatas = (Spinner) dial.findViewById(R.id.spnDatas);
+                                                                                                     txtData = (TextView) dial.findViewById(R.id.txtData);
+                                                                                                     txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
+                                                                                                     bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
+                                                                                                     txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
 
-                                                                             txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
-                                                                             spnDatas.setAdapter(reservasAdapter);
+                                                                                                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                                                                                     Date date = new Date();
+                                                                                                     data = dateFormat.format(date);
 
-                                                                             spnDatas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                                                                     txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
+                                                                                                             " " + data.substring(11, 13) + ":" + data.substring(14, 16));
+                                                                                                     ;
+                                                                                                     txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
+                                                                                                     // spnDatas.setAdapter(reservasAdapter);
+
+/*                                                                             spnDatas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                                                                  @Override
                                                                                  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                                                      reservaSelecionada = (Reserva) spnDatas.getAdapter().getItem(i);
@@ -215,71 +249,72 @@ public class PedidoFragment extends Fragment {
                                                                                  public void onNothingSelected(AdapterView<?> parent) {
 
                                                                                  }
-                                                                             });
+                                                                             });*/
 
-                                                                             bttConcluir.setOnClickListener(new View.OnClickListener() {
+                                                                                                     bttConcluir.setOnClickListener(new View.OnClickListener() {
 
-                                                                                 @Override
-                                                                                 public void onClick(View v) {
-
-                                                                                     final Pedido pedido = new Pedido();
-                                                                                     pedido.setDataHora(reservaSelecionada.getDataHora());
-                                                                                     pedido.setSituacao("ATIVO");
-                                                                                     pedido.setStatus("ABERTO");
-                                                                                     pedido.setTempoEstimado(tempoEstimado);
-                                                                                     pedido.setIdCliente(idCliente);
-                                                                                     pedido.setIdRestaurante(idRestaurante);
-                                                                                     pedido.setIdMesa(1);
-
-                                                                                     new DAOPedido().inserirPedido(pedido, new PedidoListener() {
-                                                                                         @Override
-                                                                                         public void onPedido(Integer idPedido) {
-                                                                                             if (idPedido > 0) {
-                                                                                                 idPed = idPedido;
-
-                                                                                                 for (int i = 0; i < listaProdutosPedido.size(); i++) {
-
-                                                                                                     Item it = new Item();
-                                                                                                     it.setIdItem(1);
-                                                                                                     it.setIdPedido(idPed);
-                                                                                                     it.setIdPromocao(1);
-                                                                                                     it.setIdProduto(listaProdutosPedido.get(i).getIdProduto());
-                                                                                                     it.setQuantidade(listaProdutosPedido.get(i).getQuantidade());
-                                                                                                     it.setValorItem(listaProdutosPedido.get(i).getValorItem());
-
-                                                                                                     new DAOItem().inserirItem(it, new ItemListener() {
                                                                                                          @Override
-                                                                                                         public void onItem(boolean retorno) {
-                                                                                                             if (retorno == true) {
-                                                                                                                 Toast.makeText(getContext(), "Pedido efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                                                                                             } else {
-                                                                                                                 Toast.makeText(getContext(), "Não foi possível Concluir seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
-                                                                                                             }
+                                                                                                         public void onClick(View v) {
+
+                                                                                                             final Pedido pedido = new Pedido();
+                                                                                                             pedido.setDataHora(data);
+                                                                                                             pedido.setSituacao("ATIVO");
+                                                                                                             pedido.setStatus("ABERTO");
+                                                                                                             pedido.setTempoEstimado(tempoEstimado);
+                                                                                                             pedido.setIdCliente(idCliente);
+                                                                                                             pedido.setIdRestaurante(idRestaurante);
+                                                                                                             pedido.setIdMesa(1);
+
+                                                                                                             new DAOPedido().inserirPedido(pedido, new PedidoListener() {
+                                                                                                                 @Override
+                                                                                                                 public void onPedido(Integer idPedido) {
+                                                                                                                     if (idPedido > 0) {
+                                                                                                                         idPed = idPedido;
+
+                                                                                                                         for (int i = 0; i < listaProdutosPedido.size(); i++) {
+
+                                                                                                                             Item it = new Item();
+                                                                                                                             it.setIdPedido(idPed);
+                                                                                                                             it.setIdPromocao(1);
+                                                                                                                             it.setIdProduto(listaProdutosPedido.get(i).getIdProduto());
+                                                                                                                             it.setQuantidade(listaProdutosPedido.get(i).getQuantidade());
+                                                                                                                             it.setValorTeste(String.valueOf(listaProdutosPedido.get(i).getValorItem()));
+
+                                                                                                                             new DAOItem().inserirItem(it, new ItemListener() {
+                                                                                                                                 @Override
+                                                                                                                                 public void onItem(boolean retorno) {
+                                                                                                                                     if (retorno == true) {
+                                                                                                                                         Toast.makeText(getContext(), "Pedido efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                                                                                                                                         listaProdutosPedido.clear();
+                                                                                                                                         dial.dismiss();
+                                                                                                                                     } else {
+                                                                                                                                         Toast.makeText(getContext(), "Não foi possível Concluir seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                                                                                                     }
+                                                                                                                                 }
+                                                                                                                             });
+                                                                                                                         }
+                                                                                                                     } else {
+                                                                                                                         Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                                                                                     }
+                                                                                                                 }
+                                                                                                             });
                                                                                                          }
                                                                                                      });
-                                                                                                 }
-                                                                                             } else {
-                                                                                                 Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
-                                                                                             }
-                                                                                         }
-                                                                                     });
-                                                                                 }
-                                                                             });
 
-                                                                             dial.show();
-                                                                         }
-                                                                     }
+                                                                                                     dial.show();
+                                                                                                 }
+                                                                                             }
                         ).show();
 
-                ListView list = dialog.getListView();
-                ItemAdapter itemAdapter = new ItemAdapter(listaProdutosPedido);
+                list = dialog.getListView();
+                itemAdapter = new ItemAdapter(listaProdutosPedido);
                 list.setAdapter(itemAdapter);
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     public void buscarDataHoraDisponiveis() {
         if (Util.isNetworkConnected(getContext())) {
             new DAOReserva().buscarReservasDoClienteRestaurante(idRestaurante, idCliente, new ReservasClienteListener() {
@@ -287,6 +322,16 @@ public class PedidoFragment extends Fragment {
                 public void onReserva(List<Reserva> reservas) {
                     if (reservas != null) {
                         listaReservas = reservas;
+
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        Date date = new Date();
+                        String data = dateFormat.format(date);
+
+                        Reserva res = new Reserva();
+                        res.setDataHora(data);
+
+                        listaReservas.add(res);
+
                     } else {
                         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         Date date = new Date();
@@ -299,7 +344,7 @@ public class PedidoFragment extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
     public void calcularValorDoPedido() {
         valorTotal = 0;

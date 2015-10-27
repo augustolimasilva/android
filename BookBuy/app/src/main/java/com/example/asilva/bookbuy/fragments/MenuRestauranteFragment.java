@@ -41,10 +41,7 @@ public class MenuRestauranteFragment extends Fragment {
     int idRestaurante;
     String telefone, email, rua, numero;
     TextView txtRua, txtEmail, txtTelefone, txtDistancia;
-    double dist;
     float latitude, longitude, latRes, longRes;
-    Rota rot;
-   // RotaTask rotaTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,13 +105,15 @@ public class MenuRestauranteFragment extends Fragment {
             @Override
             public void onRota(Rota rota) {
                 if(rota != null){
-                    rot = rota;
-                    txtDistancia.setText("Distancia: " + rot.getDistancia());
+                   txtDistancia.setText("Distância: " + rota.getDistancia() + " " +  "-" + " " + rota.getTempo());
 
                     SharedPreferences prefs = getActivity().getSharedPreferences("dados_rota", 0);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("distancia", rot.getDistancia());
-                    editor.putString("tempo", rot.getTempo());
+
+                    editor.putString("distancia", rota.getDistancia());
+                    editor.putString("tempo", rota.getTempo());
+
+                    editor.commit();
                 }
             }
         });

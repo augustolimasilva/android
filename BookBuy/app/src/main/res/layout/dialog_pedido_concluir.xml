@@ -17,11 +17,14 @@
             android:layout_marginTop="23dp"
             android:layout_marginLeft="5dp" />
 
-        <Spinner
+        <TextView
             android:layout_width="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_height="wrap_content"
-            android:id="@+id/spnDatas"
-            android:layout_weight="1" />
+            android:id="@+id/txtData"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,7 +47,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/txtValorFinal"
-            android:layout_marginLeft="160dp" />
+            android:layout_marginLeft="150dp" />
     </LinearLayout>
 
     <LinearLayout

@@ -52,18 +52,18 @@ public class MinhasComprasActivity extends ActionBarActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return getString(R.string.title_minhas_reservas);
-            }else{
                 return getString(R.string.title_meus_pedidos);
+            }else{
+                return getString(R.string.title_minhas_reservas);
             }
         }
 
         @Override
         public Fragment getItem(int i) {
             if(i == 0){
-                return new MinhasReservasFragment();
-            }else{
                 return new MeusPedidosFragment();
+            }else{
+                return new MinhasReservasFragment();
             }
         }
 

@@ -40,7 +40,7 @@ public class DAOItem {
 
             it.addProperty("idItem", item.getIdItem());
             it.addProperty("quantidade", item.getQuantidade());
-            it.addProperty("valorItem", item.getValorItem());
+            it.addProperty("valorItem", item.getValorTeste());
             it.addProperty("idPedido", item.getIdPedido());
             it.addProperty("idProduto", item.getIdProduto());
             it.addProperty("idPromocao", item.getIdPromocao());

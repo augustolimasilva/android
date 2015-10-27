@@ -21,8 +21,8 @@ public class ReservaClienteAdapter extends BaseAdapter {
         public final TextView txtQtdPessoas;
 
         ViewHolder (View v){
-            txtNomeRestaurante = (TextView)v.findViewById(R.id.txtNomeProduto);
-            txtDataReserva = (TextView)v.findViewById(R.id.txtQuantidade);
+            txtNomeRestaurante = (TextView)v.findViewById(R.id.txtNomeRestaurante);
+            txtDataReserva = (TextView)v.findViewById(R.id.txtDataHora);
             txtQtdPessoas = (TextView)v.findViewById(R.id.txtQtdPessoas);
         }
     }

@@ -34,4 +34,9 @@
         <item>Atualizar Reserva</item>
         <item>Cancelar Reserva</item>
     </string-array>
+
+    <string-array name="items3">
+        <item>Cancelar Pedido</item>
+        <item>Efetuar Pagamento</item>
+    </string-array>
 </resources>

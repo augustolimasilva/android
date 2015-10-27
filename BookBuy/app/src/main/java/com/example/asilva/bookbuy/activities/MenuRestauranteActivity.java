@@ -22,16 +22,19 @@ import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Restaurante;
+import com.example.asilva.bookbuy.basicas.Rota;
+import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.fragments.MenuRestauranteFragment;
 import com.example.asilva.bookbuy.fragments.PedidoFragment;
 import com.example.asilva.bookbuy.fragments.ReservaFragment;
+import com.example.asilva.bookbuy.util.BaixarRota;
 
 import io.karim.MaterialTabs;
 
 public class MenuRestauranteActivity extends ActionBarActivity {
 
     ViewPager mViewPager;
-    float latitude, longitude;
+    float latRes, longRes;
     String nomeRestaurante;
 
     @Override
@@ -47,8 +50,8 @@ public class MenuRestauranteActivity extends ActionBarActivity {
 
         SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
         nomeRestaurante = prefs.getString("nome", "bookbuy@email.com");
-        latitude = prefs.getFloat("latitudeRes", (float) 9.1);
-        longitude = prefs.getFloat("longitudeRes", (float) 9.2);
+        latRes = prefs.getFloat("latitudeRes", 1);
+        longRes = prefs.getFloat("longitudeRes", 1);
 
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
@@ -107,7 +110,7 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.icMapa) {
-            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + latitude + "," + longitude));
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + latRes + "," + longRes));
             startActivity(it);
         }
 

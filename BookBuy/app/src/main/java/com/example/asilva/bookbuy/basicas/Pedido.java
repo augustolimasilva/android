@@ -10,6 +10,15 @@ public class Pedido {
     private int idRestaurante;
     private String situacao;
     private String status;
+    private String nomeRestaurante;
+
+    public String getNomeRestaurante() {
+        return nomeRestaurante;
+    }
+
+    public void setNomeRestaurante(String nomeRestaurante) {
+        this.nomeRestaurante = nomeRestaurante;
+    }
 
     public int getIdMesa() {
         return idMesa;

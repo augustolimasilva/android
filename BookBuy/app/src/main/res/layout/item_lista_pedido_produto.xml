@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/txtNomeProduto"
+        android:id="@+id/txtNomeRestaurante"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/txtQuantidade"
-        android:layout_below="@+id/txtNomeProduto"
-        android:layout_alignLeft="@+id/txtNomeProduto"
-        android:layout_alignStart="@+id/txtNomeProduto"
+        android:id="@+id/txtDataHora"
+        android:layout_below="@+id/txtNomeRestaurante"
+        android:layout_alignLeft="@+id/txtNomeRestaurante"
+        android:layout_alignStart="@+id/txtNomeRestaurante"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp" />
 
@@ -34,8 +34,8 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/txtValorTotal"
-        android:layout_below="@+id/txtQuantidade"
-        android:layout_alignLeft="@+id/txtQuantidade"
-        android:layout_alignStart="@+id/txtQuantidade"
+        android:layout_below="@+id/txtDataHora"
+        android:layout_alignLeft="@+id/txtDataHora"
+        android:layout_alignStart="@+id/txtDataHora"
         android:layout_marginTop="4dp" />
 </RelativeLayout>

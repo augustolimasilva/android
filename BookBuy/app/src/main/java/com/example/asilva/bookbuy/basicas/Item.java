@@ -15,6 +15,15 @@ public class Item {
     public int idPedido;
     public int idProduto;
     public int idPromocao;
+    public String valorTeste;
+
+    public String getValorTeste() {
+        return valorTeste;
+    }
+
+    public void setValorTeste(String valorTeste) {
+        this.valorTeste = valorTeste;
+    }
 
     public String getNomeProduto() {
         return nomeProduto;

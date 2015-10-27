@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="8dp"
+    android:padding="10dp"
     android:layout_height="match_parent">
 
     <TextView
@@ -14,8 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/txtQtdPessoas"
+        android:id="@+id/txtStatus"
         android:layout_below="@+id/txtDataHora"
         android:layout_alignLeft="@+id/txtDataHora"
         android:layout_alignStart="@+id/txtDataHora"

@@ -67,7 +67,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:autoText="false"
-            android:hint="Restaurante"
+            android:hint="Data"
             android:maxLines="1"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -89,18 +89,23 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/edtNomeCliente"
-            android:layout_marginTop="18dp"
             android:text="@string/txtQtdPessoas"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Spinner
-            android:id="@+id/spnQtdPessoas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/txtDataHora"
-            android:layout_marginTop="18dp"
-            android:layout_toEndOf="@+id/txtDataHora"
-            android:layout_toRightOf="@+id/txtDataHora" />
+            <EditText
+                android:id="@+id/editTxtQtdPessoas"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:autoText="false"
+                android:maxLines="1"
+                android:hint="0"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="3dp"
+                android:phoneNumber="true" />
     </LinearLayout>
 
     <Button
@@ -112,7 +117,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/txtEmail"
         android:layout_below="@+id/txtTelefone"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="#2b1d0c"
         android:text="@string/atualizar_reserva"
         android:textColor="#ffffff" />

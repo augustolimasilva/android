@@ -21,8 +21,8 @@ public class ItemAdapter extends BaseAdapter {
         public final TextView txtValorTotal;
 
         ViewHolder (View v){
-            txtNomeProduto = (TextView)v.findViewById(R.id.txtNomeProduto);
-            txtQuantidade = (TextView)v.findViewById(R.id.txtQuantidade);
+            txtNomeProduto = (TextView)v.findViewById(R.id.txtNomeRestaurante);
+            txtQuantidade = (TextView)v.findViewById(R.id.txtDataHora);
             txtValorTotal = (TextView)v.findViewById(R.id.txtValorTotal);
         }
     }
