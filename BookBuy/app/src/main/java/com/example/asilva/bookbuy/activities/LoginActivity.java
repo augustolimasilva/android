@@ -2,8 +2,13 @@ package com.example.asilva.bookbuy.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +34,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,9 +76,28 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
         boolean jaLogou = prefs.getBoolean("estalogado", false);
 
+
+
         if (jaLogou) {
             Intent it = new Intent(this, MapaActivity.class);
             startActivity(it);
+        }
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.asilva.bookbuy",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String BaseEncode = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+
+                BaseEncode.length();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
         }
 
     }
