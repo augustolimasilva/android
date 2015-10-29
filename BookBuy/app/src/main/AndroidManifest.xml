@@ -66,11 +66,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MapaActivity" />
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
+
+        <activity android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
         <activity
             android:name=".activities.MinhasComprasActivity"
             android:label="@string/title_activity_minhas_compras"
