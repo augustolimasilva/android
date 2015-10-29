@@ -83,10 +83,6 @@
                 android:value=".activities.MapaActivity" />
         </activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_key" />
-
         <activity
             android:name=".activities.EditarCadastroActivity"
             android:label="@string/title_activity_editar_cadastro" >
