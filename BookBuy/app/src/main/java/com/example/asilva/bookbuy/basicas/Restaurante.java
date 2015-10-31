@@ -17,7 +17,16 @@ public class Restaurante implements Serializable {
     public String rua;
     public String numero;
     public String complemento;
+    public float rate;
     public byte[] logo;
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
 
     public String getCnpj() {
         return cnpj;

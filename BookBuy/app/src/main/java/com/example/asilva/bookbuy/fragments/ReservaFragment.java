@@ -21,6 +21,7 @@ import com.example.asilva.bookbuy.adapters.ReservasAdapter;
 import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
 import com.example.asilva.bookbuy.callbacks.ReservaListener;
+import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.dao.DAOReserva;
 import com.example.asilva.bookbuy.util.Util;
 
@@ -42,7 +43,6 @@ public class ReservaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
     }
 
     @Override
@@ -155,8 +155,8 @@ public class ReservaFragment extends Fragment {
             new DAOReserva().buscarTodasReservas(idRestaurante, new ReservaListener() {
                 @Override
                 public void onReserva(List<Reserva> reservas) {
-                    listaReservas = reservas;
                     if (listaReservas != null) {
+                        listaReservas = reservas;
                         listaDataHoraDisponiveis();
                     } else if (listaReservas == null) {
                         Toast.makeText(getContext(), "Nenhum reserva disponível foi encontrado para esse restaurante.", Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +54,6 @@ public class PedidoFragment extends Fragment {
     ProgressBar progressBar;
     int idRestaurante, quantidade, idCliente, idPed;
     TextView txtValor, txtValorTotal, txtValorFinal, txtData;
-    Spinner spnDatas;
     List<Reserva> listaReservas = new ArrayList<>();
     ReservasAdapter reservasAdapter;
     ListView list;
@@ -68,7 +68,6 @@ public class PedidoFragment extends Fragment {
     String valorProduto, tempoEstimado, data;
     float valorTotal;
     Item item;
-    Reserva reservaSelecionada;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,6 @@ public class PedidoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pedido, container, false);
 
         quantidade = 0;
-       // buscarDistancia();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("dados_restaurante", 0);
         idRestaurante = prefs.getInt("idRestaurante", 1);
@@ -118,14 +116,14 @@ public class PedidoFragment extends Fragment {
                 txtValor = (TextView) dialog.findViewById(R.id.txtValor);
                 txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
                 edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
-                bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
+                bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);;
 
                 bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString()));
 
-                        if(quantidade == 0){
+                        if(quantidade == 0 || quantidade < 0){
                             Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
                         }else {
                             item = new Item();

@@ -135,6 +135,7 @@ public class MapaActivity extends AppCompatActivity implements
                         editor.putString("cep", rest.getNome());
                         editor.putFloat("latitude", latitude);
                         editor.putFloat("longitude", longitude);
+                        editor.putFloat("rate", rest.getRate());
 
                         editor.commit();
 

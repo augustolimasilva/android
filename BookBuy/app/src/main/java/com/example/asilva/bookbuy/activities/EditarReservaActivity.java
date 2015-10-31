@@ -33,7 +33,7 @@ public class EditarReservaActivity extends AppCompatActivity implements View.OnC
     EditText editTxtNomeRestaurante, editTxtDataHora, editTxtNomeCliente;
 
     @NotEmpty(message = "É necessário preencher este campo!", trim = true)
-    @Length(min = 1, max = 2, trim = true, message = "Tamanho inválido")
+    @Length(min = 1, max = 2, trim = true, message = "Valor inválido")
     EditText editTxtQtdPessoas;
 
     Button bttSalvarAlteracoes;

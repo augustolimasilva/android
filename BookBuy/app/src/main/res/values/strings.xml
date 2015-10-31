@@ -45,5 +45,8 @@
     <string name="icFinalizarPedido">Finalizar Pedido</string>
     <string name="dialog_meu_pedido">Resumo do Pedido</string>
     <string name="bttConcluir">Concluir</string>
+    <string name="bttCancelar">Cancelar</string>
+    <string name="bttSalvar">Salvar</string>
+    <string name="avaliacao">Avalie nosso Restaurante:</string>
     <string name="facebook_app_id">738499262944915</string>
 </resources>

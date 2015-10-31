@@ -17,7 +17,7 @@ import java.util.Vector;
 
 public class DAORestaurante {
 
-    private static final String URL = "http://52.10.208.222:8080/WSbookbuy/services/RestauranteDAO?wsdl";
+    private static final String URL = "http://52.32.87.153:8080/WSbookbuy/services/RestauranteDAO?wsdl";
     private static final String NAMESPACE = "http://DAO";
     List<Restaurante> listaRes = new ArrayList<Restaurante>();
 
@@ -70,6 +70,7 @@ public class DAORestaurante {
                     res.setEmail(resposta.getProperty("email").toString());
                     res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
                     res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
+                    res.setRate((Float.parseFloat(resposta.getProperty("rate").toString())));
 
                     listaRes.add(res);
 
@@ -93,6 +94,7 @@ public class DAORestaurante {
                         res.setEmail(resposta.getProperty("email").toString());
                         res.setLatitude((Float.parseFloat(resposta.getProperty("latitude").toString())));
                         res.setLongitude((Float.parseFloat(resposta.getProperty("longitude").toString())));
+                        res.setRate((Float.parseFloat(resposta.getProperty("rate").toString())));
 
                         listaRes.add(res);
                     }

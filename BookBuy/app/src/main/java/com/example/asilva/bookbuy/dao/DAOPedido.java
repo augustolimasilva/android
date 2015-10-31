@@ -19,7 +19,7 @@ import java.util.Vector;
 
 public class DAOPedido {
 
-    private static final String URL = "http://52.10.208.222:8080/WSbookbuy/services/PedidoDAO?wsdl";
+    private static final String URL = "http://52.32.87.153:8080/WSbookbuy/services/PedidoDAO?wsdl";
     private static final String NAMESPACE = "http://DAO";
     List<Pedido> listaPedidos = new ArrayList<Pedido>();
 

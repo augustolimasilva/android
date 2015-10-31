@@ -1,5 +1,6 @@
 package com.example.asilva.bookbuy.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +23,11 @@ import com.example.asilva.bookbuy.basicas.Produto;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.basicas.Rota;
 import com.example.asilva.bookbuy.callbacks.ProdutosListener;
+import com.example.asilva.bookbuy.callbacks.RateListener;
 import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.dao.DAOCliente;
 import com.example.asilva.bookbuy.dao.DAOProduto;
+import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.util.BaixarRota;
 import com.example.asilva.bookbuy.util.RotaHttp;
 import com.example.asilva.bookbuy.util.Util;
@@ -38,10 +42,11 @@ import java.util.List;
 
 public class MenuRestauranteFragment extends Fragment {
 
-    int idRestaurante;
+    int idRestaurante, idCliente;
     String telefone, email, rua, numero;
     TextView txtRua, txtEmail, txtTelefone, txtDistancia;
-    float latitude, longitude, latRes, longRes;
+    float latitude, longitude, latRes, longRes, rate;
+    RatingBar rttRestaurante;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,10 @@ public class MenuRestauranteFragment extends Fragment {
         longitude = prefs.getFloat("longitude", 1);
         latRes = prefs.getFloat("latitudeRes", 1);
         longRes = prefs.getFloat("longitudeRes", 1);
+        rate = prefs.getFloat("rate", 1);
+
+        SharedPreferences prefsCliente = this.getActivity().getSharedPreferences("meus_dados", 0);
+        idCliente = prefsCliente.getInt("id", 1);
 
         buscarDistancia();
 
@@ -71,6 +80,9 @@ public class MenuRestauranteFragment extends Fragment {
         txtEmail = (TextView) view.findViewById(R.id.txtEmail);
         txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
         txtDistancia  = (TextView)view.findViewById(R.id.txtDistancia);
+        rttRestaurante = (RatingBar)view.findViewById(R.id.rttRestaurante);
+
+        rttRestaurante.setRating(rate);
 
         txtTelefone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +107,6 @@ public class MenuRestauranteFragment extends Fragment {
         txtRua.setText("Endereço: " + rua + "," + " " + numero);
         txtTelefone.setText("Telefone: " + telefone);
         txtEmail.setText("Email: " + email);
-
 
         return view;
     }

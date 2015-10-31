@@ -1,6 +1,9 @@
 package com.example.asilva.bookbuy.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,15 +18,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.basicas.Rota;
+import com.example.asilva.bookbuy.callbacks.RateListener;
 import com.example.asilva.bookbuy.callbacks.RotaListener;
+import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.fragments.MenuRestauranteFragment;
 import com.example.asilva.bookbuy.fragments.PedidoFragment;
 import com.example.asilva.bookbuy.fragments.ReservaFragment;
@@ -36,6 +46,9 @@ public class MenuRestauranteActivity extends ActionBarActivity {
     ViewPager mViewPager;
     float latRes, longRes;
     String nomeRestaurante;
+    int idCliente, idRestaurante;
+    RatingBar rttVotar;
+    Button bttSalvar, bttCancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +65,10 @@ public class MenuRestauranteActivity extends ActionBarActivity {
         nomeRestaurante = prefs.getString("nome", "bookbuy@email.com");
         latRes = prefs.getFloat("latitudeRes", 1);
         longRes = prefs.getFloat("longitudeRes", 1);
+        idRestaurante = prefs.getInt("idRestaurante", 1);
+
+        SharedPreferences prefsCliente = getSharedPreferences("meus_dados", 0);
+        idCliente = prefsCliente.getInt("id", 1);
 
         mViewPager = (ViewPager)findViewById(R.id.viewPager);
         mViewPager.setAdapter(adapter);
@@ -60,6 +77,8 @@ public class MenuRestauranteActivity extends ActionBarActivity {
 
         MaterialTabs tabs = (MaterialTabs) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
+
+        verificarRate();
 
         getSupportActionBar().setElevation(0);
     }
@@ -130,5 +149,43 @@ public class MenuRestauranteActivity extends ActionBarActivity {
 
         Intent it = new Intent(this, MapaActivity.class);
         startActivity(it);
+    }
+
+    public void verificarRate(){
+        if(idCliente != 0 && idRestaurante != 0) {
+            new DAORate().pesquisarRateUsuarioRestaurante(idRestaurante, idCliente, new RateListener() {
+                @Override
+                public void onRate(Boolean retorno) {
+                    if (retorno) {
+                        final Dialog dial = new Dialog(MenuRestauranteActivity.this);
+                        dial.setContentView(R.layout.dialog_rate);
+
+                        rttVotar = (RatingBar)dial.findViewById(R.id.rttVotar);
+                        bttSalvar = (Button)dial.findViewById(R.id.bttSalvar);
+                        bttCancelar = (Button)dial.findViewById(R.id.bttCancelar);
+
+                        bttSalvar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                float nota = rttVotar.getRating();
+                                Log.d("Teste", String.valueOf(nota));
+                                //Toast.makeText(this, rttVotar.getRating(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                        bttCancelar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dial.dismiss();
+                            }
+                        });
+
+                        dial.setTitle(R.string.avaliacao);
+                        dial.show();
+                    }
+                }
+            });
+        }
     }
 }
