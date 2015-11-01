@@ -2,6 +2,8 @@ package com.example.asilva.bookbuy.dao;
 
 import android.os.AsyncTask;
 
+import com.example.asilva.bookbuy.basicas.Rate;
+import com.example.asilva.bookbuy.callbacks.AdicionarRateListener;
 import com.example.asilva.bookbuy.callbacks.RateListener;
 
 import org.ksoap2.SoapEnvelope;
@@ -16,11 +18,64 @@ public class DAORate {
     private static final String NAMESPACE = "http://DAO";
 
     private static final String BUSCAR_RATE = "buscarRateUsuarioRestaurante";
+    public static final String INSERIR_RATE = "inserirRate";
 
     boolean retorno = false;
+    float rateTotal = 0f;
 
     public void pesquisarRateUsuarioRestaurante(int idRestaurante, int idCliente, RateListener listener){
         new PesquisarRateUsuarioRestauranteTask(listener).execute(idRestaurante, idCliente);
+    }
+
+    public void adicionarRate(Rate rate, AdicionarRateListener listener){
+        new AdicionarRateTask(listener).execute(rate);
+    }
+
+    class AdicionarRateTask extends AsyncTask<Rate, Void, Float>{
+
+        private final AdicionarRateListener listener;
+
+        private AdicionarRateTask(final AdicionarRateListener  listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Float doInBackground(Rate... params) {
+            SoapObject rat = new SoapObject(NAMESPACE, "rate");
+
+            Rate rate= params[0];
+
+            rat.addProperty("idRate", rate.getIdRate());
+            rat.addProperty("rate", rate.getRate());
+            rat.addProperty("idCliente", rate.getIdCliente());
+            rat.addProperty("idRestaurante", rate.getIdRestaurante());
+
+            SoapObject inserirRate = new SoapObject(NAMESPACE, INSERIR_RATE);
+
+            inserirRate.addSoapObject(rat);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(inserirRate);
+
+            envelope.implicitTypes = true;
+
+            HttpTransportSE http = new HttpTransportSE(URL);
+            try {
+                http.call("urn:" + INSERIR_RATE, envelope);
+
+                SoapPrimitive resposta = (SoapPrimitive) envelope.getResponse();
+
+                return rateTotal =  Float.parseFloat(resposta.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0f;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Float rateTotal) {
+            listener.onAdicionar(rateTotal);
+        }
     }
 
     class PesquisarRateUsuarioRestauranteTask extends AsyncTask<Integer, Void, Boolean>{

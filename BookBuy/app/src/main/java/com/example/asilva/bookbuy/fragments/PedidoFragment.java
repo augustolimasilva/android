@@ -221,7 +221,6 @@ public class PedidoFragment extends Fragment {
 
                                                                                                      dial.setTitle("Escolha um horário: ");
 
-                                                                                                     //spnDatas = (Spinner) dial.findViewById(R.id.spnDatas);
                                                                                                      txtData = (TextView) dial.findViewById(R.id.txtData);
                                                                                                      txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
                                                                                                      bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
@@ -235,19 +234,6 @@ public class PedidoFragment extends Fragment {
                                                                                                              " " + data.substring(11, 13) + ":" + data.substring(14, 16));
                                                                                                      ;
                                                                                                      txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
-                                                                                                     // spnDatas.setAdapter(reservasAdapter);
-
-/*                                                                             spnDatas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                                                 @Override
-                                                                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                                                     reservaSelecionada = (Reserva) spnDatas.getAdapter().getItem(i);
-                                                                                 }
-
-                                                                                 @Override
-                                                                                 public void onNothingSelected(AdapterView<?> parent) {
-
-                                                                                 }
-                                                                             });*/
 
                                                                                                      bttConcluir.setOnClickListener(new View.OnClickListener() {
 
@@ -312,37 +298,6 @@ public class PedidoFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-/*
-    public void buscarDataHoraDisponiveis() {
-        if (Util.isNetworkConnected(getContext())) {
-            new DAOReserva().buscarReservasDoClienteRestaurante(idRestaurante, idCliente, new ReservasClienteListener() {
-                @Override
-                public void onReserva(List<Reserva> reservas) {
-                    if (reservas != null) {
-                        listaReservas = reservas;
-
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                        Date date = new Date();
-                        String data = dateFormat.format(date);
-
-                        Reserva res = new Reserva();
-                        res.setDataHora(data);
-
-                        listaReservas.add(res);
-
-                    } else {
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                        Date date = new Date();
-                        String data = dateFormat.format(date);
-
-                        Reserva res = new Reserva();
-                        res.setDataHora(data);
-                        listaReservas.add(res);
-                    }
-                }
-            });
-        }
-    }*/
 
     public void calcularValorDoPedido() {
         valorTotal = 0;

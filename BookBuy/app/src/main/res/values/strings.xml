@@ -48,5 +48,6 @@
     <string name="bttCancelar">Cancelar</string>
     <string name="bttSalvar">Salvar</string>
     <string name="avaliacao">Avalie nosso Restaurante:</string>
+    <string name="obrigado">Obrigado pela sua avaliação!!!</string>
     <string name="facebook_app_id">738499262944915</string>
 </resources>

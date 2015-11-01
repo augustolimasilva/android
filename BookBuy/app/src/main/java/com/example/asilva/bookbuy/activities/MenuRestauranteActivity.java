@@ -29,8 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.basicas.Rate;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.basicas.Rota;
+import com.example.asilva.bookbuy.callbacks.AdicionarRateListener;
 import com.example.asilva.bookbuy.callbacks.RateListener;
 import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.dao.DAORate;
@@ -168,11 +170,23 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                             @Override
                             public void onClick(View v) {
                                 float nota = rttVotar.getRating();
-                                Log.d("Teste", String.valueOf(nota));
-                                //Toast.makeText(this, rttVotar.getRating(),Toast.LENGTH_SHORT).show();
+
+                                Rate rate = new Rate();
+                                rate.setIdCliente(idCliente);
+                                rate.setIdRestaurante(idRestaurante);
+                                rate.setRate(String.valueOf(nota));
+
+                                new DAORate().adicionarRate(rate, new AdicionarRateListener() {
+                                    @Override
+                                    public void onAdicionar(float rateTotal) {
+                                        if (rateTotal > 0) {
+                                            dial.dismiss();
+                                            Toast.makeText(getApplication(), R.string.obrigado, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
                         });
-
 
                         bttCancelar.setOnClickListener(new View.OnClickListener() {
                             @Override
