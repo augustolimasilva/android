@@ -39,6 +39,7 @@
     <string name="atualizar_reserva">Atualizar</string>
     <string name="title_activity_editar_reserva">Atualizar Reserva</string>
     <string name="quantidade">Quantidade:</string>
+    <string name="title_activity_pagamento">Efetuar Pagamento</string>
     <string name="total">Total:</string>
     <string name="txtDataHora">Data/Hora:</string>
     <string name="adicionar">Adicionar</string>
@@ -49,5 +50,15 @@
     <string name="bttSalvar">Salvar</string>
     <string name="avaliacao">Avalie nosso Restaurante:</string>
     <string name="obrigado">Obrigado pela sua avaliação!!!</string>
+    <string name="waiting_for_answer">Aguardando resposta...</string>
+    <string name="transaction_cancelled">A transação foi cancelada com sucesso!</string>
+    <string name="transaction_succeded">A transação foi efetuada sucesso!</string>
+    <string name="transaction_error">A tentativa de compra falhou! Tente novamente!</string>
+    <string name="cancel_pagseguro">Deseja realmente cancelar?</string>
+    <string name="loading_1">Carregando.</string>
+    <string name="loading_2">Carregando..</string>
+    <string name="loading_3">Carregando...</string>
+    <string name="pagseguro">PagSeguro</string>
+    <string name="title_activity_pag_seguro">Pag Seguro</string>
     <string name="facebook_app_id">1517568258565776</string>
 </resources>

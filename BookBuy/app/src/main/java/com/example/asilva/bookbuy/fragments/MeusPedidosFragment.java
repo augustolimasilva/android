@@ -1,5 +1,6 @@
 package com.example.asilva.bookbuy.fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asilva.bookbuy.R;
+import com.example.asilva.bookbuy.activities.EfetuarPagamentoActivity;
 import com.example.asilva.bookbuy.adapters.PedidosClienteAdapter;
 import com.example.asilva.bookbuy.basicas.Pedido;
 import com.example.asilva.bookbuy.callbacks.AtualizarPedidoListener;
@@ -49,7 +51,7 @@ public class MeusPedidosFragment extends Fragment {
         } else {
             listarPedidos();
         }
-        buscarPedidosDoCliente();
+        //buscarPedidosDoCliente();
 
         listMeusPedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,7 +67,7 @@ public class MeusPedidosFragment extends Fragment {
                                 if (which == 0) {
                                     new MaterialDialog.Builder(getContext())
                                             .title("Alerta")
-                                            .content("Deseja realmente cancelar a sua reserva?")
+                                            .content("Deseja realmente cancelar o seu Pedido?")
                                             .negativeText("Não").positiveText("Sim").callback(new MaterialDialog.ButtonCallback() {
 
                                         @Override
@@ -94,6 +96,11 @@ public class MeusPedidosFragment extends Fragment {
                                         }
 
                                     }).build().show();
+                                } else if (which == 1) {
+                                    Intent it = new Intent(getActivity(), EfetuarPagamentoActivity.class);
+                                    it.putExtra("idPedido", pedido.getIdPedido());
+                                    it.putExtra("idRestaurante", pedido.getIdRestaurante());
+                                    startActivity(it);
                                 }
                             }
                         })

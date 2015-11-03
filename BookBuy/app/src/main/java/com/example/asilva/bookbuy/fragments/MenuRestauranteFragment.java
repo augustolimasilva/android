@@ -22,6 +22,7 @@ import com.example.asilva.bookbuy.adapters.ProdutosRestauranteAdapter;
 import com.example.asilva.bookbuy.basicas.Produto;
 import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.basicas.Rota;
+import com.example.asilva.bookbuy.callbacks.AdicionarRateListener;
 import com.example.asilva.bookbuy.callbacks.ProdutosListener;
 import com.example.asilva.bookbuy.callbacks.RateListener;
 import com.example.asilva.bookbuy.callbacks.RotaListener;

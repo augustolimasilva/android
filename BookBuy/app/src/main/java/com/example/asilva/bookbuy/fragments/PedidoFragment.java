@@ -191,7 +191,7 @@ public class PedidoFragment extends Fragment {
 
         if (id == R.id.icFinalizarPedido) {
 
-            if (listaProdutosPedido != null) {
+            if (listaProdutosPedido.size() > 0) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                         .title(R.string.dialog_meu_pedido)
                         .items(R.array.items)
@@ -225,7 +225,7 @@ public class PedidoFragment extends Fragment {
                                                                              final Dialog dial = new Dialog(getContext());
                                                                              dial.setContentView(R.layout.dialog_pedido_concluir);
 
-                                                                             dial.setTitle("Escolha um horário: ");
+                                                                             dial.setTitle("Finalizar: ");
 
                                                                              txtData = (TextView) dial.findViewById(R.id.txtData);
                                                                              txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);

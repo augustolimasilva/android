@@ -105,12 +105,24 @@
                 android:value="com.example.asilva.bookbuy.activities.MenuRestauranteActivity" />
         </activity>
         <activity
+            android:name=".activities.EfetuarPagamentoActivity"
+            android:label="@string/title_activity_pagamento"
+            android:parentActivityName=".activities.MenuRestauranteActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.asilva.bookbuy.activities.MenuRestauranteActivity" />
+        </activity>
+        <activity
             android:name=".activities.PedidoActivity"
             android:label="@string/title_activity_pedido"
             android:parentActivityName=".activities.MapaActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asilva.bookbuy.activities.MapaActivity" />
+        </activity>
+        <activity
+            android:name=".pagseguro.PagSeguroActivity"
+            android:label="@string/title_activity_pag_seguro" >
         </activity>
         <activity
             android:name=".activities.ReservaActivity"

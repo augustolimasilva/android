@@ -38,6 +38,9 @@
         <item name="elevation">0dp</item>
     </style>
 
-
+    <style name="RatingBarAppTheme" parent="android:Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/apptheme_ratingbar_full_empty_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/apptheme_ratingbar_full_empty_holo_light</item>
+    </style>
 
 </resources>

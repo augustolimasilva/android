@@ -1,10 +1,8 @@
 package com.example.asilva.bookbuy.fragments;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import com.example.asilva.bookbuy.adapters.ReservasAdapter;
 import com.example.asilva.bookbuy.basicas.Reserva;
 import com.example.asilva.bookbuy.callbacks.EfetuarReservaListener;
 import com.example.asilva.bookbuy.callbacks.ReservaListener;
-import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.dao.DAOReserva;
 import com.example.asilva.bookbuy.util.Util;
 
