@@ -201,10 +201,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     }
 
     public class FacebookHandler implements FacebookCallback<LoginResult> {
+
         @Override
         public void onSuccess(LoginResult loginResult) {
-            Intent it = new Intent(LoginActivity.this, MapaActivity.class);
-            startActivity(it);
+            startActivity(new Intent(LoginActivity.this, MapaActivity.class));
         }
 
         @Override
@@ -214,6 +214,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
         @Override
         public void onError(FacebookException e) {
+
             new MaterialDialog.Builder(LoginActivity.this)
                     .title("Atenção!")
                     .content("Não foi possível realizar o login. Verifique seus dados e tente novamente.")
@@ -226,6 +227,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
             }).build().show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
