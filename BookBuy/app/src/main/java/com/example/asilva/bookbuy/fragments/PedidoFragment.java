@@ -116,16 +116,22 @@ public class PedidoFragment extends Fragment {
                 txtValor = (TextView) dialog.findViewById(R.id.txtValor);
                 txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
                 edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
-                bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);;
+                bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
+                ;
 
                 bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString()));
 
-                        if(quantidade == 0 || quantidade < 0){
+                        if (edtQuantidade.getText().toString().trim().isEmpty()) {
                             Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
-                        }else {
+                        }else{
+                            quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
+                        }
+
+                        if (quantidade <=0 ) {
+                            Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                        } else {
                             item = new Item();
 
                             item.setIdProduto(produto.getIdProduto());
@@ -211,83 +217,83 @@ public class PedidoFragment extends Fragment {
                                 }).build().show();
                             }
                         }).positiveText("Finalizar Pedido").callback(new MaterialDialog.ButtonCallback() {
-                                                                                                 @Override
-                                                                                                 public void onPositive(MaterialDialog dialog) {
+                                                                         @Override
+                                                                         public void onPositive(MaterialDialog dialog) {
 
-                                                                                                     reservasAdapter = new ReservasAdapter(listaReservas);
-                                                                                                     calcularValorDoPedido();
-                                                                                                     final Dialog dial = new Dialog(getContext());
-                                                                                                     dial.setContentView(R.layout.dialog_pedido_concluir);
+                                                                             reservasAdapter = new ReservasAdapter(listaReservas);
+                                                                             calcularValorDoPedido();
+                                                                             final Dialog dial = new Dialog(getContext());
+                                                                             dial.setContentView(R.layout.dialog_pedido_concluir);
 
-                                                                                                     dial.setTitle("Escolha um horário: ");
+                                                                             dial.setTitle("Escolha um horário: ");
 
-                                                                                                     txtData = (TextView) dial.findViewById(R.id.txtData);
-                                                                                                     txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
-                                                                                                     bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
-                                                                                                     txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
+                                                                             txtData = (TextView) dial.findViewById(R.id.txtData);
+                                                                             txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
+                                                                             bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
+                                                                             txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
 
-                                                                                                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                                                                                                     Date date = new Date();
-                                                                                                     data = dateFormat.format(date);
+                                                                             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                                                             Date date = new Date();
+                                                                             data = dateFormat.format(date);
 
-                                                                                                     txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
-                                                                                                             " " + data.substring(11, 13) + ":" + data.substring(14, 16));
-                                                                                                     ;
-                                                                                                     txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
+                                                                             txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
+                                                                                     " " + data.substring(11, 13) + ":" + data.substring(14, 16));
+                                                                             ;
+                                                                             txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
 
-                                                                                                     bttConcluir.setOnClickListener(new View.OnClickListener() {
+                                                                             bttConcluir.setOnClickListener(new View.OnClickListener() {
 
+                                                                                 @Override
+                                                                                 public void onClick(View v) {
+
+                                                                                     final Pedido pedido = new Pedido();
+                                                                                     pedido.setDataHora(data);
+                                                                                     pedido.setSituacao("ATIVO");
+                                                                                     pedido.setStatus("ABERTO");
+                                                                                     pedido.setTempoEstimado(tempoEstimado);
+                                                                                     pedido.setIdCliente(idCliente);
+                                                                                     pedido.setIdRestaurante(idRestaurante);
+                                                                                     pedido.setIdMesa(1);
+
+                                                                                     new DAOPedido().inserirPedido(pedido, new PedidoListener() {
+                                                                                         @Override
+                                                                                         public void onPedido(Integer idPedido) {
+                                                                                             if (idPedido > 0) {
+                                                                                                 idPed = idPedido;
+
+                                                                                                 for (int i = 0; i < listaProdutosPedido.size(); i++) {
+
+                                                                                                     Item it = new Item();
+                                                                                                     it.setIdPedido(idPed);
+                                                                                                     it.setIdPromocao(1);
+                                                                                                     it.setIdProduto(listaProdutosPedido.get(i).getIdProduto());
+                                                                                                     it.setQuantidade(listaProdutosPedido.get(i).getQuantidade());
+                                                                                                     it.setValorTeste(String.valueOf(listaProdutosPedido.get(i).getValorItem()));
+
+                                                                                                     new DAOItem().inserirItem(it, new ItemListener() {
                                                                                                          @Override
-                                                                                                         public void onClick(View v) {
-
-                                                                                                             final Pedido pedido = new Pedido();
-                                                                                                             pedido.setDataHora(data);
-                                                                                                             pedido.setSituacao("ATIVO");
-                                                                                                             pedido.setStatus("ABERTO");
-                                                                                                             pedido.setTempoEstimado(tempoEstimado);
-                                                                                                             pedido.setIdCliente(idCliente);
-                                                                                                             pedido.setIdRestaurante(idRestaurante);
-                                                                                                             pedido.setIdMesa(1);
-
-                                                                                                             new DAOPedido().inserirPedido(pedido, new PedidoListener() {
-                                                                                                                 @Override
-                                                                                                                 public void onPedido(Integer idPedido) {
-                                                                                                                     if (idPedido > 0) {
-                                                                                                                         idPed = idPedido;
-
-                                                                                                                         for (int i = 0; i < listaProdutosPedido.size(); i++) {
-
-                                                                                                                             Item it = new Item();
-                                                                                                                             it.setIdPedido(idPed);
-                                                                                                                             it.setIdPromocao(1);
-                                                                                                                             it.setIdProduto(listaProdutosPedido.get(i).getIdProduto());
-                                                                                                                             it.setQuantidade(listaProdutosPedido.get(i).getQuantidade());
-                                                                                                                             it.setValorTeste(String.valueOf(listaProdutosPedido.get(i).getValorItem()));
-
-                                                                                                                             new DAOItem().inserirItem(it, new ItemListener() {
-                                                                                                                                 @Override
-                                                                                                                                 public void onItem(boolean retorno) {
-                                                                                                                                     if (retorno == true) {
-                                                                                                                                         Toast.makeText(getContext(), "Pedido efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                                                                                                                         listaProdutosPedido.clear();
-                                                                                                                                         dial.dismiss();
-                                                                                                                                     } else {
-                                                                                                                                         Toast.makeText(getContext(), "Não foi possível Concluir seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
-                                                                                                                                     }
-                                                                                                                                 }
-                                                                                                                             });
-                                                                                                                         }
-                                                                                                                     } else {
-                                                                                                                         Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
-                                                                                                                     }
-                                                                                                                 }
-                                                                                                             });
+                                                                                                         public void onItem(boolean retorno) {
+                                                                                                             if (retorno == true) {
+                                                                                                                 Toast.makeText(getContext(), "Pedido efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                                                                                                                 listaProdutosPedido.clear();
+                                                                                                                 dial.dismiss();
+                                                                                                             } else {
+                                                                                                                 Toast.makeText(getContext(), "Não foi possível Concluir seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
+                                                                                                             }
                                                                                                          }
                                                                                                      });
-
-                                                                                                     dial.show();
                                                                                                  }
+                                                                                             } else {
+                                                                                                 Toast.makeText(getContext(), "Não foi possível realizar seu Pedido. Tente Novamente!", Toast.LENGTH_SHORT).show();
                                                                                              }
+                                                                                         }
+                                                                                     });
+                                                                                 }
+                                                                             });
+
+                                                                             dial.show();
+                                                                         }
+                                                                     }
                         ).show();
 
                 list = dialog.getListView();
