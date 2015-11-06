@@ -17,21 +17,18 @@
             android:layout_marginTop="23dp"
             android:layout_marginLeft="5dp" />
 
-        <TextView
+        <Spinner
             android:layout_width="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_height="wrap_content"
-            android:id="@+id/txtData"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="50dp" />
+            android:id="@+id/spnData"
+            android:layout_weight="0.46" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_width="wrap_content"

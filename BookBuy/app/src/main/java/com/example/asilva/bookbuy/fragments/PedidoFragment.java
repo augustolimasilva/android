@@ -58,16 +58,21 @@ public class PedidoFragment extends Fragment {
     ReservasAdapter reservasAdapter;
     ListView list;
     ItemAdapter itemAdapter;
-    int posicao;
+    int posicao, horaData;
+    Spinner spnData;
 
     EditText edtQuantidade;
 
     Button bttAdicionarItem, bttConcluir;
     Produto produto;
     float latitude, longitude, latRes, longRes;
-    String valorProduto, tempoEstimado, data;
+    String valorProduto, tempoEstimado, data, dataDois, dt;
     float valorTotal;
     Item item;
+    DateFormat dateFormat, dateFormatDois;
+    Date date;
+
+    ArrayList<Reserva> listaDoDia = new ArrayList<Reserva>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,14 @@ public class PedidoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pedido, container, false);
 
         quantidade = 0;
+
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormatDois = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        date = new Date();
+        dataDois = dateFormat.format(date);
+        dt = dateFormatDois.format(date);
+
+        horaData = Integer.parseInt(dt.substring(11, 13));
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("dados_restaurante", 0);
         idRestaurante = prefs.getInt("idRestaurante", 1);
@@ -105,53 +118,60 @@ public class PedidoFragment extends Fragment {
 
                 produto = (Produto) listProdutos.getAdapter().getItem(i);
 
-                final Dialog dialog = new Dialog(getContext());
+                if (listaDoDia.size() > 0) {
 
-                dialog.setContentView(R.layout.dialog_pedido);
+                    final Dialog dialog = new Dialog(getContext());
 
-                dialog.setTitle(produto.getDescricao());
+                    dialog.setContentView(R.layout.dialog_pedido);
 
-                valorProduto = Float.toString(produto.valorProduto);
+                    dialog.setTitle(produto.getDescricao());
 
-                txtValor = (TextView) dialog.findViewById(R.id.txtValor);
-                txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
-                edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
-                bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
-                ;
+                    valorProduto = Float.toString(produto.valorProduto);
 
-                bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    txtValor = (TextView) dialog.findViewById(R.id.txtValor);
+                    txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
+                    edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
+                    bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
 
-                        if (edtQuantidade.getText().toString().trim().isEmpty()) {
-                            Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
-                        }else{
-                            quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
+
+                    bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (edtQuantidade.getText().toString().trim().isEmpty()) {
+                                Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
+                            }
+
+                            if (quantidade <= 0 || quantidade > 99) {
+                                Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                item = new Item();
+
+                                item.setIdProduto(produto.getIdProduto());
+                                item.setQuantidade(quantidade);
+                                item.setNomeProduto(produto.getDescricao());
+                                item.setValorItem(produto.getValorProduto() * quantidade);
+
+                                listaProdutosPedido.add(item);
+
+                                dialog.dismiss();
+                            }
                         }
+                    });
 
-                        if (quantidade <=0 || quantidade > 99 ) {
-                            Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            item = new Item();
+                    txtValor.setText("R$: " + valorProduto + "0");
 
-                            item.setIdProduto(produto.getIdProduto());
-                            item.setQuantidade(quantidade);
-                            item.setNomeProduto(produto.getDescricao());
-                            item.setValorItem(produto.getValorProduto() * quantidade);
-
-                            listaProdutosPedido.add(item);
-
-                            dialog.dismiss();
-                        }
-                    }
-                });
-
-                txtValor.setText("R$: " + valorProduto + "0");
-
-                dialog.show();
+                    dialog.show();
+                }else{
+                    buscarReservarDoCliente();
+                    Toast.makeText(getContext(), "Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!!!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+        buscarReservarDoCliente();
         listaProdutos();
         atualizarLista();
 
@@ -220,25 +240,27 @@ public class PedidoFragment extends Fragment {
                                                                          @Override
                                                                          public void onPositive(MaterialDialog dialog) {
 
-                                                                             reservasAdapter = new ReservasAdapter(listaReservas);
                                                                              calcularValorDoPedido();
                                                                              final Dialog dial = new Dialog(getContext());
                                                                              dial.setContentView(R.layout.dialog_pedido_concluir);
 
-                                                                             dial.setTitle("Finalizar: ");
+                                                                             dial.setTitle("Escolha um Horário: ");
 
-                                                                             txtData = (TextView) dial.findViewById(R.id.txtData);
+                                                                             //txtData = (TextView) dial.findViewById(R.id.txtData);
+                                                                             spnData = (Spinner)dial.findViewById(R.id.spnData);
                                                                              txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
                                                                              bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
-                                                                             txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
+
+                                                                             reservasAdapter = new ReservasAdapter(listaDoDia);
+                                                                             spnData.setAdapter(reservasAdapter);
 
                                                                              DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                                                              Date date = new Date();
                                                                              data = dateFormat.format(date);
 
-                                                                             txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
-                                                                                     " " + data.substring(11, 13) + ":" + data.substring(14, 16));
-                                                                             ;
+                                                                            // txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
+                                                                              //       " " + data.substring(11, 13) + ":" + data.substring(14, 16));
+
                                                                              txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
 
                                                                              bttConcluir.setOnClickListener(new View.OnClickListener() {
@@ -311,5 +333,28 @@ public class PedidoFragment extends Fragment {
         for (int i = 0; i < listaProdutosPedido.size(); i++) {
             valorTotal = valorTotal + listaProdutosPedido.get(i).getValorItem();
         }
+    }
+
+    public void buscarReservarDoCliente(){
+        new DAOReserva().buscarReservasDoClienteRestaurante(idRestaurante, idCliente, new ReservasClienteListener() {
+            @Override
+            public void onReserva(List<Reserva> reservas) {
+                if (reservas != null) {
+                    listaReservas = reservas;
+
+                    for(int i=0;i<listaReservas.size();i++){
+                        String dataReserva = listaReservas.get(i).getDataHora().substring(8,10) + "/" +
+                                listaReservas.get(i).getDataHora().substring(5,7) + "/" +
+                                listaReservas.get(i).getDataHora().substring(0,4);
+
+                        int hora = Integer.parseInt(listaReservas.get(i).getDataHora().substring(11,13));
+
+                        if(dataReserva.equals(dataDois) && hora >= horaData){
+                            listaDoDia.add(listaReservas.get(i));
+                        }
+                    }
+                }
+            }
+        });
     }
 }

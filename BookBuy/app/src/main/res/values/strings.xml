@@ -43,7 +43,7 @@
     <string name="total">Total:</string>
     <string name="txtDataHora">Data/Hora:</string>
     <string name="adicionar">Adicionar</string>
-    <string name="icFinalizarPedido">Finalizar Pedido</string>
+    <string name="icFinalizarPedido">Finalizar</string>
     <string name="dialog_meu_pedido">Resumo do Pedido</string>
     <string name="bttConcluir">Concluir</string>
     <string name="bttCancelar">Cancelar</string>
