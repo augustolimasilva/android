@@ -18,7 +18,7 @@
     <string name="title_activity_menu_restaurante">Menu Restaurante</string>
     <string name="title_activity_pedido">Pedido</string>
     <string name="title_activity_reserva">ReservaActivity</string>
-    <string name="title_produto">Produtos</string>
+    <string name="title_produto">Cardápio</string>
     <string name="title_reserva">Reserva</string>
     <string name="title_informacoes">Descrição</string>
     <string name="title_activity_splash">Book Buy</string>

@@ -219,8 +219,6 @@ public class MapaActivity extends AppCompatActivity implements
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Minhas compras").withIcon(R.drawable.ic_minhas_compras));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Compartilhar").withIcon(R.drawable.ic_compartilhar));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Sair").withIcon(R.drawable.ic_action_sair));
-        navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configurações"));
-        navigationDrawerLeft.addItem(new SwitchDrawerItem().withName("Notificações").withChecked(true));
 
         networkState = new NetworkState();
         listarRestaurantes();

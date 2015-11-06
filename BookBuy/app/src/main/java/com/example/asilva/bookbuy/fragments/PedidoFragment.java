@@ -129,7 +129,7 @@ public class PedidoFragment extends Fragment {
                             quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
                         }
 
-                        if (quantidade <=0 ) {
+                        if (quantidade <=0 || quantidade > 99 ) {
                             Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
                         } else {
                             item = new Item();
