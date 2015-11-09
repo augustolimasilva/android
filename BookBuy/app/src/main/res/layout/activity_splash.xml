@@ -27,11 +27,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="137dp" />
 
-    <TextView
+    <hollowsoft.fontdroid.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/subtitle_splash"
         android:id="@+id/textView5"
+        layout:fontPath="fonts/Pacifico.ttf"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:layout_below="@+id/textView4"

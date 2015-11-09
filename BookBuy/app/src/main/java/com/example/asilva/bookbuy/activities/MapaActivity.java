@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
@@ -84,6 +85,7 @@ public class MapaActivity extends AppCompatActivity implements
     Restaurante rs, rest;
     Toolbar mToolbar;
     float latitude, longitude;
+    TextView bookbuy;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +96,9 @@ public class MapaActivity extends AppCompatActivity implements
         mMap = fragment.getMap();
 
         mToolbar = (Toolbar) findViewById(R.id.tb_main);
-        mToolbar.setTitle("Book Buy");
+
+        bookbuy = (TextView) findViewById(R.id.bookbuy);
+        bookbuy.setText("Book Buy");
 
         setSupportActionBar(mToolbar);
 
