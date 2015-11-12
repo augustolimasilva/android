@@ -103,6 +103,7 @@ public class MapaActivity extends AppCompatActivity implements
         setSupportActionBar(mToolbar);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setDisplayShowTitleEnabled(false);
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ea9533")));
 
         SharedPreferences prefs = getSharedPreferences("meus_dados", 0);
