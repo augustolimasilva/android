@@ -7,6 +7,15 @@ public class Produto {
     public float valorProduto;
     public String situacao;
     public int idRestaurante;
+    public String nome;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public int getIdProduto() {
         return idProduto;

@@ -9,6 +9,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Small Text"
         android:id="@+id/txtValor"
+        android:fontFamily="sans-serif-condensed"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="25dp" />
 
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/quantidade"
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/txtQtd"
             android:layout_marginLeft="25dp" />
 

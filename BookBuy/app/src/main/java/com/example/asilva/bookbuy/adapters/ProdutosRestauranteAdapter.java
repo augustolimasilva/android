@@ -18,10 +18,12 @@ public class ProdutosRestauranteAdapter extends BaseAdapter{
     public static class ViewHolder{
         public final TextView txtNomeProduto;
         public final TextView txtValorProduto;
+        public final TextView txtDescricao;
 
         ViewHolder (View v){
             txtNomeProduto = (TextView)v.findViewById(R.id.edtQuantidade);
             txtValorProduto = (TextView)v.findViewById(R.id.txtValorProduto);
+            txtDescricao = (TextView)v.findViewById(R.id.txtDescricao);
         }
     }
 
@@ -58,8 +60,9 @@ public class ProdutosRestauranteAdapter extends BaseAdapter{
 
         String valorProduto = Float.toString(produto.valorProduto);
 
-        holder.txtNomeProduto.setText(produto.descricao);
+        holder.txtNomeProduto.setText(produto.nome);
         holder.txtValorProduto.setText("R$: " + valorProduto + 0);
+        holder.txtDescricao.setText(produto.descricao);
 
         return view;
     }

@@ -62,6 +62,7 @@ public class DAOPedido {
             ped.addProperty("dataHora", pedido.getDataHora());
             ped.addProperty("idCliente", pedido.getIdCliente());
             ped.addProperty("situacao", pedido.getSituacao());
+            ped.addProperty("idReserva", pedido.getIdReserva());
             ped.addProperty("status", pedido.getStatus());
             ped.addProperty("idPedido", pedido.getIdPedido());
             ped.addProperty("idMesa", pedido.getIdMesa());
@@ -135,6 +136,7 @@ public class DAOPedido {
                     ped.setNomeRestaurante(resposta.getProperty("nomeRestaurante").toString());
                     ped.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                     ped.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                    ped.setIdReserva(Integer.parseInt(resposta.getProperty("idReserva").toString()));
 
                     listaPedidos.add(ped);
 
@@ -154,6 +156,7 @@ public class DAOPedido {
                         ped.setNomeRestaurante(resposta.getProperty("nomeRestaurante").toString());
                         ped.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                         ped.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                        ped.setIdReserva(Integer.parseInt(resposta.getProperty("idReserva").toString()));
 
                         listaPedidos.add(ped);
                     }
@@ -192,6 +195,7 @@ public class DAOPedido {
             ped.addProperty("status", pedido.getStatus());
             ped.addProperty("tempoEstimado", pedido.getTempoEstimado());
             ped.addProperty("idCliente", pedido.getIdCliente());
+            ped.addProperty("idReserva", pedido.getIdReserva());
             ped.addProperty("idMesa", pedido.getIdMesa());
             ped.addProperty("idRestaurante", pedido.getIdRestaurante());
 

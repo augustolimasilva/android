@@ -57,6 +57,7 @@ public class DAOProduto {
                     Produto pro = new Produto();
 
                     pro.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                    pro.setNome(resposta.getProperty("nome").toString());
                     pro.setDescricao(resposta.getProperty("descricao").toString());
                     pro.setIdProduto(Integer.parseInt(resposta.getProperty("idProduto").toString()));
                     pro.setSituacao(resposta.getProperty("situacao").toString());
@@ -72,6 +73,7 @@ public class DAOProduto {
                         Produto pro = new Produto();
 
                         pro.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                        pro.setNome(resposta.getProperty("nome").toString());
                         pro.setDescricao(resposta.getProperty("descricao").toString());
                         pro.setIdProduto(Integer.parseInt(resposta.getProperty("idProduto").toString()));
                         pro.setSituacao(resposta.getProperty("situacao").toString());

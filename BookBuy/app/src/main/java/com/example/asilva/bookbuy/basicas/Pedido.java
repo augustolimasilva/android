@@ -11,6 +11,15 @@ public class Pedido {
     private String situacao;
     private String status;
     private String nomeRestaurante;
+    private int idReserva;
+
+    public int getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
+    }
 
     public String getNomeRestaurante() {
         return nomeRestaurante;

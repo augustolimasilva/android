@@ -71,6 +71,7 @@ public class PedidoFragment extends Fragment {
     Item item;
     DateFormat dateFormat, dateFormatDois;
     Date date;
+    Reserva reservaSelecionada;
 
     ArrayList<Reserva> listaDoDia = new ArrayList<Reserva>();
 
@@ -124,7 +125,7 @@ public class PedidoFragment extends Fragment {
 
                     dialog.setContentView(R.layout.dialog_pedido);
 
-                    dialog.setTitle(produto.getDescricao());
+                    dialog.setTitle(produto.getNome());
 
                     valorProduto = Float.toString(produto.valorProduto);
 
@@ -151,7 +152,7 @@ public class PedidoFragment extends Fragment {
 
                                 item.setIdProduto(produto.getIdProduto());
                                 item.setQuantidade(quantidade);
-                                item.setNomeProduto(produto.getDescricao());
+                                item.setNomeProduto(produto.getNome());
                                 item.setValorItem(produto.getValorProduto() * quantidade);
 
                                 listaProdutosPedido.add(item);
@@ -246,7 +247,6 @@ public class PedidoFragment extends Fragment {
 
                                                                              dial.setTitle("Escolha um Horário: ");
 
-                                                                             //txtData = (TextView) dial.findViewById(R.id.txtData);
                                                                              spnData = (Spinner)dial.findViewById(R.id.spnData);
                                                                              txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
                                                                              bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
@@ -254,12 +254,21 @@ public class PedidoFragment extends Fragment {
                                                                              reservasAdapter = new ReservasAdapter(listaDoDia);
                                                                              spnData.setAdapter(reservasAdapter);
 
+                                                                             spnData.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                                                 @Override
+                                                                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                                                     reservaSelecionada = (Reserva) spnData.getAdapter().getItem(i);
+                                                                                 }
+
+                                                                                 @Override
+                                                                                 public void onNothingSelected(AdapterView<?> parent) {
+
+                                                                                 }
+                                                                             });
+
                                                                              DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                                                              Date date = new Date();
                                                                              data = dateFormat.format(date);
-
-                                                                            // txtData.setText(data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
-                                                                              //       " " + data.substring(11, 13) + ":" + data.substring(14, 16));
 
                                                                              txtValorFinal.setText("R$: " + Float.toString(valorTotal) + "0");
 
@@ -275,6 +284,7 @@ public class PedidoFragment extends Fragment {
                                                                                      pedido.setTempoEstimado(tempoEstimado);
                                                                                      pedido.setIdCliente(idCliente);
                                                                                      pedido.setIdRestaurante(idRestaurante);
+                                                                                     pedido.setIdReserva(reservaSelecionada.getIdReserva());
                                                                                      pedido.setIdMesa(1);
 
                                                                                      new DAOPedido().inserirPedido(pedido, new PedidoListener() {

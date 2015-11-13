@@ -11,8 +11,9 @@
         android:text="Large Text"
         android:id="@+id/edtQuantidade"
         android:padding="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="9dp" />
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,8 +24,21 @@
         android:id="@+id/txtValorProduto"
         android:layout_marginRight="9dp"
         android:layout_marginEnd="29dp"
+        android:fontFamily="sans-serif-condensed"
         android:layout_alignBottom="@+id/edtQuantidade"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/txtDescricao"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@+id/edtQuantidade"
+        android:layout_alignLeft="@+id/edtQuantidade"
+        android:layout_alignStart="@+id/edtQuantidade"
+        android:layout_marginLeft="9dp" />
 
 </RelativeLayout>
