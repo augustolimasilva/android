@@ -16,6 +16,15 @@ public class Item {
     public int idProduto;
     public int idPromocao;
     public String valorTeste;
+    public String descricaoProduto;
+
+    public String getDescricaoProduto() {
+        return descricaoProduto;
+    }
+
+    public void setDescricaoProduto(String descricaoProduto) {
+        this.descricaoProduto = descricaoProduto;
+    }
 
     public String getValorTeste() {
         return valorTeste;

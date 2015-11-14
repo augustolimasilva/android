@@ -68,7 +68,8 @@ public class DAOItem {
 
                     Item item = new Item();
 
-                    item.setNomeProduto(resposta.getProperty("descricao").toString());
+                    item.setNomeProduto(resposta.getProperty("nome").toString());
+                    item.setDescricaoProduto(resposta.getProperty("descricao").toString());
                     item.setIdItem(Integer.parseInt(resposta.getProperty("idItem").toString()));
                     item.setIdPedido(Integer.parseInt(resposta.getProperty("idPedido").toString()));
                     item.setIdProduto(Integer.parseInt(resposta.getProperty("idProduto").toString()));
@@ -84,7 +85,8 @@ public class DAOItem {
 
                         Item item = new Item();
 
-                        item.setNomeProduto(resposta.getProperty("descricao").toString());
+                        item.setNomeProduto(resposta.getProperty("nome").toString());
+                        item.setDescricaoProduto(resposta.getProperty("descricao").toString());
                         item.setIdItem(Integer.parseInt(resposta.getProperty("idItem").toString()));
                         item.setIdPedido(Integer.parseInt(resposta.getProperty("idPedido").toString()));
                         item.setIdProduto(Integer.parseInt(resposta.getProperty("idProduto").toString()));
