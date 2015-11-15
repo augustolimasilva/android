@@ -61,4 +61,6 @@
     <string name="pagseguro">PagSeguro</string>
     <string name="title_activity_pag_seguro">Pag Seguro</string>
     <string name="facebook_app_id">1517568258565776</string>
+    <string name="bttAdicionarItem">Adicionar Produto</string>
+    <string name="title_adicionar_produto">Cardápio</string>
 </resources>

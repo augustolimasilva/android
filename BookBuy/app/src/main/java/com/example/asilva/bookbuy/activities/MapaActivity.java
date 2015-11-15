@@ -475,6 +475,7 @@ public class MapaActivity extends AppCompatActivity implements
                 list.setAdapter(tiposRestauranteAdapter);
                 }else{
                     Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
+                    listarTiposRestaurante();
                 }
             }
         return super.onOptionsItemSelected(item);

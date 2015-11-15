@@ -65,6 +65,7 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
 
         if(status.equals("FECHADO")){
             button.setVisibility(View.INVISIBLE);
+            bttAdicionarItem.setVisibility(View.INVISIBLE);
         }
 
         String dataFormatada = data.substring(8, 10) + "-" + data.substring(5, 7) + "-" + data.substring(0, 4) +
@@ -98,8 +99,10 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
         bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //final Intent it = new Intent(EfetuarPagamentoActivity.this, AdicionarProdutoActivity.class);
-                //startActivity(it);
+                final Intent it = new Intent(EfetuarPagamentoActivity.this, AdicionarItemActivity.class);
+                it.putExtra("idPedido", idPedido);
+                it.putExtra("idRestaurante", idRestaurante);
+                startActivity(it);
             }
         });
 
@@ -149,16 +152,6 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
                 if (itens != null) {
                     itensPedido = itens;
                     listarItens();
-                  /*  for (int i = 0; i < itens.size(); i++) {
-                        final PagSeguroFactory pagseguro = PagSeguroFactory.instance();
-
-                        String id = String.valueOf(i + 1);
-
-                        valorItem = itens.get(i).getValorItem() / itens.get(i).getQuantidade();
-
-                        shoppingCart.add(pagseguro.item(id, itens.get(i).getNomeProduto(), BigDecimal.valueOf(valorItem),
-                                itens.get(i).getQuantidade(), 300));
-                    }*/
                 }
             }
         });

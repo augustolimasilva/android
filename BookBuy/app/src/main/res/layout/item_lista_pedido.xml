@@ -26,7 +26,8 @@
         android:fontFamily="sans-serif-condensed"
         android:layout_alignBottom="@+id/txtNomeProduto"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,9 +36,9 @@
         android:text="Small Text"
         android:id="@+id/txtQuantidade"
         android:fontFamily="sans-serif-light"
-        android:layout_below="@+id/txtNomeProduto"
+        android:layout_below="@+id/txtValorProduto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="9dp" />
+        android:layout_marginLeft="7dp" />
 
 </RelativeLayout>

@@ -49,7 +49,7 @@ public class PedidoFragment extends Fragment {
     ListView listProdutos;
     ProgressBar progressBar;
     int idRestaurante, quantidade, idCliente, idPed;
-    TextView txtValor, txtValorTotal, txtValorFinal, txtData;
+    TextView txtValor, txtValorTotal, txtValorFinal;
     List<Reserva> listaReservas = new ArrayList<>();
     ReservasAdapter reservasAdapter;
     ListView list;
@@ -127,7 +127,7 @@ public class PedidoFragment extends Fragment {
 
                     txtValor = (TextView) dialog.findViewById(R.id.txtValor);
                     txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
-                    edtQuantidade = (EditText) dialog.findViewById(R.id.txtNomeProduto);
+                    edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
                     bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
 
 

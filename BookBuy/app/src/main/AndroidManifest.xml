@@ -88,6 +88,10 @@
             android:label="@string/title_activity_editar_cadastro" >
         </activity>
         <activity
+            android:name=".activities.AdicionarItemActivity"
+            android:label="@string/title_adicionar_produto" >
+        </activity>
+        <activity
             android:name=".activities.MenuRestauranteActivity"
             android:screenOrientation="locked"
             android:label="@string/title_activity_menu_restaurante"
@@ -132,6 +136,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asilva.bookbuy.activities.MapaActivity" />
         </activity>
+
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme_splash"
