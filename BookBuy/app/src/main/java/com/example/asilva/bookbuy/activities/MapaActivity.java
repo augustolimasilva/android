@@ -52,8 +52,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
-import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
@@ -431,7 +429,7 @@ public class MapaActivity extends AppCompatActivity implements
                 if(listaTiposRes != null){
                 MaterialDialog dialog = new MaterialDialog.Builder(this)
                         .title(R.string.dialog_tipo)
-                        .items(R.array.items)
+                        .items(R.array.itens)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {

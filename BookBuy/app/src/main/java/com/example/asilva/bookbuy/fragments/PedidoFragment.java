@@ -211,7 +211,7 @@ public class PedidoFragment extends Fragment {
             if (listaProdutosPedido.size() > 0) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                         .title(R.string.dialog_meu_pedido)
-                        .items(R.array.items)
+                        .items(R.array.itens)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {

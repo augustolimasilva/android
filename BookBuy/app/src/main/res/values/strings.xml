@@ -45,6 +45,7 @@
     <string name="adicionar">Adicionar</string>
     <string name="icFinalizarPedido">Finalizar</string>
     <string name="dialog_meu_pedido">Resumo do Pedido</string>
+    <string name="dialog_adicionar_item">Resumo</string>
     <string name="bttConcluir">Concluir</string>
     <string name="bttCancelar">Cancelar</string>
     <string name="bttSalvar">Salvar</string>
@@ -59,6 +60,10 @@
     <string name="loading_2">Carregando..</string>
     <string name="loading_3">Carregando...</string>
     <string name="pagseguro">PagSeguro</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="excluir">Excluir</string>
+    <string name="pergunta">Deseja excluir esse produto?</string>
     <string name="title_activity_pag_seguro">Pag Seguro</string>
     <string name="facebook_app_id">1517568258565776</string>
     <string name="bttAdicionarItem">Adicionar Produto</string>

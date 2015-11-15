@@ -7,13 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.adapters.ItemPedidoAdapter;
 import com.example.asilva.bookbuy.basicas.Item;
+import com.example.asilva.bookbuy.basicas.Pedido;
+import com.example.asilva.bookbuy.callbacks.AtualizarPedidoListener;
 import com.example.asilva.bookbuy.callbacks.ItensPedidoListener;
 import com.example.asilva.bookbuy.dao.DAOItem;
+import com.example.asilva.bookbuy.dao.DAOPedido;
 import com.example.asilva.bookbuy.pagseguro.AppUtil;
 import com.example.asilva.bookbuy.pagseguro.PagSeguroAddress;
 import com.example.asilva.bookbuy.pagseguro.PagSeguroAreaCode;
@@ -28,21 +32,27 @@ import com.example.asilva.bookbuy.pagseguro.PagSeguroShipping;
 import com.example.asilva.bookbuy.pagseguro.PagSeguroShippingType;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.List;
 
 public class EfetuarPagamentoActivity extends AppCompatActivity {
 
     Button button, bttAdicionarItem;
-    int idPedido, idRestaurante;
+    int idPedido, idRestaurante, dataAtual, dataPedido, idCliente, idReserva, idMesa;
     List<PagSeguroItem> shoppingCart = new ArrayList<>();
     List<Item> itensPedido = new ArrayList<Item>();
     float valorItem;
-    String data, nomeRestaurante, status;
+    String data, nomeRestaurante, status, situacao, tempoEstimado;
     TextView txtData, txtStatus, txtNomeRestaurante, txtCodigo;
     ListView lstMeusItens;
     ItemPedidoAdapter itemPedidoAdapter;
+    ProgressBar progressBar;
+    Date date;
+    Pedido pedido;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,14 +66,33 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
         txtNomeRestaurante = (TextView)findViewById(R.id.txtNomeRestaurante);
         txtCodigo = (TextView)findViewById(R.id.txtCodigo);
         lstMeusItens = (ListView)findViewById(R.id.lstMeusItens);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         idPedido = getIntent().getIntExtra("idPedido", 1);
         idRestaurante = getIntent().getIntExtra("idRestaurante", 1);
         data = getIntent().getStringExtra("data");
         status = getIntent().getStringExtra("status");
+        situacao = getIntent().getStringExtra("situacao");
+        tempoEstimado = getIntent().getStringExtra("tempoEstimado");
+        idCliente = getIntent().getIntExtra("idCliente", 1);
+        idReserva = getIntent().getIntExtra("idReserva", 1);
+        idMesa = getIntent().getIntExtra("idMesa", 1);
         nomeRestaurante = getIntent().getStringExtra("nomeRestaurante");
 
-        if(status.equals("FECHADO")){
+        pedido = new Pedido();
+        pedido.setIdPedido(idPedido);
+        pedido.setDataHora(data);
+        pedido.setSituacao("ATIVO");
+        pedido.setStatus("FECHADO");
+        pedido.setTempoEstimado(tempoEstimado);
+        pedido.setIdCliente(idCliente);
+        pedido.setIdReserva(idReserva);
+        pedido.setIdMesa(idMesa);
+        pedido.setIdRestaurante(idRestaurante);
+
+        verificarData();
+
+        if(status.equals("FECHADO") || dataAtual > dataPedido){
             button.setVisibility(View.INVISIBLE);
             bttAdicionarItem.setVisibility(View.INVISIBLE);
         }
@@ -122,13 +151,35 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
             if (requestCode == PagSeguroPayment.PAG_SEGURO_REQUEST_CODE) {
                 // exibir confirmação de sucesso
                 final String msg = getString(R.string.transaction_succeded);
-                AppUtil.showConfirmDialog(this, msg, null);
+
+                new DAOPedido().atualizarPedido(pedido, new AtualizarPedidoListener() {
+                    @Override
+                    public void onPedido(boolean retorno) {
+                        txtStatus.setText("Pagamento: " + "FECHADO");
+                        button.setVisibility(View.INVISIBLE);
+                        bttAdicionarItem.setVisibility(View.INVISIBLE);
+                        AppUtil.showConfirmDialog(EfetuarPagamentoActivity.this, msg, null);
+                    }
+                });
+
+                //AppUtil.showConfirmDialog(this, msg, null);
             }
         } else if (resultCode == PagSeguroPayment.PAG_SEGURO_REQUEST_CODE) {
             switch (data.getIntExtra(PagSeguroPayment.PAG_SEGURO_EXTRA, 0)) {
                 case PagSeguroPayment.PAG_SEGURO_REQUEST_SUCCESS_CODE: {
                     final String msg = getString(R.string.transaction_succeded);
-                    AppUtil.showConfirmDialog(this, msg, null);
+
+                    new DAOPedido().atualizarPedido(pedido, new AtualizarPedidoListener() {
+                        @Override
+                        public void onPedido(boolean retorno) {
+                            txtStatus.setText("Pagamento: " + "FECHADO");
+                            button.setVisibility(View.INVISIBLE);
+                            bttAdicionarItem.setVisibility(View.INVISIBLE);
+                            AppUtil.showConfirmDialog(EfetuarPagamentoActivity.this, msg, null);
+                        }
+                    });
+
+                   // AppUtil.showConfirmDialog(this, msg, null);
                     break;
                 }
                 case PagSeguroPayment.PAG_SEGURO_REQUEST_FAILURE_CODE: {
@@ -146,15 +197,23 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
     }
 
     public void baixarItens() {
+        progressBar.setVisibility(View.VISIBLE);
         new DAOItem().buscarItensPedido(idPedido, idRestaurante, new ItensPedidoListener() {
             @Override
             public void onItens(List<Item> itens) {
                 if (itens != null) {
+                    progressBar.setVisibility(View.INVISIBLE);
                     itensPedido = itens;
                     listarItens();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        baixarItens();
     }
 
     public void incluirItensPagseguro(){
@@ -181,5 +240,15 @@ public class EfetuarPagamentoActivity extends AppCompatActivity {
         Intent it = new Intent(this, MinhasComprasActivity.class);
         it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(it);
+    }
+
+    public void verificarData(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        date = new Date();
+        dataAtual = Integer.parseInt(dateFormat.format(date));
+
+        dataPedido = Integer.parseInt(data.substring(0, 4) +
+                                      data.substring(5, 7) +
+                data.substring(8, 10));
     }
 }

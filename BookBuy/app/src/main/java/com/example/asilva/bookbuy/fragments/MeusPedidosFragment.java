@@ -99,6 +99,11 @@ public class MeusPedidosFragment extends Fragment {
                                 } else if (which == 1) {
                                     Intent it = new Intent(getActivity(), EfetuarPagamentoActivity.class);
                                     it.putExtra("idPedido", pedido.getIdPedido());
+                                    it.putExtra("situacao", pedido.getSituacao());
+                                    it.putExtra("tempoEstimado", pedido.getTempoEstimado());
+                                    it.putExtra("idCliente", pedido.getIdCliente());
+                                    it.putExtra("idReserva", pedido.getIdReserva());
+                                    it.putExtra("idMesa", pedido.getIdMesa());
                                     it.putExtra("idRestaurante", pedido.getIdRestaurante());
                                     it.putExtra("nomeRestaurante", pedido.getNomeRestaurante());
                                     it.putExtra("data", pedido.getDataHora());

@@ -136,7 +136,7 @@ public class PagSeguroPayment {
                         }
                         eventType = parser.next();
                     }
-                    Toast.makeText(activity, "Tente Novamente!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Problemas de Conexão. Tente Novamente!!", Toast.LENGTH_LONG).show();
 
                 }catch (XmlPullParserException e) {
                     Log.d("PAG_SEGURO", e.getMessage());
