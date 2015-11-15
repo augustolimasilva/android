@@ -7,38 +7,37 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.asilva.bookbuy.R;
-import com.example.asilva.bookbuy.basicas.Produto;
+import com.example.asilva.bookbuy.basicas.Item;
 
 import java.util.List;
+public class ItemPedidoAdapter extends BaseAdapter {
 
-public class ProdutosRestauranteAdapter extends BaseAdapter{
-
-    List<Produto> mProdutos;
+    List<Item> mItems;
 
     public static class ViewHolder{
         public final TextView txtNomeProduto;
         public final TextView txtValorProduto;
-        public final TextView txtDescricao;
+        public final TextView txtQuantidade;
 
         ViewHolder (View v){
             txtNomeProduto = (TextView)v.findViewById(R.id.txtNomeProduto);
+            txtQuantidade = (TextView)v.findViewById(R.id.txtQuantidade);
             txtValorProduto = (TextView)v.findViewById(R.id.txtValorProduto);
-            txtDescricao = (TextView)v.findViewById(R.id.txtQuantidade);
         }
     }
 
-    public ProdutosRestauranteAdapter(List<Produto> mProdutos) {
-        this.mProdutos= mProdutos;
+    public ItemPedidoAdapter(List<Item> mItems) {
+        this.mItems = mItems;
     }
 
     @Override
     public int getCount() {
-        return mProdutos.size();
+        return mItems.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mProdutos.get(i);
+        return mItems.get(i);
     }
 
     @Override
@@ -49,20 +48,18 @@ public class ProdutosRestauranteAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        Produto produto = mProdutos.get(i);
+        Item item = mItems.get(i);
 
         if (view == null){
             view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_lista, null);
+                    .inflate(R.layout.item_lista_pedido, null);
         }
 
         ViewHolder holder = new ViewHolder(view);
 
-        String valorProduto = Float.toString(produto.valorProduto);
-
-        holder.txtNomeProduto.setText(produto.nome);
-        holder.txtValorProduto.setText("R$: " + valorProduto + 0);
-        holder.txtDescricao.setText(produto.descricao);
+        holder.txtNomeProduto.setText(item.nomeProduto);
+        holder.txtQuantidade.setText("Quantidade: " + String.valueOf(item.quantidade));
+        holder.txtValorProduto.setText("R$:" + Float.toString(item.valorItem) + "0");
 
         return view;
     }

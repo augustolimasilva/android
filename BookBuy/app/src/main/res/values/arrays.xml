@@ -37,6 +37,6 @@
 
     <string-array name="items3">
         <item>Cancelar Pedido</item>
-        <item>Efetuar Pagamento</item>
+        <item>Atualizar Pedido</item>
     </string-array>
 </resources>

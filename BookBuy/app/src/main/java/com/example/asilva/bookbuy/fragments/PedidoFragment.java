@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,17 +26,14 @@ import com.example.asilva.bookbuy.basicas.Item;
 import com.example.asilva.bookbuy.basicas.Pedido;
 import com.example.asilva.bookbuy.basicas.Produto;
 import com.example.asilva.bookbuy.basicas.Reserva;
-import com.example.asilva.bookbuy.basicas.Rota;
 import com.example.asilva.bookbuy.callbacks.ItemListener;
 import com.example.asilva.bookbuy.callbacks.PedidoListener;
 import com.example.asilva.bookbuy.callbacks.ProdutosListener;
 import com.example.asilva.bookbuy.callbacks.ReservasClienteListener;
-import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.dao.DAOItem;
 import com.example.asilva.bookbuy.dao.DAOPedido;
 import com.example.asilva.bookbuy.dao.DAOProduto;
 import com.example.asilva.bookbuy.dao.DAOReserva;
-import com.example.asilva.bookbuy.util.BaixarRota;
 import com.example.asilva.bookbuy.util.Util;
 
 import java.text.DateFormat;
@@ -131,7 +127,7 @@ public class PedidoFragment extends Fragment {
 
                     txtValor = (TextView) dialog.findViewById(R.id.txtValor);
                     txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
-                    edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
+                    edtQuantidade = (EditText) dialog.findViewById(R.id.txtNomeProduto);
                     bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
 
 

@@ -100,6 +100,9 @@ public class MeusPedidosFragment extends Fragment {
                                     Intent it = new Intent(getActivity(), EfetuarPagamentoActivity.class);
                                     it.putExtra("idPedido", pedido.getIdPedido());
                                     it.putExtra("idRestaurante", pedido.getIdRestaurante());
+                                    it.putExtra("nomeRestaurante", pedido.getNomeRestaurante());
+                                    it.putExtra("data", pedido.getDataHora());
+                                    it.putExtra("status", pedido.getStatus());
                                     startActivity(it);
                                 }
                             }
