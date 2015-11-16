@@ -1,45 +1,23 @@
 package com.example.asilva.bookbuy.fragments;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.FloatMath;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
-import com.example.asilva.bookbuy.adapters.ProdutosRestauranteAdapter;
-import com.example.asilva.bookbuy.basicas.Produto;
-import com.example.asilva.bookbuy.basicas.Restaurante;
 import com.example.asilva.bookbuy.basicas.Rota;
-import com.example.asilva.bookbuy.callbacks.AdicionarRateListener;
-import com.example.asilva.bookbuy.callbacks.ProdutosListener;
-import com.example.asilva.bookbuy.callbacks.RateListener;
 import com.example.asilva.bookbuy.callbacks.RotaListener;
-import com.example.asilva.bookbuy.dao.DAOCliente;
-import com.example.asilva.bookbuy.dao.DAOProduto;
-import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.util.BaixarRota;
-import com.example.asilva.bookbuy.util.RotaHttp;
-import com.example.asilva.bookbuy.util.Util;
-
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class MenuRestauranteFragment extends Fragment {
 
@@ -82,6 +60,12 @@ public class MenuRestauranteFragment extends Fragment {
         txtTelefone = (TextView) view.findViewById(R.id.txtTelefone);
         txtDistancia  = (TextView)view.findViewById(R.id.txtDistancia);
         rttRestaurante = (RatingBar)view.findViewById(R.id.rttRestaurante);
+
+        final LayerDrawable layerDrawable = (LayerDrawable) rttRestaurante.getProgressDrawable();
+
+        layerDrawable.getDrawable(0).setColorFilter(ContextCompat.getColor(getActivity(), R.color.white_transparent), PorterDuff.Mode.SRC_ATOP);
+        layerDrawable.getDrawable(1).setColorFilter(ContextCompat.getColor(getActivity(), R.color.rate_yellow), PorterDuff.Mode.SRC_ATOP);
+        layerDrawable.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.rate_yellow), PorterDuff.Mode.SRC_ATOP);
 
         rttRestaurante.setRating(rate);
 

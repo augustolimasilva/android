@@ -1,45 +1,34 @@
 package com.example.asilva.bookbuy.activities;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asilva.bookbuy.R;
 import com.example.asilva.bookbuy.basicas.Rate;
-import com.example.asilva.bookbuy.basicas.Restaurante;
-import com.example.asilva.bookbuy.basicas.Rota;
 import com.example.asilva.bookbuy.callbacks.AdicionarRateListener;
 import com.example.asilva.bookbuy.callbacks.RateListener;
-import com.example.asilva.bookbuy.callbacks.RotaListener;
 import com.example.asilva.bookbuy.dao.DAORate;
 import com.example.asilva.bookbuy.fragments.MenuRestauranteFragment;
 import com.example.asilva.bookbuy.fragments.PedidoFragment;
 import com.example.asilva.bookbuy.fragments.ReservaFragment;
-import com.example.asilva.bookbuy.util.BaixarRota;
 
 import io.karim.MaterialTabs;
 
@@ -165,6 +154,9 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                         rttVotar = (RatingBar)dial.findViewById(R.id.rttVotar);
                         bttSalvar = (Button)dial.findViewById(R.id.bttSalvar);
                         bttCancelar = (Button)dial.findViewById(R.id.bttCancelar);
+
+                        Drawable progress = rttVotar.getProgressDrawable();
+                        DrawableCompat.setTint(progress, Color.YELLOW);
 
                         bttSalvar.setOnClickListener(new View.OnClickListener() {
                             @Override
