@@ -150,6 +150,7 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                     if (retorno) {
                         final Dialog dial = new Dialog(MenuRestauranteActivity.this);
                         dial.setContentView(R.layout.dialog_rate);
+                        dial.setCancelable(false);
 
                         rttVotar = (RatingBar)dial.findViewById(R.id.rttVotar);
                         bttSalvar = (Button)dial.findViewById(R.id.bttSalvar);
