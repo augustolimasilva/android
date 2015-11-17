@@ -178,7 +178,7 @@ public class MinhasReservasFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), "Nenhum reserva foi encontrada.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Nenhuma reserva foi encontrada.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -163,7 +163,18 @@ public class PedidoFragment extends Fragment {
                     dialog.show();
                 }else{
                     buscarReservarDoCliente();
-                    Toast.makeText(getContext(), "Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!!!", Toast.LENGTH_SHORT).show();
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Nenhuma reserva")
+                            .content("Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!")
+                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                    }).build().show();
                 }
             }
         });

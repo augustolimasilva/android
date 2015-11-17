@@ -157,7 +157,7 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                         bttCancelar = (Button)dial.findViewById(R.id.bttCancelar);
 
                         Drawable progress = rttVotar.getProgressDrawable();
-                        DrawableCompat.setTint(progress, R.color.rate_yellow);
+                        DrawableCompat.setTint(progress, getResources().getColor(R.color.rate_yellow));
 
                         bttSalvar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -172,6 +172,14 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                                 new DAORate().adicionarRate(rate, new AdicionarRateListener() {
                                     @Override
                                     public void onAdicionar(float rateTotal) {
+
+                                        SharedPreferences prefs = getSharedPreferences("dados_restaurante", 0);
+                                        prefs.edit().putFloat("rate", rateTotal).commit();
+
+                                        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + mViewPager.getCurrentItem());
+                                        if(page instanceof MenuRestauranteFragment){
+                                            ((MenuRestauranteFragment) page).updateRate(rateTotal);
+                                        }
                                         if (rateTotal > 0) {
                                             dial.dismiss();
                                             Toast.makeText(getApplication(), R.string.obrigado, Toast.LENGTH_SHORT).show();
