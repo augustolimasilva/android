@@ -350,22 +350,26 @@ public class MapaActivity extends AppCompatActivity implements
 
         final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if (location != null) {
+            final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM), new GoogleMap.CancelableCallback() {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM), new GoogleMap.CancelableCallback() {
 
-            @Override
-            public void onFinish() {
-                marker = mMap.addMarker(loadMarkerOption().position(latLng));
-            }
+                @Override
+                public void onFinish() {
+                    marker = mMap.addMarker(loadMarkerOption().position(latLng));
+                }
 
-            @Override
-            public void onCancel() {
+                @Override
+                public void onCancel() {
 
-            }
-        });
+                }
+            });
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
+        } else {
+            Toast.makeText(getApplicationContext(), "Problemas no servidor. Por favor, repita a operação.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private MarkerOptions loadMarkerOptions() {
