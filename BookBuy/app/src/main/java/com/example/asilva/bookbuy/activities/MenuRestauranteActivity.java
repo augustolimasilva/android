@@ -156,14 +156,14 @@ public class MenuRestauranteActivity extends ActionBarActivity {
                         bttCancelar = (Button)dial.findViewById(R.id.bttCancelar);
 
                         Drawable progress = rttVotar.getProgressDrawable();
-                        DrawableCompat.setTint(progress, Color.YELLOW);
+                        DrawableCompat.setTint(progress, R.color.rate_yellow);
 
                         bttSalvar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 float nota = rttVotar.getRating();
 
-                                Rate rate = new Rate();
+                                final Rate rate = new Rate();
                                 rate.setIdCliente(idCliente);
                                 rate.setIdRestaurante(idRestaurante);
                                 rate.setRate(String.valueOf(nota));

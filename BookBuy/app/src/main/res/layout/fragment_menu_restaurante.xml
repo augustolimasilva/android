@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rttRestaurante"
-        android:stepSize="0.7"
+        android:stepSize="1"
         style="@android:style/Widget.DeviceDefault.RatingBar"
         android:rating="0"
         android:numStars="5"

@@ -96,6 +96,10 @@ public class MenuRestauranteFragment extends Fragment {
         return view;
     }
 
+    public void updateRate(float rate) {
+        rttRestaurante.setRating(rate);
+    }
+
     public void buscarDistancia(){
         new BaixarRota().baixarRota(latitude, longitude, latRes, longRes, new RotaListener() {
             @Override
