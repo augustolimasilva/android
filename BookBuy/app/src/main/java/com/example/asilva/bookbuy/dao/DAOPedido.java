@@ -196,7 +196,7 @@ public class DAOPedido {
             ped.addProperty("tempoEstimado", pedido.getTempoEstimado());
             ped.addProperty("idCliente", pedido.getIdCliente());
             ped.addProperty("idReserva", pedido.getIdReserva());
-            ped.addProperty("idMesa", pedido.getIdMesa());
+            ped.addProperty("idMesa", 0);
             ped.addProperty("idRestaurante", pedido.getIdRestaurante());
 
             SoapObject inserirPedido = new SoapObject(NAMESPACE, INSERIR_PEDIDO);

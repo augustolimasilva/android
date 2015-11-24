@@ -231,7 +231,7 @@ public class PedidoFragment extends Fragment {
                                                                                      pedido.setIdCliente(idCliente);
                                                                                      pedido.setIdRestaurante(idRestaurante);
                                                                                      pedido.setIdReserva(reservaSelecionada.getIdReserva());
-                                                                                     pedido.setIdMesa(1);
+                                                                                     pedido.setIdMesa(0);
 
                                                                                      new DAOPedido().inserirPedido(pedido, new PedidoListener() {
                                                                                          @Override
