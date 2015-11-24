@@ -368,7 +368,7 @@ public class MapaActivity extends AppCompatActivity implements
 
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, LOCATION_REQUEST, this);
         } else {
-            Toast.makeText(getApplicationContext(), "Problemas no servidor. Por favor, repita a operação.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Problemas no servidor. Por favor, repita a operação.", Toast.LENGTH_SHORT).show();
         }
     }
 
