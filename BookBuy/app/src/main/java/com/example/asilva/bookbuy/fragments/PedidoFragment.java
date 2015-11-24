@@ -115,71 +115,10 @@ public class PedidoFragment extends Fragment {
 
                 produto = (Produto) listProdutos.getAdapter().getItem(i);
 
-                if (listaDoDia.size() > 0) {
-
-                    final Dialog dialog = new Dialog(getContext());
-
-                    dialog.setContentView(R.layout.dialog_pedido);
-
-                    dialog.setTitle(produto.getNome());
-
-                    valorProduto = Float.toString(produto.valorProduto);
-
-                    txtValor = (TextView) dialog.findViewById(R.id.txtValor);
-                    txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
-                    edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
-                    bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
-
-
-                    bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            if (edtQuantidade.getText().toString().trim().isEmpty()) {
-                                Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
-                            }
-
-                            if (quantidade <= 0 || quantidade > 99) {
-                                Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                item = new Item();
-
-                                item.setIdProduto(produto.getIdProduto());
-                                item.setQuantidade(quantidade);
-                                item.setNomeProduto(produto.getNome());
-                                item.setValorItem(produto.getValorProduto() * quantidade);
-
-                                listaProdutosPedido.add(item);
-
-                                dialog.dismiss();
-                            }
-                        }
-                    });
-
-                    txtValor.setText("R$: " + valorProduto + "0");
-
-                    dialog.show();
-                }else{
-                    buscarReservarDoCliente();
-                    //Toast.makeText(getContext(), "Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!!!", Toast.LENGTH_SHORT).show();
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Nenhuma reserva")
-                            .content("Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!")
-                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
-
-                        @Override
-                        public void onPositive(MaterialDialog dialog) {
-                            dialog.dismiss();
-                        }
-
-                    }).build().show();
-                }
+                buscarReservarDoCliente();
             }
         });
 
-        buscarReservarDoCliente();
         listaProdutos();
         atualizarLista();
 
@@ -254,7 +193,7 @@ public class PedidoFragment extends Fragment {
 
                                                                              dial.setTitle("Escolha um Horário: ");
 
-                                                                             spnData = (Spinner)dial.findViewById(R.id.spnData);
+                                                                             spnData = (Spinner) dial.findViewById(R.id.spnData);
                                                                              txtValorFinal = (TextView) dial.findViewById(R.id.txtValorFinal);
                                                                              bttConcluir = (Button) dial.findViewById(R.id.bttConcluir);
 
@@ -352,24 +291,103 @@ public class PedidoFragment extends Fragment {
         }
     }
 
-    public void buscarReservarDoCliente(){
+    public void buscarReservarDoCliente() {
+
         new DAOReserva().buscarReservasDoClienteRestaurante(idRestaurante, idCliente, new ReservasClienteListener() {
+
             @Override
             public void onReserva(List<Reserva> reservas) {
+
                 if (reservas != null) {
                     listaReservas = reservas;
 
-                    for(int i=0;i<listaReservas.size();i++){
-                        String dataReserva = listaReservas.get(i).getDataHora().substring(8,10) + "/" +
-                                listaReservas.get(i).getDataHora().substring(5,7) + "/" +
-                                listaReservas.get(i).getDataHora().substring(0,4);
+                    for (int i = 0; i < listaReservas.size(); i++) {
+                        String dataReserva = listaReservas.get(i).getDataHora().substring(8, 10) + "/" +
+                                listaReservas.get(i).getDataHora().substring(5, 7) + "/" +
+                                listaReservas.get(i).getDataHora().substring(0, 4);
 
-                        int hora = Integer.parseInt(listaReservas.get(i).getDataHora().substring(11,13));
+                        int hora = Integer.parseInt(listaReservas.get(i).getDataHora().substring(11, 13));
 
-                        if(dataReserva.equals(dataDois) && hora >= horaData){
+                        if (dataReserva.equals(dataDois) && hora >= horaData) {
                             listaDoDia.add(listaReservas.get(i));
                         }
                     }
+
+                    if (listaDoDia.isEmpty()) {
+
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Nenhuma reserva")
+                                .content("Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!")
+                                .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                        }).build().show();
+
+                    } else {
+
+                        final Dialog dialog = new Dialog(getContext());
+
+                        dialog.setContentView(R.layout.dialog_pedido);
+
+                        dialog.setTitle(produto.getNome());
+
+                        valorProduto = Float.toString(produto.valorProduto);
+
+                        txtValor = (TextView) dialog.findViewById(R.id.txtValor);
+                        txtValorTotal = (TextView) dialog.findViewById(R.id.txtValorTotal);
+                        edtQuantidade = (EditText) dialog.findViewById(R.id.edtQuantidade);
+                        bttAdicionarItem = (Button) dialog.findViewById(R.id.bttAdicionarItem);
+
+                        bttAdicionarItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                if (edtQuantidade.getText().toString().trim().isEmpty()) {
+                                    Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    quantidade = Integer.parseInt(String.valueOf(edtQuantidade.getText().toString().trim()));
+                                }
+
+                                if (quantidade <= 0 || quantidade > 99) {
+                                    Toast.makeText(getContext(), "Preencha corretamente o campo quantidade!", Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                    item = new Item();
+
+                                    item.setIdProduto(produto.getIdProduto());
+                                    item.setQuantidade(quantidade);
+                                    item.setNomeProduto(produto.getNome());
+                                    item.setValorItem(produto.getValorProduto() * quantidade);
+
+                                    listaProdutosPedido.add(item);
+
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                        txtValor.setText("R$: " + valorProduto + "0");
+
+                        dialog.show();
+                    }
+
+                } else {
+
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Nenhuma reserva")
+                            .content("Você não tem nenhuma reserva nesse restaurante. Faça uma reserva antes de efetuar o seu pedido!")
+                            .positiveText("Ok").callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                    }).build().show();
                 }
             }
         });

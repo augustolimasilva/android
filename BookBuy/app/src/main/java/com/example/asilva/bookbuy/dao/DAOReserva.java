@@ -13,8 +13,13 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.Vector;
 
 public class DAOReserva {
@@ -49,6 +54,7 @@ public class DAOReserva {
 
     class BuscarReservasDoClienteRestauranteTask extends AsyncTask<Integer, Void, List<Reserva>>{
 
+        private int idRestaurante;
         private final ReservasClienteListener listener;
 
         public BuscarReservasDoClienteRestauranteTask(final ReservasClienteListener listener) {
@@ -58,10 +64,11 @@ public class DAOReserva {
         @Override
         protected List<Reserva> doInBackground(Integer... params) {
 
+            idRestaurante = params[0];
+
             listaReservas = new ArrayList<Reserva>();
 
-            SoapObject buscarReservas = new SoapObject(NAMESPACE, BUSCAR_RESERVAS_CLIENTE_RESTAURANTE);
-            buscarReservas.addProperty("idRestaurante", params[0]);
+            SoapObject buscarReservas = new SoapObject(NAMESPACE, BUSCAR_RESERVAS_CLIENTE);
             buscarReservas.addProperty("idCliente", params[1]);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -73,7 +80,7 @@ public class DAOReserva {
             HttpTransportSE http = new HttpTransportSE(URL);
 
             try {
-                http.call("urn:" + BUSCAR_RESERVAS_CLIENTE_RESTAURANTE, envelope);
+                http.call("urn:" + BUSCAR_RESERVAS_CLIENTE, envelope);
 
                 if (envelope.getResponse() instanceof SoapObject) {
                     SoapObject resposta = (SoapObject) envelope.getResponse();
@@ -87,6 +94,7 @@ public class DAOReserva {
                     res.setStatus(resposta.getProperty("status").toString());
                     res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                     res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                    res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                     listaReservas.add(res);
 
@@ -104,6 +112,7 @@ public class DAOReserva {
                         res.setStatus(resposta.getProperty("status").toString());
                         res.setIdCliente(Integer.parseInt(resposta.getProperty("idCliente").toString()));
                         res.setIdRestaurante(Integer.parseInt(resposta.getProperty("idRestaurante").toString()));
+                        res.setNomeRestaurante(resposta.getPropertyAsString("nomeRestaurante").toString());
 
                         listaReservas.add(res);
                     }
@@ -111,13 +120,33 @@ public class DAOReserva {
 
             } catch (Exception e) {
                 e.printStackTrace();
+
                 return null;
             }
+
             return listaReservas;
         }
 
         @Override
         protected void onPostExecute(final List<Reserva> reservas) {
+
+            for (final Iterator<Reserva> iterator = reservas.listIterator(); iterator.hasNext();) {
+
+                final Reserva reserva = iterator.next();
+
+                try {
+
+                    final Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(reserva.getDataHora());
+
+                    if (reserva.getIdRestaurante() != idRestaurante || date.before(new Date())) {
+                        iterator.remove();
+                    }
+
+                } catch (ParseException e) {
+
+                }
+            }
+
             listener.onReserva(reservas);
         }
     }
