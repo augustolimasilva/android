@@ -115,7 +115,7 @@ public class PedidoFragment extends Fragment {
 
                 produto = (Produto) listProdutos.getAdapter().getItem(i);
 
-                if (listaDoDia.size() >= 0) {
+                if (listaDoDia.size() > 0) {
 
                     final Dialog dialog = new Dialog(getContext());
 

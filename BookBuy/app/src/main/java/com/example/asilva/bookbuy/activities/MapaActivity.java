@@ -438,12 +438,13 @@ public class MapaActivity extends AppCompatActivity implements
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 which++;
+                                resFiltrados = new ArrayList<Restaurante>();
                                 for (int i = 0; i < listaResPorTipo.size(); i++) {
                                     for (int z = 0; z < res.size(); z++) {
                                         if (which == listaResPorTipo.get(i).getIdTipo() &&
                                                 listaResPorTipo.get(i).getIdRestaurante() == res.get(z).getIdRestaurante()) {
 
-                                            resFiltrados = new ArrayList<Restaurante>();
+                                            //resFiltrados = new ArrayList<Restaurante>();
                                             resFiltrados.add(res.get(z));
                                         }
                                     }
