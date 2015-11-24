@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -81,6 +82,22 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus){
+            SharedPreferences preferences;
+            preferences = PreferenceManager.getDefaultSharedPreferences(MinhaContaActivity.this);
+            String path = preferences.getString("path", null);
+
+            if (path != null){
+                final int width = circle_image_view_photo.getWidth();
+                final int height = circle_image_view_photo.getHeight();
+
+                circle_image_view_photo.setImageBitmap(BitmapUtility.scale(width, height, path));
+            }
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttEditar:
@@ -120,6 +137,10 @@ public class MinhaContaActivity extends AppCompatActivity implements View.OnClic
             if (resultCode == RESULT_OK) {
 
                 final Uri uri = intent.getParcelableExtra("Uri");
+
+                SharedPreferences preferences;
+                preferences = PreferenceManager.getDefaultSharedPreferences(MinhaContaActivity.this);
+                preferences.edit().putString("path", uri.getPath()).commit();
 
                 final int width = circle_image_view_photo.getWidth();
                 final int height = circle_image_view_photo.getHeight();

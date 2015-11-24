@@ -7,8 +7,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -113,7 +115,7 @@ public class MapaActivity extends AppCompatActivity implements
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapaActivity.this, MenuRestauranteActivity.class);
 
-                for(int i = 0; i < res.size(); i++) {
+                for (int i = 0; i < res.size(); i++) {
 
                     if (marker.getTitle().toString().equals(res.get(i).getNome().toString())) {
 
@@ -148,6 +150,11 @@ public class MapaActivity extends AppCompatActivity implements
             }
         });
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapaActivity.this);
+        String path = preferences.getString("path", null);
+
+        Drawable drawable = path == null ? getResources().getDrawable(R.drawable.ic_perfil) : Drawable.createFromPath(path);
+
         headerNavigationLeft = new AccountHeader()
                 .withActivity(this)
                 .withCompactStyle(true)
@@ -155,9 +162,10 @@ public class MapaActivity extends AppCompatActivity implements
                 .withThreeSmallProfileImages(true)
                 .withHeaderBackground(R.drawable.fb9622)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(nome).withEmail(email).withIcon(getResources().getDrawable(R.drawable.ic_perfil))
-                )
-                .build();
+
+        new ProfileDrawerItem().withName(nome).withEmail(email).withIcon(drawable)
+        )
+        .build();
 
         navigationDrawerLeft = new Drawer()
                 .withActivity(this)
@@ -411,9 +419,9 @@ public class MapaActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        if(navigationDrawerLeft.isDrawerOpen()){
+        if (navigationDrawerLeft.isDrawerOpen()) {
             navigationDrawerLeft.closeDrawer();
-        }else {
+        } else {
             moveTaskToBack(true);
         }
     }
@@ -430,7 +438,7 @@ public class MapaActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.icFiltro) {
-                if(listaTiposRes != null){
+            if (listaTiposRes != null) {
                 MaterialDialog dialog = new MaterialDialog.Builder(this)
                         .title(R.string.dialog_tipo)
                         .items(R.array.itens)
@@ -461,12 +469,11 @@ public class MapaActivity extends AppCompatActivity implements
 
                                         callConnection();
                                     }
-                                }else
-                                    if(resFiltrados == null || resFiltrados.size() == 0){
-                                        Toast.makeText(getApplicationContext(), "Nenhum restaurante encontrado para o tipo selecionado.", Toast.LENGTH_SHORT).show();
-                                    }
+                                } else if (resFiltrados == null || resFiltrados.size() == 0) {
+                                    Toast.makeText(getApplicationContext(), "Nenhum restaurante encontrado para o tipo selecionado.", Toast.LENGTH_SHORT).show();
+                                }
 
-                                if(resFiltrados != null) {
+                                if (resFiltrados != null) {
                                     resFiltrados.clear();
                                 }
                             }
@@ -476,11 +483,11 @@ public class MapaActivity extends AppCompatActivity implements
                 ListView list = dialog.getListView();
                 TiposRestauranteAdapter tiposRestauranteAdapter = new TiposRestauranteAdapter(listaTiposRes);
                 list.setAdapter(tiposRestauranteAdapter);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
-                    listarTiposRestaurante();
-                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Problemas de conexão com o servidor.", Toast.LENGTH_SHORT).show();
+                listarTiposRestaurante();
             }
+        }
         return super.onOptionsItemSelected(item);
     }
 }
